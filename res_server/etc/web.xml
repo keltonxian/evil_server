@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0"
+  metadata-complete="true">
+
+	<servlet>
+		<servlet-name>Patch Refresh</servlet-name>
+		<servlet-class>com.evil.web.PatchRefreshServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Patch Refresh</servlet-name>
+		<url-pattern>/patch.refresh</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Get Server List</servlet-name>
+		<servlet-class>com.evil.web.ServerListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Get Server List</servlet-name>
+		<url-pattern>/patch.slist</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Get Patch Core</servlet-name>
+		<servlet-class>com.evil.web.PatchCoreServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Get Patch Core</servlet-name>
+		<url-pattern>/patch.core</url-pattern>
+	</servlet-mapping>
+
+</web-app>

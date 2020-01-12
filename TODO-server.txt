@@ -1,0 +1,5015 @@
+2015-08-26
+- nio:
+  add @chat for system notice
+  update cmd flist, add optional search alias
+  update cmd fsearch, add online flag
+2015-08-20
+- db_design:
+  add design_chapter_dialog.
+- nio:
+  update CMD:chapter_stage.
+2015-08-19
+- nio:
+  update cmd lroom, add param "room_type", add channel=9 for all channel
+2015-08-14
+- nio:
+  add num_guest, game_type and chapter target in cmd room return
+2015-08-13
+- nio:
+  add new mission type MISSION_HERO_HP=26	// p1 = hp, p2 = hero_id
+2015-08-10
+- db_design:
+  fix load_daily_login with cards 0 data.
+- dbio:
+  update update_hero_slot(), add update evil_deck when evil_hero_slot update
+- nio:
+  add ret cmd:quickmsg
+  update CMD:lguild.
+2015-08-07
+- nio:
+  add CMD: gsearch.
+  update CMD: mlist, add mlist_type to separate chapter mission.
+  fix CMD:update_hero_slot without update deck when update current selection.
+2015-08-06
+- nio:
+  now quick_game() add check_deck()
+2015-08-05
+- nio:
+  add mission type: MISSION_QUICK(24) MISSION_QUICK_WIN(25)
+  quick add robot when wait time > QUICK_AUTO_ROBOT_TIME
+- design:
+  design_constant add quick_robot_flag, quick_win_exp, quick_lose_exp, quick_draw_exp, quick_fold_exp
+
+2015-08-04
+- dbio:
+  add record_buy() in below case:
+  #define EVIL_BUY_CARD                   0
+  #define EVIL_BUY_PIECE                  1000 // in_piece_buy()
+  #define EVIL_BUY_REFRESH_PSHOP          2001 // in_refresh_piece_shop()
+  #define EVIL_BUY_CREATE_GUILD           2002 // in_create_guild()
+  #define EVIL_BUY_GUILD_DEPOSIT          2003 // in_guild_deposit()
+  #define EVIL_BUY_ARENA_TIMES            2004 // in_update_arena_times()
+2015-08-01
+- nio:
+  @pay add extra reward for first pay.
+  fix exchange_rank error.
+2015-07-31
+- nio:
+  update cmd arenatop, add my rank
+  add cmd @reset_arenatimes in cron_day.sh to reset player arena_times in evil_status
+2015-07-30
+- dbio:
+  add create chapter ladder
+- nio:
+  add cmd ladder [5] to get chapter ladder
+2015-07-29
+- design:
+  add table design_quick_reward
+  add exchange_crystal_gold in design_constant
+- nio:
+  update cmd "quick" "win"
+  add cmd moneyexchange
+  update cmd arenatarget add buy_times_count, buy_times_crystal
+2015-07-28
+- dbio:
+  fix @ranking,@arena SQL.
+- nio:
+  add auto play logic in ai_play() for arena game when rank <= 200
+  fix get arena reward bug
+  update cmd arenatarget add reward time offset
+2015-07-27
+- dbio:
+  over write chapter logic, move main logic and counter to nio
+- nio:
+  update cmd chapter_stage add tips_list
+  add CMD: arenareward.
+  add hero_slot data when user save_card.
+  fix MISSION TYPE 22/23 with p1=0.
+2015-07-24
+- TODO pshop remain_time display error in client(3600).
+- fix update card/piece with negative number OUT_BOUND.
+- dbio:
+  add arena logic
+- nio:
+  add cmd arenatop, arenatarget, arenagame
+peter:
+- logic: update AI weight on ai_damage(), fix action_energy() using energy_max
+  and remove update_energy(), fix card 143 (shadowspawn) and 35 priest of light 
+  on energy offset change
+----
+- nio:
+  add mtype:MISSION_CHAPTER,MISSION_CHAPTER_STAGE
+2015-07-23
+- nio:
+  add cmd @addrobot to add robot for admin
+  add cmd @arena to init arena list.
+  update ranking game logic
+  fix out_fight_robot() conn null bug
+2015-07-22
+- nio:
+  add card_collection in cmd sta
+  fix get_daily_log can not get has rewarded data.
+  fix send piece_shop data.
+  fix room_init() with hero hp/energy.
+  fix CMD: rtarlist, rgame, rresp.
+2015-07-21
+- nio:
+  add dbin_piece_shop()
+  add CMD: pshop, rpshop, lpshop,pbuy
+2015-07-20
+- db:
+  update design.design_piece_shop.
+- nio:
+  update cmd ginfo, add hp1, hp2, energy1, energy2
+  update cmd reg, log, sta.
+  update cmd mlist, mreward.
+  add test32_piece_shop for random test.
+- logic:
+  update logic_init_array(), add hp1, hp2, energy1, energy2
+2015-07-19
+- nio:
+  change CMD:cpiece.
+2015-07-18
+- nio:
+  fix 7day-daily-login system.
+2015-07-17
+- nio:
+  add 7day-daily_login system. CMD:daily_log,daily_reward
+  merge robot game to normal game, run same nio.game_init()
+  update cmd ginfo return, add card_len before deck
+- evil:
+  add chapter target:
+  #define CHAPTER_TARGET_MY_CARD_GRAVE                16 // end game my grave p1 card counter
+  #define CHAPTER_TARGET_OPPO_CARD_GRAVE              17 // end game oppo grave p1 card counter
+  #define CHAPTER_TARGET_MY_HERO 		                18 // my hero p1 card counter
+  #define CHAPTER_TARGET_OPPO_HERO                    19 // oppo hero p1 card counter
+  update replay param format
+- logic:
+  update robot_init_array() argv @see robot_init_array(deck1_array, deck2_list, seed)
+  fix game_init() g_logic_table null
+- TODO:
+  update cmd "robot_game" format
+2015-07-16
+peter: 
+- nio:  calc_design_card_chapter() to replace load_design_card_chapter()
+  so that the reward from design_chapter is calculated and fill up
+  design_card_chapter_t  (db-design.sql: design_card_chapter will be useless)
+- TODO chapter, stage name best length = 40 (12 chinese), msg = 150 (50 chinese)
+------
+- db-design:
+    add table design.design_daily_login
+- db-init:
+    add table evil.evil_daily_login
+- nio:
+    fix cpiece not add cur_piece_count.
+- dbio:
+    add test132 for daily_login.
+- TODO logic.lua : split() and split_num(), split_str() has a big bug
+- TODO MISSION view replay : out_load_replay()
+- replay, for chapter and solo_plus.  logic.lua: game_init() 
+  db-init.sql: evil_replay format change
+  add support GAME_SOLO, GAME_GATE
+
+2015-07-15
+- dbio:
+  update evil_replay
+- nio:
+  update cmd insert_hero_slot, get_hero_slot
+- design:
+  add my_hp in design_solo
+2015-07-14
+- nio:
+  fix design_load_chapter() bug.
+- design:
+  add table design_achievement
+- db-init:
+  add table evil_achievement
+- logic:
+  add 
+  CHAPTER_TARGET_MY_GRAVE						12 // end game my grave counter
+  CHAPTER_TARGET_OPPO_GRAVE						13 // end game oppo grave counter
+  CHAPTER_TARGET_MY_GRAVE_ALLY					14 // end game my grave ally counter
+  CHAPTER_TARGET_OPPO_GRAVE_ALLY				15 // end game oppo grave ally counter
+- evil:
+  add CHAPTER_TARGET_MY_GRAVE 12, CHAPTER_TARGET_OPPO_GRAVE 13, 
+  CHAPTER_TARGET_MY_GRAVE_ALLY 14, CHAPTER_TARGET_OPPO_GRAVE_ALLY 15
+2015-07-13
+- dbio:
+  fix in_chapter_update_data() logic
+2015-07-09
+- dbio:
+  evil_status.chapter_pos is useless now, get chapter_pos by evil_chapter max(chapter_id)
+- design:
+  add check for design_chapter chapter miss
+- nio:
+  update cmd chapter_data
+  use new solo target star count function, @see db-design.design_solo know how to set target
+2015-07-08
+- TODO:
+  protocol how to set design_solo target for new target count logic
+- logic:
+  update update_chapter_target() to update_solo_target()
+  add get_solo_target(target, p1, p2) to get target counter
+- nio:
+  add get_chapter_star2() for new get star logic
+- done:
+  update dbio to multi-thread, set MAX_DB_THREAD more then 1
+  dbin_write() get dbio_data thread by (conn->euser.eid % MAX_DB_THREAD)
+  reconn, db_index = last_eid % MAX_DB_THREAD
+  after connect, db_index = new_eid % MAX_DB_THREAD
+
+2015-07-07
+- design:
+  add target in design_solo
+  remove target in design_chapter
+- evil:
+  change solo_pos to chapter_pos in evil_status
+- nio:
+  add chapter_pos in cmd lchapter
+- logic:
+  fix card 131
+
+2015-07-06
+- nio
+  update cmd win
+- logic
+  update get_ai_solo_hand()
+2015-07-05
+peter:  logic.lua
+- fix get_ai_solo_hand() return max_play even it is negative
+- (135)Campfire : using custom ai_weight : like Supernova and using
+  ai_weight_heal
+- (91)Healing Touch: fix the ai_weight() by using ai_weight_heal
+  (it was using ai_weight_general)
+- update the WEIGHT_GENERAL and using it for cost of using ability card
+
+
+2015-07-04
+peter:
+- nio, db_design:  solo_id is flexible, can be any number (was: must be 1-N)
+  use: solo_t * get_design_solo(solo_id) to get the solo structure
+- nio: add checking on valid solo_id chapter.stage.solo_list
+- db_design:
+masha:
+- logic:
+  add get_ai_solo_hand() in get_ai_solo_play()
+  solo ai logic:
+  ai_cmd_global() ->
+  ai_solo_cmd_global() ->
+		get_ai_solo_sac() ->
+		get_ai_solo_play() ->
+				get_ai_solo_hand()
+				normal play
+
+2015-07-03
+- nio:
+  add cmd chapter_stage [chapter_id] [stage_id]
+- logic:
+  NOTE: solo_type =  flag_shuffle_deck1 		* 1000 
+  				   + flag_shuffle_deck2 		* 100 
+  				   + flag_teach 				* 10 
+  				   + flag_solo_type				* 1
+  remove g_solo_list, add g_solo_type, set cc.solo_ai for solo_type
+2015-07-02
+- peter: when a player is inside the game (solo_plus), use @reload
+  will trigger error:
+DEBUG solo_plus_info:cmd_size=0 nio.cpp:5333: ret 0 
+BUGBUG -13 ai_play_lua_null eid 5286 ai_eid 5 nio.cpp:8869: errno 0  2015-07-02 21:48
+BUGBUG 11 signal_fatal nio.cpp:26017: errno 0  2015-07-02 21:49
+fat__room(2,1): num_guest=2 title=海皇马文~VS~solo5 lua=null gameid=150702214359001 seed=0 create_time=1435844639
+fat__room(2,2): num_guest=2 title=p9~VS~solo5 lua=null gameid=150702214350001 seed=0 create_time=1435844630
+---- fat__total_game 0 -----
+INFO 0 handle_fatal shutdown with signal 11 nio.cpp:26057: errno 0  2015-07-02 21:49
+
+  
+- design:
+  add table design_hero_slot
+- dbio:
+  add table evil_hero_slot
+- nio:
+  add CMD load_hero_deck, list_Hero_slot, get_hero_slot, insert_hero_slot, update_hero_slot, choose_hero_slot
+  add create_solo_plus_room(), out_solo_plus() and out_chapter() will call this function
+- logic:
+  solo_init_array() will split type_flag to flag_teach and flag_solo_list
+- peter: logic.lua : adjust WEIGHT_KILL, WEIGHT_DAMAGE, so that 
+  (30)blake windrunner always kill puwen instead of damage hero
+
+2015-07-01
+- design:
+  add hero_hp in design_solo
+  add start_side in design_solo
+- dbio:
+  overwrite chapter data update logic
+  add in_load_card_piece()
+- nio:
+  update solo_plus game cmd "ginfo" return
+  add CMD:cpiece,piece_chapter
+2015-06-30
+- dbio:
+  fix in_load_hero_mission() output info.
+  fix test126 sscanf.
+- nio:
+  update solo_plus_info() @see cmd "solo_plus"
+  change CMD lhero/hero_mlist.
+----
+- logic_init : add no_shuffle1, no_shuffle2 to stop shuffle the deck
+- solo_init_array: re-write to support deck400 and deck list format
+- fix several bug:
+  local index declaration issue
+  trap: actived ->  self.actived, 
+  id = 106 assassin's cloak trigger_other_add action_virtual_attach(..., src)
+- TODO : design.cpp: load_solo
+
+2015-06-29
+- use memory type to store hero_mission data instead read/write with db every time.
+2015-06-26
+- logic:
+  add get_hero_id() for win_game().
+- nio:
+  add change_hero_mission() to check hero mission(UNFINISH).
+- dbio:
+  fix get_hero_mission() p1_list NULL error;
+  fix __save_hero_mission_list() loop check;
+  add test127,test128.
+2015-06-25
+- nio:
+  add CMD:lhero, hero_mlist, shero_mis
+- dbio:
+  add refresh_hero_mission(), in_update_hero_mission(), in_submit_hero_mission();
+  add test126.
+2015-06-24
+- db:
+  evil add evil_hero, evil_hero_mission
+  design add design_hero, design_hero_mission
+2015-06-16
+- nio:
+  add get chapter start in update_chapter_data()
+- logic:
+  add set_chapter_target_card(), update_chapter_target(), get_chapter_targer()
+2015-06-12
+- nio:
+  send gerr when dulplicate login
+2015-06-11
+- nio:
+  add cmd "lchapter" "chapter_data" "chapter" "chapter_reward"
+- TODO:
+  check chapter_target in lua in nio
+2015-06-10
+- design:
+  add design_chapter
+- dbio:
+  add evil_chapter
+- nio:
+  add cmd chapter
+2015-06-09
+- logic.lua:
+  add new card -- 7, 9, 10, 87, 90, 102 ~ 110, 1009, 1010, 1102, 1106, 1109.
+  add function -- eff_view_top(), eff_hide_top(), eff_view_oppo(), eff_hide_oppo(), add_first_ready(), check_is_item().
+  add new ready state(-1) for ally sommon turn.
+  fix action_grave() can not move hand to grave directly.
+  fix get_ambush()/get_stealth() that can not effect HERO. [In this case, HERO can by effected by EQUIP; SUPPORT can effect ALLY. If EQUIP wanna effect to ALLY or SUPPORT wanna effect to HERO, maybe we could use VIRTUAL ATTACH CARD??]
+2015-06-06
+- fdwatch:
+  add warn print when poll_check_fd get POLLERR
+2015-06-05
+- design:
+  TODO load design_robot should check no space in alias
+- nio:
+  connect_t add fd_errno, use in fdwatch_check_fd()=0 for client connect, to disconnect the error fd
+  fix rating value in win_game_income()
+2015-06-04
+- nio:
+  fdwatch_check_fd(), if ret=0, should disconnect, or will loop forever
+- rebuild design_constant table
+- fix signals bug.
+2015-06-03
+- nio:
+  update handle_accept(), update tcp_keepcnt=5, tcp_keepidle=5, tcp_keepintvl=5
+  client disconnect may caused by fdwatch_check_fd(conn->conn_fd)==0
+  update fdwatch_check_fd() return check, if ret==0, errno!=EAGAIN && errno!=0, clean that connect 
+  add constant values for fight vs_free/ai_free.
+
+- eid = 10408, err clinet = 104
+fight 11
+fold
+
+- Makefile:  add -g flag 
+  gdb nio 
+  run 1
+- how to force fatal error: in sys_info()  add:
+	i = -1;
+	*((&guild_lv) + i) = 9999;
+- user_signals_check(): return -5 add error print
+
+2015-06-02
+-nio:
+  fix month card mission error.
+  add win_income when game_type=GAME_VS_FREE. update auto_robot time to 50sec
+  update cmd ret "ginfo" and "robot_game", add game_type
+2015-06-01
+- logic:
+  add get_all_play() to get all playable cmd
+- nio:
+  add cmd play_list to get cmd_list, write for hcard server
+  remove admin_online user info out print, it will case buffer out bound
+2015-05-29
+- nio:
+  add fight_del() when connect free
+  add admin_list_quick(), cmd @list_quick to check quick_list
+  update check_deck() min deck card count = 30
+- design:
+  add rtype in design.design_robot, rtype=0 for normal robot, rtype=1 for fakeman. alias is only different.
+2015-05-28
+- nio:
+  add define HCARD for hcard_server, now nio support hcard logic (g++ -DHCARD).
+  refactor win_game_income()
+2015-05-26
+- nio:
+  update fight with robot logic, get robot from design_robot
+2015-05-25
+- design:
+  add design_robot
+- nio:
+  add auto_fight() logic, add robot
+2015-05-22
+- nio:
+  add new solo logic: solo_plus
+- nio: add first_pay_double effect to @admin_pay
+		add monthly card effect to @admin_pay
+- db-init: add evil_status.monthly_end_date
+- db-design: add table design_monthly
+2015-05-21
+- logic: 
+  1. add g_solo_list to keep sacrifice or use type for card
+  2. update g_solo_list where call card_add(), card_add_top(), card_remove():
+  action_add(), action_move(), action_grave(), action_move_top(), action_remove()
+  , action_move_top(), action_move(), action_attach(), action_grave(), action_sacrifice()
+  3. update check_playable(), when cc.table==T_HAND, check g_solo_list, cc.side
+- nio:
+  add cmd "solo_plus", handle new solo logic, not finish
+  
+2015-05-09
+- dbio: fix first lottery signal mark error.
+2015-05-07
+- nio: add lottery kind for user first time to do one time lottery, and mark signals to status.
+2015-05-06
+- nio: change lgate's list to reverse order
+- add new mission type: MISSION_GATE_BATTLE(16),MISSION_FIGHT_AI(17),MISSION_FIGHT_VS(18),MISSION_FIGHT(19)
+- add CMD:fdata fight_type time tip
+2015-05-02
+- add cmd tower_ladder @tower_ladder
+- db evil_status add battle_coin
+  save_statue()
+  in_login()
+  get_status()
+
+2015-05-01
+- add tower game logic
+- dbio: evil_status add tower_pos, tower_times, tower_set_time; add table evil_tower
+2015-04-30
+- NOTE:	s1 need to call these db_update:
+	db_update20150424.sql	// lottery
+	db_update20150427.sql	// gift
+	db_update20150428.sql	// design_gate
+	db_update20150429.sql	// power
+	db_update20150430.sql	// fight
+- add fight, leads servial changes:
+	add attribute[fight_ai_time/fight_gold_time/fight_crystal_time/signals] to evil_status
+	add design table design_fight_schedule
+	add CMD: fdata, @reset_fighttimes, fight, fcancel
+	change OUT: win add attribute[crystal]
+	
+2015-04-28
+- logic: add gate logic in gate_init_array() action_next() gate_turn_start()
+  1.ai not draw card
+  2.ai hero cannot be attacked (hidden?)
+  3.ai hero avoid damage 
+  4.check player win or lose in play_cmd_global()
+       if hero hp reduce, player lose the game
+       if no more ally in oppo t_ally and t_hand, player win the game
+  5.add gate_hero_hide() in play_cmd(), gate_turn_start(). why not only set hero cost=0? because "oppo ally attack my ally" weight may nagetive, oppo ally may choose to attack my hero. if not set hero hide, we have to reset ai_weight functions to make it different between normal game and gate game.
+2015-04-27
+- gen_code: add file gen_code.cpp to generate key_code and insert into database
+	@notice the key_code would not work without set data in design.design_gift and design.design_rate_card
+- nio: add CMD:gift protocol
+2015-04-24
+- nio: update out_register() send "log" to client
+- nio: add cmd "lottery", see protocol
+- design: add table design_lottery; table design_constant add lottery_one_gold, lottery_one_crystal, lottery_ten_gold, lottery_ten_crystal
+
+2015-04-20
+- update cmd "flist", see protocol
+2015-04-09
+ add anysdk_uid in evil_user for anysdk login
+2015-04-08
+ BUG: pay_server AnysdkLoginServlet uid may too long then send message "@login" to nio may bug
+2015-3-25
+*************************************************
+* NOTE: copy s1 all database to t2, and simulate s1 server update in t2
+* 0.t2 server get pay_evil_xxxx.sql and pay_design_xxxx.sql in yiqi
+*	telt2 -> quitall
+*	ssh t2
+*	my < db_clean.sql
+*	my evil < pay_evil_xxxx.sql
+*	my design < pay_design_xxxx.sql
+*
+* 1.db update: ssh t2 -> cdup -> svn up
+*		  my < db_update20150210.sql
+* 		  my < db_update20150228.sql
+* 		  my < db_update20150303.sql
+* 		  my < db_applepay20150303.sql
+*		  my < db_update20150317.sql
+*		  my < db_anysdkpay20150310.sql
+*		  my < db_update20150326.sql
+*
+* 2.pay_server update: ssh t2 
+*					-> cdp 
+*					-> svn up 
+*					-> my < db.sql 
+*
+*					-> local cdp 
+*					-> ./updatet2.sh
+*
+* 3.gm_web update: local cdgm -> ./updatet2.sh 
+*
+* 4.evil_server update: ssh t2 -> cds -> svn up
+*
+* 5.update crontab, add cron_day.sh, (cron_rank_reward.sh may not open now)
+* NOTE: cron_rank_reward refresh time is in design_rank_time
+* ## 0 0 * * * /home/mac/Documents/workspace/evil/evil_server/cron_day.sh
+* ## 0 0,3,6,9,12,15,18,21 * * * /home/mac/Documents/workspace/evil/evil_server/cron_rank_reward.sh 
+*
+* 6.startup nio: loacl cds -> run updatet2.sh
+*
+* 7.NOTE: add robot only do 1 time!!: ssh t2 -> cds -> create_robot.sh
+*
+* 8.run quick robot: ssh t2 -> cds -> ./quick_robot.sh
+*************************************************
+*************************************************
+* NOTE: final update s1 server after copy and update database in t2
+* -1. backup all db in s1!!!!!!! can use yiqi->backup_pay.sh
+*
+* 0. mysqldump database in t2 and send to s1: 
+*				ssh t2
+*			-> cd ~/backup
+*			-> ./db_backup.sh
+*			-> sftp mac@pay.17kapai.com
+*			-> cd ~/tmp
+*			-> put t2_evil_xxxx.sql
+*			-> put t2_design_xxxx.sql
+*			-> put t2_pay_xxxx.sql
+*
+* 1.shutdown s1: tels1 -> quitall
+*
+* 2.clean db and insert t2 db:
+*				ssh s1
+*			-> cd ~/tmp
+*			-> my < db_clean.sql (BE CAREFUL!!! MUST BACKUP FIRST!!!)
+*			-> my evil < t2_evil_xxxx.sql
+*			-> my design < t2_design_xxxx.sql
+*			-> my pay < t2_pay_xxxx.sql
+*
+* 3.update pay_server: local cdp -> ./updatepay.sh
+*
+* 4.update gm_web: local cdgm -> ./updatepay.sh
+*
+* 5.update nio: local cds -> ./updatepay.sh
+* 
+* 6.startup robot: ssh s1 -> cds -> quick_robot.sh
+*************************************************
+- nio: add cmd "@send_message" for admin send message to user
+2015-3-24
+- logic: add "attack_anim" in card for attack anim, use in action_attack_one()
+2015-3-23
+- lll: fix Molten Destroyer(57) kill target by counter-attack, the target reborn by Earthen(39) still with Frame attach(1075)
+- nio: add sys_wchat to send system message
+2015-3-20
+- add cmd_init.sh to run CMD when startup server
+- nio: fix get ranking_reward data error
+		change CMD rcancel to send response to player be challenged
+2015-3-19
+- cli: add case 60 to send a wchat by user "系统"
+       ./cli [60] [pay.17kapai.com] [wchat_msg]
+2015-3-18
+- add cron_rank_reward.sh to send rank reward
+- dbio: add level, rating in CMD rlist, rtarlist
+		change ranking challenge time descrease logic [Only challenger win the challenge battle, the challenge time will -1]
+2015-3-17
+- nio: change CMD rlist, rtarlist, rgame, ranklog
+		add CMD rresp, rcancel	
+		add auto_ranking_challenge() for ranking_challenge checking
+- dbio: add table evil_message to save message
+- design: add table design_rank_reward to save rank reward info
+		 add table design_rank_time to save rank reward refresh time
+- nio: add cmd "list_message", "read_message" for user to get message
+		cmd "sta" add "unread_message_count" after "signature"
+		add cmd "@rank_reward" to send rank reward to player and save message to their message box
+2015-3-5
+- add cmd @login for channel login callback by pay_server.
+2015-3-4
+*************************************************
+* NOTE: update pay server todo
+* 0.telpay -> quitall
+* 1.db update: ssh pay -> cdup -> svn up
+*		  my < db_update20150210.sql
+* 		  my < db_update20150228.sql
+* 		  my < db_update20150303.sql
+* 		  my < db_applepay20150303.sql
+*		  my < db_update20150317.sql
+*		  my < db_anysdkpay20150310.sql
+*		  my < db_update20150326.sql
+*
+* 2.pay_server update: ssh pay 
+*					-> cdp 
+*					-> svn up 
+*					-> my < db.sql 
+*
+*					-> local cdp 
+*					-> ./updatepay.sh
+*
+* 3.gm_web update: local cdgm -> ./updatepay.sh 
+*
+* 4.evil_server update: ssh pay -> cds -> svn up
+*
+* 5.update crontab, add cron_day.sh, (cron_rank_reward.sh may not open now)
+* NOTE: cron_rank_reward refresh time is in design_rank_time
+* ## 0 0 * * * /home/mac/Documents/workspace/evil/evil_server/cron_day.sh
+* ## 0 0,3,6,9,12,15,18,21 * * * /home/mac/Documents/workspace/evil/evil_server/cron_rank_reward.sh 
+*
+* 6.startup nio: loacl cds -> run updatepay.sh
+* 7.NOTE: add robot only do 1 time!!: ssh pay -> cds -> create_robot.sh
+* 8.run quick robot: ssh pay -> cds -> ./quick_robot.sh
+*************************************************
+
+- update robot.sh, robot username start from "robot1000" to "robot2000"
+- robot: modify robot.cmd_list to vector
+- cron: add new cron_day.sh for every day work reset
+- dbio: add rank, challenge_time to cmd rlist, rtarlist
+		change cmd @ranking SQL
+2015-3-3
+- add rank_time to limit rank_challenge_time per day
+- nio: add cmd @reset_ranktime, add to cron.sh
+- design: add title in design_pay, update cmd "lpay"
+- dbio: change cmd @ranking, rlist, rtarlist, ranklog
+		add test98, test99
+		change init_ranking_list auto insert sql
+2015-3-2
+- add cmd ranklog to get ranking history list
+2015-2-28
+- TODO add cmd to get ranking history list
+- add challenge ranking module, add cmd @ranking, rlist, rtarlist, rgame
+	@Notice
+	* @ranking to init ranking list, which eid has data in evil_deck, and every new player will add to ranking list when init the deck data.(@see in_save_card in dbio.cpp)
+	* rgame to start a rank game, when the target is off-line or player's ST != ST_LOGIN, it will turn to be a game with AI instead of player;
+	* if the challenger win the game, player's ranking will switch with challenged player's, otherwise keep the ranking; if challenger's rank > be challenged player's rank, it will also keep the ranking
+
+2015-2-27
+- we donot use luajit to compile lua, and now logic.lua is a real lua file, use "./encrypt ./ ./ logic.lua" to encrypt logic.lua to logic.evil
+2015-2-26
+- nio: update @scard if eid == 0, save card to login caller
+2015-2-25
+- nio: add load name in local name_xxx.txt for client
+       add cmd "ralias" to get random alias
+2015-2-3
+- db: evil_match_player add icon 
+2015-1-30
+- nio: TODO add icon in match_player_t
+		reformat cmd "player_data" ret
+		fix player_data round_date
+2015-1-28
+- match: revise match.round, first round match.round == 1
+- nio: revise cmd player_date, see protocol
+		lmatch ret add match.round
+2015-1-27
+- nio: match_apply revise then player can only join into one match
+		list_match will send player already apply match.match_id
+2015-1-26
+- TODO robot.sh need to fix chinese coding problem
+2015-1-23
+- nio:	delete CMD reg alias, add CMD log channel
+		* CMD: reg [username] [password] [platform] [channel]  // platform/channel is optional
+		* CMD: log [username] [password] [platform]	[channel] // platform/channel is optional
+2015-1-22
+- nio:	fix load match in db bug. now nio can load a status = round_start or round_end match to memory when nio restart.
+		definite port:
+			1) 0 < argv[1] <= 1024, non-deamon mode
+			2) argv[1] > 1024, port = argv[1]
+		add platform/channel to record client info, which leads CMD reg/log changed:
+			* CMD: reg [username] [password] [platform] [channel] [alias]  // platform/channel/alias is optional
+			* CMD: log [username] [password] [platform]	// platform is optional
+robot:	fix quick_game with player will send force_next CMD to server when over first SLEEP time
+
+2015-1-21
+- robot: fix quick_game when quick_total=0 would block
+		 add match_st to control do_match_event() workflow
+		 fix do_force_next when match_game with real player
+2015-1-20
+- nio: add load running match in db, and only can load 1 newest match, and do this in load_design(). should we move it to a new cpp?
+- robot: move robot2.cpp to robot.cpp
+		 fix do_quick_event() when game has finished, robot not quit the thread
+		 change the robot match logic, and follow the steps below:
+		 1. get all match_id, which the match is not finished
+			status=ready will put tail
+		 2. loop all started match get player_data
+		    if match has robot data, set match_id to robot.match_id, goto step 4
+		 3. apply one match_id which the match status is ready
+		    - if apply success, set robot.match_id = match_id, goto next step
+		    - if apply fail, apply next match_id
+		    if all match_id is fail, goto step 1
+		 4. wait game start, and finish this match
+
+2015-1-19
+- robot2: add quick_game() to robot from robot.cpp old version
+2015-1-15
+- robot2: add do_robot_force_next() to avoid game_blocking
+		  add global variable mylua_mutex for all logic thread lock before lua function be called
+		  Note: mylua_XXX() should take care about internal call mylua_XXX(), which would possiably cause logic block
+		  TODO: fix when login status = ST_GAME(15), which could block game logic?
+2015-1-14
+- nio: add friend_del()
+	* delete_friend
+	* CMD: fdel [friend_eid]
+	* RET: fdel [eid] [friend_eid]
+- robot2: change robot2 which every robot has 2 thread, avoid busy wait
+	TODO: before lua func() called, it should be locked before every thread
+		  otherwise, it will crash
+2015-1-13
+- robot2: add robot2 for match game
+		TODO: change robot2 to every robot: one thread send, one thread receive model
+2015-1-12
+- dbio: add in_delete_match()
+- nio: admin_delete_match() will change db match.status to MATCH_STATUS_DELETE
+2015-1-7
+- nio: add admin_delete_match() can delete a not running match
+- nio: add match_init() in auto_match_round(), match init time is match.start_time
+2015-1-6
+- robot: fix cmd receive error when robot num is more than 1
+		fix cmd_size count with lock
+		XXX: mylua_print_status() and print_runtime_game() may cause bug with lua stack.
+- dbio: add in_match_apply_ai() can insert lots ai into table evil_match_player for nio admin_match_init() ai apply
+2015-1-5
+- robot: add relogin before wait_room_st15 in match_loop(), which could block thread
+- nio: add force_end_match_round() for 2 player round end
+       update create_match_room() can join 2 match game player into room
+	   auto_match_round() and admin_match_round() both call match_round()
+	   admin_add_match() add checking for match_player, match_player should be 2^x, x >= 2 && x <= 10
+- dbio: add in_match_eli_init() and test88()
+		fix add_match() can not add with start_time during today area
+  nio:	add out_match_eli_init()
+2015-1-4
+	TODO: move dbin_match_XXX() logic to dbout_match_XXX()
+- nio: add save_match_result()
+- dbio: add in_update_match_player()
+	TODO: add update_match_eli_player() for eli match game result
+	      add match_eli_init() to dbio
+- nio: use match_result:
+	win_game()
+	admin_team_round_start() (for 2 ai player)
+	admin_eli_round_start() (for 2 ai player)
+	admin_team_round_end() 
+	admin_eli_round_end() 
+	
+2014-12-31
+- robot: new param : robot [style] [num_robot]   style=1 quick,  style=2 match
+  e.g. robot 2 1   : create one robot with match style
+  @see quick_loop() and match_loop()
+  ai_game() : sub-function for one game, after receive ginfo
+- dbio: add in_delete_match_player(), in_match_team_init()
+- dbio: in_add_match(), in_add_match_player()
+  TODO
+  nio				->					dbio
+  1. admin_add_match					in_add_match
+  2. dbin_match_apply					in_add_match_player // check match.max_player count
+  3. dbin_match_cancel					in_delete_match_player
+  4. admin_match_init					in_match_team_init // get eid list to update evil_match_player add insert fake_eid to evil_match_player, and update evil_match.status
+  5. match_result						in_update_match_player // max 4 player update in evil_match_player
+  6. match_eli_init						in_match_eli_init // insert match.e_player_list into evil_match_player or a new table?
+  7. round_start/end					in_updata_match // round, status
+- nio: fix get match_data() error when match_eli_init() has called.
+		fix get_player_data() output.
+- match: random sort in match_init()/match_eli_init()
+- db-design.sql: add ai data for test match.
+2014-12-30
+- nio: update get_match_data()
+		admin_round() only start or end match round per time.
+- match: add match_eli_data()
+		refactor some match function without player_list arg.
+- evil: add MATCH_ROUND_TIME, second, TODO move to design_constant
+- nio: auto_match_round() add round start, round end counter, match_round() only do round_end or round_start a time
+- match: fix match_next(), get_player_last_round() when match.round = MAX_TEAM_ROUND and status = MATCH_STATUS_ROUND_END should get player in elimination player list 
+- peter: update nio.cpp 
+  LATER: quick_game() remove quick_match() after add (not yet change)
+  auto_quick_match() : reduce interval from 9 to 5, faster quick match up
+  check_play() add info for error message when play_not_my_turn case
+- robot.cpp : revamp, able to create 10 robots, and will spawn new robots
+  after one robot is playing game with user
+2014-12-29
+- match: fix match_next() error
+- nio:
+  fix get_match_player_data() support elimination match
+  add auto_match_round() to start/end match round at t1, t2 ... tn.
+  do match
+  1. add a match
+	@match_add	: admin_add_match()
+  2. players apply target match
+	match_apply	: match_apply() // client do this
+  3. init target match
+	@match_init	: admin_init_match()
+  4. timer stop the pre_round, and start new round game or finish the match.
+	@round		: admin_round() // contains admin_round_start()/admin_round_end(), for timer call, force kick players in last round game match, and start next round game or end the match.
+  5. when match started, player can check info or match info
+	player_data	: get_match_player_data()
+	match_data	: get_match_data()
+
+2014-12-27
+- robot.cpp : a robot to do quick game when there is only one player
+  and that player has waited for N seconds
+  check 3 params:
+  ROBOT_SLEEP = interval for the robot to use @lquick to check num of 
+  quick player, robot will start quick game only if total quick player=1
+  QUICK_WAIT = robot will check how long the quick player wait before start 
+  the quick game, so that other "real" player may enter game with "real" player
+  suggest >=10 seconds
+  TIMEOUT_FORCE_NEXT = when the real player idle for N seconds, robot do a 
+  force next ("f" command), usually >= 60, can be smaller for test server
+  Usage: robot t1.17kapai.com
+- db-init.sql :  create 10 test user, robot1, robot2, ... robot10
+  all with password "2015", and gives name related to the job
+  same accounts are created in S1 and T1
+- Makefile:  make robot 
+- TODO robot play cards too fast, we may introduce a random sleep for
+  each command played.   also may include some chat
+- TODO now, the robot will enter game and need to finish the game before
+  create another new quick game.   we need to start a new thread after the 
+  quick game.
+- TODO need to choose several AI deck to place in robotN, which is easy
+  to play for AI
+
+2014-12-26
+- match: add logic for elimination match, add function match_eli_init(),match_eli_result(), match_eli_next()
+		add e_player_list in match_t
+	TODO: admin_round_start()/admin_round_end() should support elimination match
+		match_data() should return elimination data
+2014-12-25
+- XXX set OFFLINE_FOLD_TIME = 15 for debug, origin is 240
+- nio: update admin_round_start(), add admin_round_end()
+	   add force_end_match_game(), for admin_round_end() to end this round
+  evil: match_t add round, just update in nio, useless in match.cpp
+  how to begin a match:
+	admin_add_match()
+	match_apply()
+	admin_init_match()
+	admin_round_start() : update match.round
+	admin_round_end() : end round, round = match.round
+	admin_round_start()
+	admin_round_end()
+	...
+
+2014-12-24
+- nio: add admin_round_start()[not finish]
+		TODO: admin_round_end()
+2014-12-23
+- nio: update match_game_start() join a match_room and start game, and support ai oppo_player.
+	  admin_init_match() add fill up ai if apply_player less than match.max_player
+2014-12-22
+- nio: add list_match(), match_player_info(), match_data(), match_game_start(), match_apply(), match_cancel()
+- TODO match_game_start() need to join a match_room and start game
+2014-12-19
+- match: add match_cancel()
+		update param in match function
+- nio:	add g_match_list and g_match_player_list
+		add admin_add_match()
+2014-12-18
+- match: add match_next(), match_t delete t1,t2,t3,t4, use a time_t[4] round_time_list
+2014-12-17
+- match: add match_result(), update match_info(), match_init(), support multi team
+2014-12-16
+- match: add match.cpp
+- fix: lll.lua : add dtype=D_MAGIC for (53) and (56) because ai_weight_ability_damage()
+  need this, always setup dtype when ab_power = a number
+- nio.cpp: increase BUFFER_SIZE  (was +100, now +1000)
+2014-12-12
+- db-init.sql: add table evil_match, evil_match_player
+- dbio: add in_add_match() and test83 to test it
+- evil.h: add match_t struct
+2014-12-11
+- lll: delete trigger_turn_start() in card_class
+		add card_turn_start() to trigger one card and it's attach for loop_trigger_turn_start()
+		change Ice_Storm(94)'s ai_weight to ai_weight_ability_damage()
+		change ai_weight_ability_damage() with ai_damage()
+2014-12-10
+- TODO lll: delete trigger_turn_start() in card_class and loop_trigger_turn_start() add attach.trigger_turn_start(); ai_weight_ability add ai_damage
+- lll: add turn_start_skill in card 32, 49, 51 for ai_damage()
+- nio: fix admin_pay() args
+- db-init.sql: fix table evil_pay -- status type INT
+2014-12-09
+- db-init.sql: add table evil_pay;
+- dbio: add add_pay_log() to record in_pay() status
+		add test82 to chek add_pay_log() function
+2014-12-05
+- TODO: create guild before level 2, @lv 2 we hava guild mission, should send gid to mission_refresh()
+- change max slot to 4 @see in_save_card
+- admin_pay(): error message go to player conn
+- nio: not use setlocale(), rename_slot only use strlen() for slot name
+2014-12-04
+- db-design.sql: update money rate from 1 crystal per yuan to 10 crystal per yuan
+2014-12-01
+- nio: add member_max in out_guild(), COMMAND guild changed.
+ * CMD: guild [gid_optional] [gnotice_optional]
+ * note: empty gid means my guild (evil_status.gid)
+ * 		 only master can edit gnotice
+ * RET: guild [gid] [total_member] [member_max] [glevel] [gold]
+ * 		[crystal] [consume] [master_alias]
+ * 		[master_icon] [gname] [gnotice]
+- design: add guild, guild_lv in design_mission after daily
+- nio: add check guild in xxx_mission_update(), and pass guild_lv to mission_update() in mission.cpp
+2014-11-28
+- nio: free(pdesign) when load_design() return error,  remove FATAL_EXIT
+  in load_design(), using same fatal at cleanup
+- change D_MISSION_MAP type to design_mission_t*
+- change MISSION_MAP type to mission_t*
+- change star_list/extrace_list/exp_list from vector to array in design_t
+- design: update db_design_load_exp()
+2014-11-27
+- db-init.sql: ckuser, ckreplay for testing (must have LIMIT 100 !!)
+- nio: get_mission_page() : order OK mission higher than READY mission
+  @see test24
+- nio: ignore load card error when lv = 1
+	   update bslot error message
+	   fix job error message
+2014-11-26
+- revamp: mission, remove mtype, n2, n3, daily from mission_t and TABLE 
+  evil_mission  : only store variable:  mid, status, n1, last_update
+  @see tag [mission-fix] in dbio.cpp  mission.cpp  nio.cpp
+  maybe buggy!
+- db-init.sql: update TABLE evil_mission and create a handy procedure
+  ckmission(eid) for easy debug, @see CREATE PROCEDURE ckmission
+  and @see db_update20141126.sql   note: status and n1 order re-arrange!
+- lll.lua:change atype for (189)wrath of summer and (94)ice storm
+- simplify chinese description for (62)reserved weapon
+- nio.cpp:mission reward mreward fix error message when target not reach
+- lll.lua: remove debug msg for Bloodlust and Book of Curse
+- lll.lua: ai_ability_damage() fix for (189)Summer.
+- nio.cpp: update game_reconn() to send ginfo when index error
+- nio.cpp: change the error msg to chinese for create_guild
+2014-11-25
+- add admin cmd: "@win", force win game, only play with ai work
+2014-11-24
+- fix (78)supernova: include hero
+- adjust (184)jewelers dream : ai_weight
+- revise ai_damage() to consider whether a target has trigger_die, trigger_skill
+  etc.
+- lll.lua:reverse the list for multi-target : more targets go first
+  @see list_valid_target_list()
+- (156): ai_weight only remove attachment src.side = enemy side (~= self.side)
+- (67) : ai_weight : only apply to cost 3 or more, cost 2 target : weight=0
+- lang_zh.lua : rename chinese name for Zhanna(8)
+
+- add lv in evil_login.remark
+- lll: udpate reserve weapon(62) ai_weight
+- lll.lua:re-write the ai_weight() for (76)tome and (193)wizent staff
+  complicate logic:  (76) resource<4 and resource>=4 are different
+  (193) special for zhanna(8), stop draw card when hp <= 10
+2014-11-23
+- lll.lua:better logic in (184)Jeweler dream and (2)amber :
+  (184) always has higher ai_weight to go on board first, and when
+  (2) has (184), it has higher priority to attack (not higher than ability)
+  note: if this is good, copy to all warrior e.g. (1)boris and (11)ter, (12)
+  or make it a general rule?
+  fix: minor error message issue in (3)victor
+- lll.lua:saclist  show the sacrific weight
+  weight_sac() revamp draw cards have higher weight (not easy to sac)
+  when : it is unique on hand and it is not found in T_SUPPORT, T_ALLY, T_HERO
+  include attachment
+  some utility functions:
+  check_in_side(side, id) : check whether a card id in one side(ally,hero,support)
+  check_in_side_list(side, id_list) : check whether the list of id in one side
+  where id_list = { [157]=1, [70]=1}   -- 157,70 are the id 
+- lll.lua: ai_weight for draw card within DRAW_LIST are 1000 when there is no 
+  card within DRAW_LIST in my side (ally, hero, support), and 0 when there is
+  one or more in my side.
+  special handling on (157) bad santa:  ai_weight
+  my_hand-1 > oppo_hand  or my_hand >= 6  : return 0 
+  note: make no sense to draw card when >=6,  and no good to use when
+  my hand is more than oppo
+  good case:   my_card <= 4  opp_hand >= 4 : weight = 2000
+  for other case: 500  (neutral weight)
+2014-11-21
+- TODO : add evil_login record after register (count as a login)
+- peter: add online.sh for counting online user every hour or every 10 minutes
+  change the format of @online command
+  TODO : need to add table evil_online (need db_update script) 
+- fix ai use supernova to draw game, winner not send to win_game()
+- add mission deck
+- dbio: not load daily, mtype, n2, n3 in evil_mission, just use design_mission daily, mtype, n2, n3
+2014-11-20
+- dbio.cpp:add record_buy() to save all buy item / function record
+  update buy_card()  buy_slot() to use record_buy()
+  test81: for testing record_buy()
+  add SLOT_START_ID in evil.h for record_buy() slot
+  fix buy_slot() when user has no slot and input slot id = 0
+- db-init.sql:add table evil_buy 
+2014-11-19
+- db-init.sql: fix evil_guild data
+- dbio.cpp: fix in_buy_card sscanf arguments count
+  comment on create_guild
+  comment on in_list_guild
+  update test25 check_eid->check_gid and add test case
+  change test30 +1/-1 member in same gid
+- dbio.cpp: update test6,7, 8, 9  : special char in alias 
+  in_win() check: -gold, -crystal, -lv (do not check exp)
+- evil.h: add comment on IN_SAVE_DECK_SCAN etc.
+- db-init.sql: one more test user without alias (552)
+2014-11-16
+- out_quick:  include the sscanf for deck name, and do a check_deck
+2014-11-14
+- peter: fix in_load_deck: SQL_LOAD_DECK, include ed.eid=es.eid AND
+  IF(ed.eid=0...) check,  when we get slot name = "_slot_" there is a bug!
+- db: add slot in evil_deck after eid, need update cmd "ldeck", "sdeck"
+- logic: add check_attach_over() in card 21, 50, 34, 42, 46
+2014-11-12
+- TODO evil_mission remove daily 
+  mission_refresh() should check mtype, n2, n3
+2014-11-11
+- new rule for exp : all exp in evil_status is reference to the current
+  level, every level up reset the exp to 0.   design_exp also follow
+  the same rule:  
+  lv    exp
+  1     0     --- this is useless
+  2     50    --- from lv 1 to lv 2, require 50 exp
+  3.    100   --- from lv 2 to lv 3, require 100 exp
+- update add_exp()
+- fix (56)cobra demon: skill should use ENERGY (not resource)
+- fix (139)poor quality : incorrect implementation, duplicate -1 durability
+- fix (159)meltdown : action_grave() should change to dura change -999
+- fix (64)smashing blow: use dura change -9999
+- fix (136)(145) good/evil ascendent change to dura change
+- TODO need test 56, 64,139, 159, 136, 145
+- refactor: ai_weight_attack()  @see ai_damage() ai_hurt()
+  ai_die_power(),   update the weight for disable ally, which is /2 of
+  normal weight
+2014-11-10
+- set_use_ability:  include table==T_HERO check
+  (set_use_attack ok, since it only check in grave or not)
+- server crash (on t1): potential issue (not sure)
+  nio: load_design_card()  : param vector<card_t> star_list[MAX_STAR]...
+  may not be safe ?
+  int load_design_card(card_t *card_list
+  , vector<card_t> star_list[MAX_STAR]
+  , vector<card_t> extract_list[MAX_STAR]) {
+- (160) fix LLN to include a draw card (missing for long time)
+- (95) (160) (144) use durability change -999   (double checked if hp=0 case)
+  also remove the check on weapon/armor on action_durability_change()
+- dbio: cannot sell card in deck
+- nio: add friend_mission_update(), use in out_friend_add()
+       revise MISSION_VS is only quick game
+	   update card count in check_deck() when card not enough in deck
+2014-11-06
+- BUG : reserve weapon(62), when it is destroyed to return a weapon,
+  it will go through play_ability -> trigger_skill -> action_grave(self...)
+  and then back to play_ability(), the last step is set_use_ability()
+  so the Reserve weapon will be in grave but it has "used" ability.
+  when (24)lily return Reserve weapon from grave to hand, it is still "used".
+  so the next time when it go to support, it cannot use the skill in the
+  first turn.
+  suggest to change: 1. set_use_ability() and set_use_attack() :
+  check if the card is in table T_ALLY or T_SUPPORT, only this 2 tables 
+  are valid for "used" status, do not set if it is in other table
+  2. when any card is move to hand, e.g. (24) lily, refresh it for safety.
+- TODO double check all ability that is used on T_SUPPORT and T_ALLY
+  and it may use ability and die, that may have the same bug.
+- fix cli.cpp on lua magic, now using lua_State * lu_open(int lang) for 
+  all lua init.  implement: replay_forward (zf) and increase the BUFFER_SIZE
+  from 2000 to 4000
+- TODO: increase nio BUFFER_SIZE and EVIL_CMD_MAX and DB:evil_replay
+- peter: change (11)ter, energy:4 destroy a support or retreat an ally
+- nio: add collection_mission_update, shop_mission_update, card_mission_update
+- logic fix earthen(39) bug: after reborn ally A, trigger_attack() in action_attack_one() should check this
+- card with trigger_attack:
+  12(killed), 31(power0), 56(posion), 57(ablaze), 59, 88, 139, 181, 182, 183, 184, 185, 186, 188, 189, 190, 191, 193, 194, 195, 196, 197, 200(movehand)
+- card with trigger_defend:
+  57(damage), 139, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 172, 173, 174, 175, 176, 177, 179, 180
+
+2014-11-05
+- adjust (11)ter adun weight for equipment, core idea is:
+  weapon:  hp * power = how many damage will be made in the future
+  WEIGHT_EQUIPMENT * cost is it "original" value
+  WEIGHT_POWER * hp * power is the "current" value (after durability change)
+  when current value < original value, that means we can call back to hand
+  (similar formula can be applied to weapon exchange logic)
+- logic(lll.lua): get_ai_play() adjust max <= 0 (was max<0) to skip
+  weight=0 play, e.g. place equipment when there is an equipment in support(0)
+  @see ai_weight_equipment()
+- peter: add special check in mission_refresh() on hero, such that
+  hero1 and hero2 are the same, hero5 and hero6 are the same
+- add mission_refresh() in out_save_card() (means a new register after send cmd "job"
+2014-11-04
+- mission: add check hero exist in mission_refresh()
+- db: add table evil_login, insert in dbio.in_login(); 
+      add reg_date in evil_user after alias
+- logic: fix loop action_damage() -> action_damage_list() (71, 69, 74, 79)
+  fix card(179, 145)
+2014-11-03
+- card has trigger_remove():
+  Aldon(32), Reserve(62), War Banner(63), Book of Curses(100), Bloodlust(141), the kings pride(165), Moonlight Bracers(174), Legion united(176)
+- card had trigger_other_remove():
+  Kurt(28)
+- use target_table.side in trigger_remove()
+  32, 165, 63, 100, 141, 174, 176, 62
+- add action_virturl_remove();
+- cc:refresh -> action_refresh(cc);
+- Dagger of Unmaking(200)
+
+2014-10-31
+- fix mission view replay counter bug, do special handler in mission_update()
+- clean up debug message
+- fixed (165), (100), with dimension ripper (exchange card)
+- BUG on (165) king's pride : action_grave() trigger_remove 
+  relocate between card_remove() and card_add()  
+  TODO test:
+  (60)ogloth:  +1 power/+1 hp after ally die
+  (62)reserve weapon:  when this card remove, -1 power of weapon
+  (63)war banner +1 power
+OK(32)Aldon the brave  (+1 power in it's turn)  (dead loop)
+  (41)deathbone  ( 2 damage after die)
+  (39)Earthen Protector
+  
+- fixed @see new_conn(): BUG a free conn->state != STATE_FREE
+BUGBUG -797 net_write:buffer_overflow outlen 3585 len 1212 nio.cpp:1115: errno 0  2014-10-30 21:54
+BUGBUG -1 do_send:write_size_negative conn_id = 2 nio.cpp:13150: errno 5  2014-10-30 21:54
+ERROR -1 do_send:return nio.cpp:13158: errno 5  2014-10-30 21:54
+BUGBUG -17 new_conn messed up not STATE_FREE 2 nio.cpp:1258: errno 0  2014-10-30 22:00
+BUGBUG -77 handle_newconn null nio.cpp:13581: errno 0  2014-10-30 22:00
+
+2014-10-30
+- fix messed up issue (this is not the root cause, but help server stable 
+  temporary) : search a new STATE_FREE connect by loop
+- BUG: logic/UI : (5) nishaven (electric mage) cannot use ability in UI
+  when having a weapon
+- BUG: logic: (162)Snow Sapphire,  virtual attach should have timer=3
+- BUG: logic/UI: (62)reserve weapon, sometimes the weapon come back but
+  the card display is invisible
+- BUG: logic: King's Pride(165) 
+- refactorize force-next logic  @see force_next_check()
+- refactorize auto_fold logic
+2014-10-29
+- reset_time testcase:
+  daily mission :  REPLAY mid=9 
+  evil_mission:   9, status=3,  last_update=2014-10-29 18:00
+  design_mission:   9,  reset_time=0000-00-00 18:15
+- mlist protocol update: include reward card, exp, gold, crystal
+- lmis move to out_login, no need to send lmis (ignore lmis output)
+- replay_mission_update() : tested
+- friend/chat/shop/card/collection mission_update : not tested
+- db-init.sql : add replay sample data
+
+- cli.cpp: loop_auto_ai()  can play ai once
+2014-10-28
+- peter: refactor cli.cpp and add zauto, zareg function to create
+  robot for testing AI (not yet finish)
+- fix some comment in nio.cpp
+- mreward:  dbin_mission_reward()
+- refactorize: in_login and out_login to load card  (use info to test)
+  register -> job : also fill up euser.card
+- buy/sell card: will update euser.card @see add_card in nio.cpp
+  and db_add_card in dbio.cpp
+- TODO lmis in login, so mission list is in memory
+- fix: dbio: sscanf  buf=-3 9 0   and  buff=-3 10 0 : is normal
+  because user may play with AI and offline, the auto fold will
+  trigger a DB_WIN(9) and DB_SAVE_REPLAY(10)
+- test case in cli.cpp
+2014-10-27
+- unknown error: solo 99; q;  wait 2 minutes, auto fold, error message:
+win_game:alias1=x lv1=10 icon1=0
+win_game:alias2=AIeasydie lv2=2 icon2=0
+ERROR -3 main_dbio:sscanf cid<0 buff=-3 9 0 ok  nio.cpp:14475: errno 0  2014-10-28 14:50
+ERROR -3 main_dbio:sscanf cid<0 buff=-3 10 0 ok nio.cpp:14475: errno 0  2014-10-28 14:50
+-----
+- BUG deck number > card number
+- update mlist return [mission_n] order: mid status mtype n1 p1 p2 p3
+  daily reset_time mtext
+- change evil_user_t mission_list to mission_t mission_list[MAX_MISSION]
+- add mission_update in win_game
+- TODO add save_update in win_game; return mid, status in mission_update()
+2014-10-26
+- TODO : win_game() update mission status (for VS game first, easy to test)
+- cmd_mlist() ready, how to test:  
+  do the db update (or use db-init.sql / db-design.sql)
+  log y y
+  lmis     // load evil_mission (y should hv two)
+  mlist 0  // this will list 4
+----- e.g.  ------
+Trying 127.0.0.1...
+Connected to 127.0.0.1.
+Escape character is '^]'.
+log y y
+log 548 5 y 8 0 0 _no_guild 10 5400 6500 5400 1556 1491 10001
+lmis
+lmis 0 OK
+mlist
+mlist 0 3  2 0 2 1   0 2 8 0  00:00 Win_zhanna_2_times,_get_23_card_and_7_gold  3 0 2 1   0 3 0 0  00:00 pre_lv=3_Win_any_AI_x_3_times,_get_card_24,_gold_8,_crystal_2  4 1 3 1   0 1 0 0  14:30 Win_VS_1_times,_get_card_25,_exp_1,_gold_2,_crystal_3 
+------------------
+- dbupdate-20141026.sql : add reset_time to design.design_mission
+  ALTER TABLE design.design_mission ADD reset_time DATETIME
+  NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER reward_crystal;
+- TODO create evil/evil_dbupdate/ store all the SQL db update file
+- BUG : server down in s1, log overflow ( df  home = 100%):
+ERROR -1 do_send:return nio.cpp:13069: errno 9  2014-10-26 13:00
+ERROR -1 do_write nio.cpp:13934: errno 9  2014-10-26 13:00
+BUGBUG -1 do_send:write_size_negative conn_id = 1 nio.cpp:13061: errno 9  2014-10-26 13:00
+- fix: do_send() and do_read() return < 0 : disconnect the connection
+
+2014-10-25
+- nio: add cmd bslot(buy_slot)
+- peter: update evil.h : mission mtype #define
+- TODO add reset_time in design_mission_t for daily mission 
+  @see mission-design.txt
+2014-10-24
+- peter: fix cli.cpp (evil.h not in extern "C") 
+- cli.cpp : replay function (not ready)  replay [gameid] send to server
+  and get return, local init the g_lua for replay
+  zf [n] = replay_forward,   zn [n] = replay_next 
+- ttt.cpp : test23 str_token() for splitting the cmd from "s 1201;n;s 2202"
+- found a bug in ptimestamp() of ttt.cpp @see test19 which will generate
+  duplicated timestamp.  checked nio.cpp : get_gameid(), this one is correct
+  g_gameid can be static inside the function
+2014-10-23
+- TODO add table design_slot in design
+- db: add table evil_slot
+- nio: add cmd lslot(load_slot), sslot(save_slot), rslot(rename_slot)
+2014-10-22
+- design :add win_challenge_gold/exp, fold_challenge_gold/exp, lose_challenge_gold/exp in design_constant
+- logic : fix card 2, 62, 162, 183 weapon power problem
+- nio: add force fold in force next 3 times
+- logic.lua rename to lll.lua, logic.lua is compile from lll.lua now
+2014-10-21
+- TODO : (not important) find a way to order map
+- nio: "smis" to save mission,  dbio:save_mission will clear the 
+  mission first and save the mission to evil_mission
+- update Makefile: include mission.o build line
+- logic : id = 147 remove job=0
+- mission.cpp: all mission logic, only change MISSION_VECTOR mlist
+  not changing any user data (read-only : lv, card_list)
+- mission_refresh(), mission_update(), mission_finish()
+- add some test function testX_xxx in mission.cpp :
+  test1_refresh(), test2_update()
+- sample: design mission list: in main()
+2014-10-20
+TODO: 
+- change design_mission_list to map<int, design_mission_t> for faster lookup
+- int mission_update(vector<mission_t> & mlist, dlist, int  mtype, int p1, int p2, int p3) 
+  this is the trigger call to update the mission
+  p1, p2, p3   (p1 are the real number, p2, p3 are fix)
+  @return 0 for ok without update, >0 for updated runtime mission
+- int mission_ready(vector<mission_t> & mlist, map<int,design_mission_t> &dmission, int mid, int lv)
+  when the mission (mid>0) is finished OR level up (lv>0), check dmission
+  to make runtime mission data ready in mlist
+  @return 0 for ok without change, >0 for updated N runtime mission
+- int mission_refresh(& mlist, & dmission, int lv) : refresh mlist at login
+- int mission_finish( mlist, dmission, int mid)
+  get reward and update mlist for mid
+  @return 0 for OK, <0 for error
+- CMD smis : save runtime mission to database (counter to lmis)
+----- mission related
+- db:  + design_mission  in db-design.sql
+- db:  + evil_mission(runtime) in db-init.sql
+- sample data: x : 1 mission,  y : 2 mission
+- dbio.cpp : in_load_mission()   db_design.cpp : db_design_load_mission()
+- nio.cpp:  "mis" and "lmis" command TODO cmd spec
+-----
+- nio: room_t add time_t start_time to mark down game start time, init in game_init()
+	   room_t add int game_type, init in dbin_solo(), dbin_game(), quick_room(), start_challenge()
+	   win_game() change gold,exp by game_type and game time
+2014-10-17
+- load_design() refactor: design_t * g_design = malloc
+- nio: ret cmd "log" add game_version, client_version
+	   add cmd "getsite" to get client download website
+	   move all design list to design_t
+2014-10-16
+- nio: game cannot fold if player's hero hp > 10
+2014-10-14
+- add total user count in @online
+- peter: server down because of db_buffer_full
+  ERROR -102 db_buffer_full 300 nio.cpp:8840: errno 0  2014-10-14 21:56^[[0m
+  note: 300 is the buffer_index, the max transaction is 1000 which is very 
+  large for small scale
+
+  @see nio.cpp:12943  
+  ((((((((((
+			ptr = dbio_data->db_buffer[index];
+
+			int cid = -1, n = 0;
+			sscanf(ptr, "%d %n", &cid, &n);
+			if (cid < 0) {
+				// if both player offline in win_game, cid == -3
+				ERROR_PRINT(cid, "main_dbio:sscanf cid<0 buff=%s", ptr);
+				continue;
+			}
+			connect_t *conn = get_conn(cid);
+			ret = dbout(conn, "gerr", ptr+n);
+			ptr[0] = 0;  // core logic, clear buffer for next use
+  )))))))))
+  BUG: the continue will break the rule that ptr[0]=0 (which clear the buffer)
+  which is dbio_data->db_buffer[index][0] = 0   for marking the buffer is free
+  for next use.
+  FIX: add ptr[0]=0; before continue;
+
+2014-10-13
+- peter: add eid in lreplay [eid]
+- peter: change st level of rchat from ST_ROOM to ST_LOGIN, so that
+  it will not return -8 when the user chat inside room _after_ the game end
+- peter: challenge error message: update to chinese (@see evil.h) E_CHALLENGE_*
+2014-10-11
+- nio: add LOGIC_VER in cmd "log" return 
+2014-10-10
+- nio: set every 30second check auto_force_fold(), player 120second offline will be force fold
+2014-10-09
+- nio: add auto_force_fold(), need more test
+2014-09-25
+- challenge time out:
+  challenger(555) will receiver "challenge 1 0 666 alias"
+  receiver(666)   will receiver "challenge 1 1 555 alias"
+2014-09-22
+- challenge mode:
+  cmd:challenge type eid
+  ret:challenge type flag eid alias
+  type == 0: challenge someone
+  type == 1: challenge cancel
+  type == 2: challenge accept
+  type == 3: challenge refuse
+  flag == 0:sender
+  flag == 1:receiver
+
+  1. 555 challenge 666
+  	 555: s "challenge 0 666"; 		666: r "challenge 0 1 555"
+  	 555: r "challenge 0 0 666";
+  2. if 666 accept, send "challenge 2 555", game start
+  3. if 666 refuse
+  	 666: s "challenge 3 555";		555: r "challenge 3 1 666"
+  	 666: r "challenge 3 0 555";
+  4. if 555 cancel challenge, 
+  	 555: s "challenge 1 666"
+  	 555: r "challenge 1 0 666"		666: r "challenge 1 1 555"
+  5. if 555 challenge 666, then 555 cancel challenge, and 666 accept challenge
+     555: s "challenge 0 666"		666: r "challenge 0 1 555"
+	 555: s "challenge 1 666"		
+	 555: r "challenge 1 0 666"		
+	 								666: s "challenge 1 555"
+									666: r "challenge -x"
+  6. if 555 challenge 666, and 666 challenge 555 in the same time, game start
+     555: s "challenge 0 666"		666: r "challenge 1 1 555"
+	 								666: s "challenge 0 555"
+- challenge design:
+  struct challenge_struct {
+  	int challenger;
+	int receiver;
+	time_t challenge_time;
+  } challenge_t;
+  vector<challenge_struct> challenge_list
+  challenge( int type, int eid) {
+    // challenger
+  	if (type == 0) {
+		check_if_me_in_game();
+		check_if_receiver_in_game();
+		check_if_challenge_t_in_list();
+		check if challenged by same eid();
+		add_in_challenge_list();
+	}
+	if (type == 1) {
+		remove_challenge_t_in_list();
+	}
+
+	// receiver
+	if (type == 2) {
+		check_if_challenge_t_in_list();
+		check_if_me_in_game();
+		check_if_challenge_in_game();
+		remove_challenge_t_in_list();
+		?reject_other_challenger();
+		start_game();
+	}
+	if (type == 3) {
+		check_if_challenge_t_in_list();
+		remove_challenge_t_in_list();
+		reject_challenger();
+	}
+  }
+
+  remove_overtime_challenge() {
+  	foreach challenge_list
+	  if time(NULL) - challenger_t.challenger_time > 30s {
+	  	remove_challenge_t_in_list();
+	  }
+  }
+
+	
+2014-08-15
+- db: add int "course" after sex in evil_status for client course logic
+- nio: add cmd "course", "scourse"
+2014-07-31
+- nio: add icon in cmd @ladder and ladder
+- dbio: revise sell_card() logic, if sell_count < card_all_count - card_deck_count,  only reduce card_count in evil_card; if sell_count > card_all_count - card_deck_count, need to reduce card_count in evil_deck
+2014-07-30
+- nio: add cmd lpay, list pay info
+2014-07-23
+- design:revise database table design_pay
+2014-07-22
+- design: add table design_pay, save payments
+- nio: rmb convert to crystal in admin_pay()
+2014-07-17
+- logic: fix rapid fire(84) bug
+2014-07-16
+- logic comment: add atl overwrite in attach in play_hand() if atl is nil and target only can be hero and side ~= 3
+  this card will be affected:enrage(65), rampage(68), blood frenzy(70)
+  , rapid fire(84), into the forest(86), radiant sunlight(137)
+  , drain power(152)
+2014-07-07
+- logic: add card Night Prowler(166), Gravediggers Cloak(169), these 2 card use random num, need test in client
+  Spelleater Bands(180), Old Iron Dagger(196), Banebow(13), Baduruu(14)
+  fix Rapid Fire(84), need more test
+2014-07-04
+- logic: add card Death Trap(85), Net Trap(89), add a trigger_trap()
+  Crimson Vest(168), Moonlight Bracers(174), Soul Seeker(185), Aimed Shot(81)
+  Old Iron Dagger(196), Golden Katar(194)
+2014-07-03
+- logic: add card Rapid Fire(84), add a trigger_attack_serial, Surprise Attack(88), Wrath of the Forest(167)
+2014-07-02
+- logic: add card Victor Heartstriker(3), Gwenneth Truesight(4), Poison Arrow(82), Flaming Arrow(83)
+2014-06-03
+- dbio: add check_friend; revise cmd "fsta", add friend_flag after sex
+2014-05-28
+- todo before update t1, should run db_update20140526.sql in t1 ~/tmp
+2014-05-26
+- dbio:add column "lv1", "lv2" in evil_replay
+- revise cmd "lreplay", "replay", add player lv
+- dbio:add column "count" in evil_exchange
+  new function in_buy_exchange_piece(), in_add_exchange_piece()
+- revise cmd "xclist" "xcadd" "xcbuy", xcadd and xcbuy should send exchange cou	 nt; now only exchange piece
+  now add exchange piece, gold/crystal is 1 piece's price
+  buy exchange piece, no need to buy all piece, you can only buy any count of piece in 1 time
+
+2014-05-22
+- TODO:db design_shop set card_buy_gold,piece_buy_gold default 0, and in_buy_card should check if gold == 0, card cannot buy
+- revise cmd "buy", "sell" add eid, buy_count/sell_count
+2014-05-21
+- TODO add buy_piece(), sell_piece() in dbio
+- revise cmd "buy", "sell", add card_type. 
+  card_type == 0 : buy or sell card
+  card_type == 1 : buy or sell piece
+- add piece_buy_gold,piece_sell_gold,piece_buy_crystal,piece_sell_crystal in shop_t
+- revise cmd "shop"
+- TODO revise evil_exchange, only can exchange piece 
+  these function should revise:
+  in_add_exchange()
+  in_buy_exchange()
+  in_list_exchange()
+  in_reset_exchange()
+  get_exchange()
+  buy_exchange()
+  get_timeout_exchange()
+
+2014-05-20
+- design:add column in design_ai:rating_flag
+  rating_flag == 0:not count rating in win_game
+  rating_flag == 1:count rating in win_game
+- TODO: revise cmd lai, add rating_flag after rating, do it later
+2014-05-16
+- dbio:fix new register send cmd "ladder" bug
+- nio:fix gapply a guild, then gquit, glevel not found bug
+2014-05-08
+- nio:revise win_game()
+- design: add colume win_gold, win_exp in design_ai after pid
+- cmd revise: log, reg, sta +exp_this
+2014-05-05
+peter:
+- fix protocol gchat and wchat, add error message for no_guild in gchat
+- TODO add win_gold, draw_gold, lose_gold, win_exp, draw_exp, lose_exp in design_ai
+- t1_db:
+  1.design add table design_merge
+  2.design_notice add column
+  3.add evil_piece for user
+2014-05-04
+- evil: MAX_AI_EID = 499
+- nio:add load_merge()
+2014-04-27
+- design: revise design_notice, add column "title"
+- nio: revise cmd_notice
+  CMD: notice type
+  if type == 0
+  RET: notice [type] [count] [title1] [title2] [title3]...
+  if type > 0
+  RET: notice [type] [notice]
+
+2014-04-26
+- never remove " " space in evil.h: OUT_GUILD_LADDER_PRINT, 
+  OUT_LEVEL_LADDER_PRINT
+- remove debug message in logic.h when no play available
+
+2014-04-25
+- nio: @lconstant to show design constant value of server memory
+  (long chat message does not split into multi-line)
+- remove DEBUG message on nio.cpp, dbio.cpp logic.lua
+
+2014-04-24
+- fix (94)ice storm, using action_damage_list, priority kill (39)earthen
+- init evil_piece: INSERT INTO evil_piece (eid) SELECT eid FROM evil_user
+- BUG: db-init.sql  evil_guild.gold crystal etc change to INT (no UNSIGNED)
+  note: MYSQL 5.1  unsigned+(-20000) may become a large +int.
+- peter: reorder action_die() : action_grave() first, 
+  then loop_trigger_other_kill
+- TODO need test: OK(39)earthen, OK(60)ogloth, OK(68)rampage, OK(181)mournblade
+- loop_trigger_other_kill : need old_side param
+- TODO OK :test (39) with (182)dimension ripper (oppo card on my side)
+- masha: nio: add dbin_load_piece(), dbin_pick_piece(), dbin_merge_piece()
+  load piece:
+  CMD:lpiece
+  RET:lpiece eid piece_list
+
+  pick piece:
+  CMD: ppiece ptype
+  RET: ppiece [eid] [ptype] [loc] [card_id] [get_count] [gold] [crystal]
+  loc=0 to 5 : refer to card[loc] that is picked
+  gold / crystal : change in gold or crystal (negative or zero)
+
+  merge piece:
+  CMD:mpiece card_id
+  RET:mpiece eid card_id count gold crystal
+- TODO add merge_piece count, gold, crystal in design
+- note nio: lua_error_print() err may has ''
+2014-04-23
+- dbio: add in_pick_piece()
+- dbio: add in_merge_piece(), delete check_piece()
+- FIX (39)earthen stop_attack issue, target resurrect cannot attack in the coming
+  turn, using stop_defend now.
+- FIX (39) resurrect with King's pride, also checked with (28)kurt whitehelm
+  fix also king's pride with whitehelm  (D_DIRECT not check in calculate_defend)
+- add nio:  test 1  list all live connect_t with IP, username, alias
+- FIX (176)legion united(1176)virtual attach for D_DIRECT damage
+- FIX (78)supernova and (5)nishaven on action_damage_list : order for
+  killing Earthen protector is guaranteed, also refactor the code
+- note: earthen protector save a dead unit : count as 2 x die
+- note2:  change trigger_other_kill to be after action_grave
+
+2014-04-22
+- db_evil:add evil_piece
+- dbio:add in_save_piece(), in_load_piece(), in_update_piece(), check_piece()
+- todo:in_merge_piece()
+- dbio:get glevel in in_login(), so nio can keep glevel in guild, and gpos can get member_max by glevel
+
+2014-04-21
+- -8 serve for client reconnect
+- dbio:add member_max in guild_member_change
+  use guild_member_change() :
+  guild_approve();
+  in_guild_quit();
+ 
+  revise gpos ret
+  CMD:gpos gid
+  ERR:gpos -2 total_member_overflow
+
+2014-04-18
+- TODO glv: read the current gid, get the current level, current gold
+  current member_max, current_consume_gold
+  , next level, levelup_gold, next_member_max, next_consume_gold
+  (only master can read?)
+  CMD: glv [gid_optional]
+  RET: glv gid current_level current_gold current_member_max current_consume_gold next_level levelup_gold next_member_max next_consume_gold
+- TODO glevelup:  only master can execute, reduce
+  RET: glevelup gid new_level gold_reduce(-negative) new_member_max new_consume 
+
+2014-04-16
+- add eff_anim in logic.lua
+  {'anim', id=[card_id], index=[src_index], atype=anim_type
+  , total=[total_target], target1=2101, target2=2301, target3=2304, ... }
+
+2014-04-15
+- change db-design.sql : design_constant +PRIMARY (mysqlworkbench need)
+  change also design_notice, design_std_deck and design_guild with
+  UNIQUE field to PRIMARY KEY 
+- reduce MAX_CHANNEL to 3 (was 5), edit name of channel (quick,free,solo)
+
+2014-04-14
+- fix keepalive interval to 5 seconds (was 1) this fix the save deck reconn bug
+- add search key option in lguild
+- db-init.sql: add KEY order4 for TABLE evil_guild , try:
+  EXPLAIN SELECT * FROM evil_guild FORCE INDEX (order4) ORDER BY glevel DESC, total_member DESC, gold DESC, crystal DESC;
+
+2014-04-11
+- simplify dbin_save_deck() use C check_deck() instead of lua_pcall
+- TODO need to check the deck against evil_card, make sure the user has the card
+- fixed icon issue in sta 
+- DONE todo send gpos to the member (authorize apply)
+- TODO use gquit [eid] to reject applying people (client)
+- DONE todo gquit need to broadcast to guest_conn, guest_conn = get_conn_by_eid(eid)
+  and guest_conn != conn
+- DONE todo gpos : need to check guest_conn != conn, and broadcast net_writeln
+- design:change design_guild_consume to design_guild, add consume_gold
+	, levelup_gold, member_max 
+
+- add create_guild_gold, create_guild_crystal in g_constant
+2014-04-10
+- logic: fix defender action_attack bug:
+  if Dark Flayer(52) is disable(or frozen), other ally attack it, it cannot defned 
+- DONE todo add create_guild_gold, create_guild_crystal in g_constant
+- dbio: add gpos in list_deposit()
+  CMD: ldeposit start_id page_size 
+  RET: ldeposit start_id page_size [deposit_info1] [deposit_info2]
+  deposit_info = deposit_date(unix_ts)  eid alias [icon] gold crystal [gpos]
+
+- dbio:set deposit in evil_guild_deposit when create guild
+  add create guild gold /crystal cost in create_guild()
+- dbio: add in_deposit(), get deposit by eid and gid
+  nio: add cmd "deposit"
+  CMD: deposit
+  RET: deposit [eid] [gid] [my_deposit_gold] [my_deposit_crystal] [gshare]
+				[guild_deposit_gold] [guild_deposit_crystal]
+
+2014-04-09
+- peter: logic.lua add shadow warrior: (12)Lagon Stonebreaker
+  card_class.get_weapon for easy to get the weapon in support
+  remove animation for (165)King Pride (it is ok to remove the atype, =0)
+- nio:room_t add icon[MAX_GUEST]
+  add icon in these func:
+  do_room_add(), do_room_del()
+  quick_room()
+  dbin_solo()
+- revise "room" return 
+  RET: room [channel] [rid] [state] [password] [guest_info1] [guest_info2]...
+  guset_info == [eid] [alias] [icon]
+  password == "_" means no password
+
+- TODO str_room_info should send guest icon & room password; if password is empty, send "_"
+  now str_room_info send channel, rid, state, [guest_info1], [guest_info2]...
+  guset_info == eid, alias
+  these func use str_room_info:
+  room_info_broadcast()
+  cmd_room()
+  room_join()
+  guest_list()
+
+- design: add table design_guild_consume
+  table design_constant add field "guild_bonus_rate"
+- nio:revise cmd "guild", add guild_consume in out_guild()
+- client need fix these cmd:
+  "guild"
+  "glist"
+  "gbonus"
+  "ldeposit"
+  "room"
+  "lroom"
+
+2014-04-08
+- logic:fix the king pride(165) trigger_other_add
+  add action_damage_list()
+- nio:fix cmd_list out bound bug
+
+- TODO guild protocol update
+- DONE todo +[new] guild [gid_optional]  [gnotice_optional]
+  RET: guild gid total_member glevel gold crystal consume gname notice
+  note: if gnotice_optional is non-empty, update gnotice, only GUILD_MASTER can do (nio check)
+- DONE: todo [patch] glist 
+  RET: glist [flag] [start_id] [total] [member_info1] [member_info2] ...
+  patch: member_info = eid gpos alias +[icon] +[rating] last_login gshare
+  note: last_login=0 means only, this is unix_ts
+- TODO (not urgent)  - no need 
+  patch: gdeposit [gold] [crystal]
+  RET: gdeposit eid gid [gold] [crystal]
+- DONE todo patch: gbonus +[get_flag]    
+  get_flag=0 means check only, not get the bonus
+  get_flag=1 means get the bonus
+  RET: gbonus eid get_flag guild_gold rate gshare bonus_gold last_bonus_time(sec)
+  e.g. guild_gold = 10000   rate=0.05(5%)  gshare=0.1(10%)   so bonus_gold=50(int)
+  TODO move bonus rate , consume to g_constant !!!
+- DONE: todo patch(+icon): ldeposit start_id page_size (no change
+  RET: ldeposit start_id page_size [deposit_info1] [deposit_info2] ...
+  patch: deposit_info = deposit_date(unix_ts) eid alias [icon] gold crystal
+ 
+
+2014-04-07
+- revise cmd_room(), free_room(), room_list(), new_room()
+- add password in room_t
+- revise lroom, client need change!
+  CMD: lroom [channel]
+  RET: lroom total [room_info1] [room_info2] ...
+  room_info = rid num_guest pwd_flag title
+  pwd_flag: 0==no password, 1==has password
+
+- cmd_room: add [pwd] in cmd
+  CMD: room [channel] [rid] [pwd]
+  if rid == 0, create a room in [channel] with password [pwd]
+  if rid > 0 && rid < MAX_ROOM, join a room in [channel] with password
+  
+- TODO set password in new_room()
+
+2014-04-04
+- peter: add cron.sh  : also install in t1 : crontab -e 
+- nio: save_deck() check if card fit hero
+- nio: add "fsearch"
+  CMD: fsearch [alais]
+  RET: fsearch [total] [info1] [info2]....
+  info = eid alias icon
+
+2014-04-03
+- peter: fix sac 1101 issue (only sac T_HAND)
+- peter: fit_hero(hero_card, card) and fit_hero_id(hid, cid)
+  for checking whether a card fit into hero job and camp 
+  @see require('bit'); which is for luajit 
+- dbio:add in_friend_search()
+- revise "fget" to "flist"
+- nio:add "ljob"
+  CMD: ljob
+  RET: ljob total hero_id1, hero_id2...
+- revise fget
+  CDM: fget
+  RET: fget [eid] [num_row] [friend_info1] [friend_info2]...
+  friend_info = eid online_flag alias icon
+  online_flag: 0==offline, 1==online
+- nio:add fsta 
+  cmd: fsta eid
+  ret: fsta eid, lv, rating(%lf), gold, crystal
+  	   , res1, res2, count, win, lose
+	   , draw, run, icon, exp, sex, signature
+
+2014-04-02
+- TODO should we add date in evil_friend
+- db-init: add evil_friend, evil_blacklist
+- dbio: add in_add_friend(), in_get_friend()
+- nio: add "fchat", "fadd", "fget"
+  actually, fchat can talk to anyone
+
+  CMD: fchat eid msg
+  RET: fchat eid alias msg
+  ERR: fchat -9 not_login
+  ERR: fchat -19 recipient_not_login
+
+  CMD: fadd friend_eid
+  RET: fadd my_eid friend_eid
+
+  CDM: fget
+  RET: fget [eid] [num_row] [friend_info1] [friend_info2]...
+  friend_info = eid alias icon
+
+- logic:fix King Pride(165) trigger_remove, need more test
+
+2014-04-01
+- nio : add "greconn"
+  CMD: greconn [index]
+  RET: [index+1] [cmd]
+  	   [index+2] [cmd] 
+	   ...
+  if index == cmd_list.size()
+  RET: greconn 0
+  ERR: greconn -5 invalid_input
+  ERR: greconn -15 index_out_bound
+
+- cmd add index,in play_cmd(), game_gold(), ai_play_once()
+  "proom->cmd_list.push_back(buffer)" , e.g. : 
+  1 s 1201
+  2 b 1202
+  3 t 1301 2101
+- lreplay add logic.lua version
+  cmd: lreplay
+  ret: lreplay [eid] [total] [replay_info1] [replay_info2]...
+  replay_info: [gameid] [winner] [ver] [eid1] [eid2]
+  			   [icon1] [icon2] [alias1] [alias2]
+
+2014-03-29
+- revice evil_replay, add icon1, icon2, alias1, alias2
+- revice design_ai, add icon, lv, rating, pid, alias
+- add evil_ladder_collection
+- remind: 3 place add alias:
+  1.dbin_solo()
+  2.quick_room()
+  3.do_room_add()
+- fix logic:Kings Pride(165) trigger_remove:change_base_hp()
+  fix change_base_hp(), reduse current hp
+  Kings Pride no duplicate check
+
+2014-03-27
+- design:revise table design_ai: id, icon, lv, rating, pid, alias, deck
+  pid is prize card id
+- dbio:revice list_replay, load_replay
+- nio:revice command RET
+  cmd: lai
+  RET: lai [total] [ai_info1] [ai_info2]
+  ai_info: [eid] [alias] [icon] [rating] [exp] [gold] [pid] [lv]
+
+  cmd: lreplay
+  RET: lreplay [eid] [total] [replay_info1] [replay_info2]...
+  replay_info: [gameid] [winner] [eid1] [eid2]
+  			   [icon1] [icon2] [alias1] [alias2]
+
+  cmd: replay [gameid]
+  RET: replay [code] [gameid] [winner] [seed] [start_side] 
+  			  [ver] [eid1] [eid2] [icon1] [icon2]
+			  [alias1] [alias2] [deck1] [deck2] [cmd]
+
+2014-03-26
+- nio:add "sprofile"
+- fix protocol:
+  sta
+  lai
+  ladder
+  lreplay
+  replay
+  sprofile
+  win
+  log
+
+2014-03-25
+- evil_status add sex, signature
+- XXX shoule we change load repaly to 2 step?:
+  CMD:replay 0 [gameid]
+  RET:replay 0 gameid winner seed start_side ver eid1 eid2 alias1 alias2 deck1 deck2
+
+  CMD:replay 1 [gameid]
+  RET:replay 1 gameid cmd
+- XXX shoule we add alias1, alias2 in evil_replay?
+
+- dbio:create ladder OK: rating_ladder, level_ladder, guild_ladder, gold_ladder
+	   TODO create collect_ladder
+- design: add table design_std_deck
+- nio:add load_design_std_deck(); 
+      dbin_job() use g_std_deck_list
+  
+- dbio:add dbin_list_replay(), dbin_load_replay()
+- nio:add "lreplay" "replay [gameid]"
+
+  CMD:lreplay
+  RET:lreplay eid, total [game_info1] [game_info2]
+  game_info = gameid, winner, eid1, eid2, alias1, alias2
+
+  CDM:replay [gameid]
+  RET:replay gameid, winner, seed, start_side, ver, eid1, eid2
+  		, alias1, alias2, deck1, deck2, cmd
+
+2014-03-24
+- dbio:add get_guild_ladder
+2014-03-21
+- db-init: evil_ladder change to evil_rating_ladder
+  add evil_level_ladder
+- nio: "ladder" change to "ladder [ladder_type]"
+  ladder_type == LADDER_RATING, LADDER_LEVEL, LADDER_GUILD, LADDER_COLLECT
+  , LADDER_GOLD
+  "@ladder" now will send back rating_ladder and level_ladder
+- TODO: handle other ladder
+
+2014-03-20
+- db-init: add evil_ladder
+- dbio: in_create_ladder(), in_get_ladder
+- nio: add "@ladder" "ladder"
+2014-03-19
+- dbio:update_win_status update user exp, lv
+- before send_win() calculate the integer rating offset
+  double rate_int1 = floor(rating1+rate_offset1) - floor(rating1);
+  double rate_int2 = floor(rating2+rate_offset2) - floor(rating2);
+
+2014-03-18
+- design:design_constant add win_quick_gold, win_solo_gold, win_quick_exp
+  , win_solo_exp, lose_quick_exp, lose_solo_exp
+  design add design_exp:lv, exp
+  nio:send user.lv, user.exp, next_exp in login and register
+  
+- win_game send to player "win" [winner] [fold_flag] [rating] [gold]
+  send to other guest "win" [winner] [fold_flag] [0.0f] [0]
+2014-03-13
+- db-init.sql add table evil_guild_deposit
+- add ldeposit:list guild deposit
+- use update_last_login() when login
+---- peter:night
+- update login and register message, less error in log e.g. duplicate name,
+  wrong password are not kept in n.log
+- alias [eid] [alias]  - return eid and alias to client
+  alias -6 means duplicate (was -26)
+- merge TODO-db.txt to this TODO-server.txt
+  can remove TODO-db.txt later
+- fix dbio all test (alias -6,  alias [eid]), guild deposit not 
+  enough money issue
+
+2014-03-12
+- add all card to shop in db-design.sql
+- gbonus, gdeposit
+- delete 2 tables in one query: 
+  DELETE gs,g from evil_guild_share gs join evil_guild g on gs.gid = g.gid 
+  WHERE gs.gid = 550;
+- y gapply : log x x :  ERROR -3 guild_del_member:eid_not_found 548(y)
+- last_bonus:  bonus = guild.gold * g_constant.bonus_rate(5%)
+  if last_bonus == today (anytime) then no_bonus
+  if last_bonus older or equal to yesterday then 
+     player can get bonus
+  end
+- done: cguild, gpos : init evil_guild_share record
+- done: gquit, dguild : delete evil_guild_share record
+- gquit : withdraw gold from evil_guild.gold, fix evil_guild_share 
+
+2014-03-11
+- done (195)Ghostmaker with durability=1(last hit)
+  action_durability_change, trigger_attack, (24)lily rosecult, resurrect
+  the Ghostmaker come back (win checked)
+- done (195)Ghostmaker have unit set not ready, from grave to ally (win checked)
+- done (195)Ghostmaker + King's pride : bonus should be valid  (checked)
+- done (195)Ghostmaker : same unique in grave and ally:  no effect
+- TODO list share, get_share_bonus
+- db-init: evil_guild_share
+- dbio: in_guild_deposit(), update_guild_money(), get_guild_gold()
+- gchat change to wchat(world chat)
+  gchat == guild chat
+- TODO MAX_CONNECT change to 5 for debug (was 1000)
+- guild in nio :   map<int,guild_t> g_guild_map
+  get_guild_by_gid(gid)
+  guild_add_member(guild_t *,  int eid)  : check dup (eid)
+  guild_del_member(guild_t *,  int eid)  : check exists
+  @see guild-patch
+  out_login, out_create_guild, out_gpos, out_gquit
+  do_clean : change to do_clean_disconnect
+  new do_clean: only clean up logic
+
+2014-03-06
+- nio : in/out connection to guild function ready
+- DONE: in_list_gmember : flag=0,1,9 :  all,member,apply
+- DONE: in_guild_apply
+- DONE: in_guild_pos :  guild_approve, guild_promote
+- DONE: in_guild_quit, in_guild_delete
+- TODO : in_guild_delete and in_guild_quit do not check master,
+  need to check eid=master and eid=self for self-quit
+- dbio: 
+  update_status_guild() 
+  check_create_guild()
+  in_create_guild()
+  in_list_gmember()
+  in_list_guild()
+- db_design:
+  db_design_load_notice()
+
+  TODO:in_guild_apply(), in_list_gapply(), in_guild_pos(), in_guild_quit()
+
+2014-03-05
+- guild system:
+  database:   (evil db)
+  evil_guild :
+  gid  (AUTO_INCREMEMT)  PRIMARY KEY check:  hole
+  gname VARCHAR(30)
+  glevel INT
+  master  (eid) INT
+  gold
+  crystal
+  total_member INT  (duplicate info with evil_guild_member)
+  
+  evil_status
+  - change: reserve1 -> gid (guild_id)
+  
+  log x x
+  log 547 5 x  (eid, st, alias)
+  change to:
+  log [eid] [st] [alias] gid gname
+  (gid=0 means no guild, gname=_)
+
+  evil_guild_member
+  gid
+  eid (member)
+  pos (position = 1:master, 2:senior, 3:normal, 9=apply)
+  PRIMARY KEY: gid,eid
+  ??? or separate apply : evil_guild_apply
+
+  command:
+  CMD: lguild start_id page_size
+  RET: lguild start_id page_size [g_info1] [g_info2] ...
+  g_info = gid gname glevel gold crystal total_member
+  (order by glevel > gold > crystal?)
+
+  CMD: cguild [gname]
+  RET: cguild 0 -gold -crystal
+  ERR: cguild -6 already_has_guild
+  ERR: cguild -2 req_gold req_crystal money_not_enough
+  note: design.constant add guild_create_gold...
+
+  CMD: dguild  (only master can do)
+  RET: dguild 0
+  ERR: dguild -6 not_master
+  ERR: dguild -3 no_guild
+  change: evil_status, evil_guild, evil_guild_member
+  
+
+// new glist with or without apply
+// CMD: glist [flag] [optional_gid] 
+// flag = 0 : all member include apply
+// flag = 1 : all member without apply
+// flag = 9 : all apply 
+// RET: glist [total] [member_info1] [member_info2] ...
+// member_info = eid pos alias
+  ERR: glist -15 invalid_gid
+
+  CMD: gapply [gid]
+  RET: gapply eid gid gpos gname 
+  ERR: gapply -6 already_has_guild
+  ERR: gapply -3 guild_not_exist
+  ERR: gapply -9 not_login ...
+
+  CMD: gpos [eid] [pos]
+  e.g. approve apply pos = 3  (from 9 to 
+  upgrade normal member to senior pos = 2
+  pos=0 means kick the member
+  pos=1 is invalid
+  RET: gpos [eid] [pos]
+  ERR: gpos -19 not_master
+  ERR: gpos -2 total_member_overflow
+  ERR: gpos -3 eid_not_in_guild
+  ERR: gpos -6 invalid_pos
+
+  CMD: gquit    (quit a guild)
+  RET: gquit eid
+  ERR: gquit -9 not_login
+  ERR: gquit -19 master_cannot_quit
+  ERR: gquit -3 no_guild
+
+
+
+===== svn backup =====
+  in fwq:  ssh mac@192.168.1.23
+  (root, su - )  NOTE: change MMDD to month and day
+  svnadmin hotcopy /svn/repository /Volumes/mac2/backup/svn2014MMDD
+  cd /Volumes/mac2/backup/
+  zip -r svn2014MMDD.zip svn2014MMDD
+  ---- in other machine:
+  sftp mac@192.168.1.23
+  cd /Volumns/mac2/backup
+  get svn2014MMDD.zip 
+  exit
+  --- quit the sftp, on other machine
+  unzip svn2014MMDD.zip
+  -- test the svn backup:
+  svnserve -d -r [local_path_svn2014MMDD]
+  -- in eclipse: 
+  SVN add repo:  svn://127.0.0.1/
+  username/password same as server 
+  (kill svnserve after use, do not checkout!!!)
+
+2014-03-04
+- check: TODO force-next which change the protocol of game, ginfo, n
+  game [side] [cmd_size] [seed] [timeout] [deck1_400] [deck2_400]
+  ginfo [side] [cmd_size] [seed] [timeout] [deck1_400] [deck2_400]
+
+  n [timeout]   -> for normal command
+  n  -> for re-conn cmd_list (timeout will follow ginfo [side] ... [timeout] 
+  note: if there is no timeout in n, continue to use timeout in game/ginfo
+
+2014-02-28
+- CHANGE: db-design.sql : need refresh database
+- nio: force next : 'f' command, in game
+- TODO need to wait for client to add support on 'n 60' and 
+  ginfo/game [side] [cmd_size] [seed] [deck1] [deck2] 
+
+2014-02-27
+- logic: Twice(177), hero takes damage, draw card; Raven(31) damage power == 0 will not use skill
+2014-02-26
+- logic draw card, 2 position
+  1. drop card from hand after draw card (may use a ability card) (135, 140, 142, 150, 157, 159
+  2. draw card without drop card (15, 38, 59, 70, 76, 155, 177, 182, 193
+  3. ally summoned draw card (48, 170
+- logic fix action_attack(), use action_attack_one() for a single attack or defend
+
+2014-02-25
+- logic: fix (139)poor quality (power=-1)   (195)ghostmaker (power damage > 1) 
+  take effect
+- BUG ?  up: ally=(37)(39)earthern protector
+  down: support=(195)ghostmaker,   grave=(35)priest_of_light, hand=(93)tidal wave
+  run:  down use (93)tidal wave  -> up:(37)die and resurrect (by earthern protector)
+  down use(195) to attack up hero,  (35)move from grave to ally
+  use down (35) to attack up(37)
+  up(37) will not feedback attack
+- BUG xcbuy the record of same eid will cause error : UPDATE 2 records get 
+  the same eid
+- nio: xcadd, xcbuy ready
+- TODO cronjob : @xcreset 86400 
+  (echo @xcreset 86400; sleep 0.1) | telnet 0 7710 
+- nio:  xclist, @xcreset ready
+- updated TODO-server.txt protocol section for xcadd, xcbuy etc. 
+
+2014-02-24
+- dbio: in_add_exchange in_buy_exchange, in_list_exchange, in_reset_exchange
+- TODO nio:need to retrieve name+job(str) from lang_zh.lua for the use
+  in in_add_exchange(... name)
+
+2014-02-23
+- TODO xclist, xcadd, @xcreset  dbio:add_exchange, list_exchange
+  evil_exchange
+- db-init.sql:  add TABLE evil_exchange
+- dbio: update_card()  add/remove one card from evil_card
+  ptimestamp() return a unique timestamp YYMMDDhhiissxx
+- TODO gchat  (enter or linefeed is buggy?)
+
+2014-02-20
+- logic.lua action_grave:   action_refresh after move to grave
+  TODO need testing
+
+- fix all effect in all action, mostly is hp or power change eff
+	NO NEED action_add 
+	action_cast_target
+	NO NEED action_after_die
+	OK action_attach
+	OK action_virtual_attach
+	NO NEED action_damage
+	NO NEED action_die
+	NO NEED action_drawcard
+	action_grave
+		1. ally grave
+		2. attach grave (Healing Touch91 to ally with Cripping Blow67) (32,39,91,132,138,156,161,165,176,200)
+		3. ally with attach grave (kill ally with Cripping Blow67)
+		4. weapon grave, send hero power change eff
+		5. support beside weapon, grave, hp/power change eff should make by its 
+			trigger_remove (11,62,64,95,136,144,145,159,160
+	NO NEED action_heal 
+	action_move 
+		1. make eff by trigger_add/trigger_remove...
+		2. add weapon, should send hero power change eff
+	action_move_top
+	NO NEED action_remove
+	NO NEED action_power_offset -- power_offset
+	NO NEED action_power_change -- base power
+	NO NEED action_resource
+	NO NEED action_energy
+	NO NEED action_durability_change
+	NO NEED action_timer_table
+	
+
+2014-02-19
+peter:
+- TODO logic.lua : can use seed % 2 to implement g_current_side
+  (one change solve all problem)
+- TODO logic.lua: action_next() need eff_energy_offset(1, sss)
+- TODO print_index_both : ac:index() -> cindex(ac)
+- TODO action_grave : refresh -> 
+  eff_list2 = action_refresh(cc)
+  table_append(eff_list, eff_list2);
+- TODO rename : eff_power_offset -> eff_power
+
+2014-02-15
+- add random side when game start
+
+  change
+  -----
+  logic_init_array() logic.lua
+  logic_init() logic.lua
+  -----
+  room game
+  1. "game" ->dbin_game()
+  2. in_game()  dbio.cpp
+  3. out_game():if channel ~= solo or quick, game_info_broadcast()
+  ----
+  quick/solo game
+  2. "ginfo" -> game_info()
+  ----
+  win game
+  1. win_game() -> dbin_win_param()
+  2. in_save_replay() dbio.cpp
+
+2014-02-14
+- implement: pick and batch logic
+  CMD: batch [ptype] [refresh]
+  RET: batch [ptype] [card0] [card1] [card2] [card3] [card4] [card5] 
+  refresh=1 : use gold/crystal to exchange
+  refresh=0 : return the batch from database
+
+  CMD: pick [ptype]
+  RET: pick [code] [eid] [ptype] [loc] [card_id] [gold] [crystal]
+  code=0 OK,   code=99 card num overflow (>=9)
+  loc=0 to 5 : refer to card[loc] that is picked
+  gold / crystal : change in gold or crystal (negative or zero)
+
+
+  pick [ptype]
+  if refresh == 1 :  use gold/crystal to refresh the batch, else load from db
+- db-design: + TABLE design_pick
+- db-init:  + TABLE evil_batch  : store the batch after refresh
+- remove some debug message
+- remove db_conn.cpp from Makefile (nio)
+- add batch_list as cache in evil_user_t (after load from evil_batch)
+- + g_constant and design_constant: 
+  e.g. win_quick_gold +win_solo_gold, batch_refresh_gold, pick_gold
+  , batch_refresh_crystal, pick_crystal
+
+2014-02-11
+- TODO nio: dbin_batch(), get_random_batch() for random pick card 
+- db-init.sql: TABLE evil_batch
+- dbio: in_load_batch()
+- fix : stress_play.cpp : using read and write native, and
+  found the problem related to error : rating_time[] too long, make it
+  wait too long.   set rating_time to 0, 0, 0 for testing 
+- TODO : change stress_reg.cpp to use read, write, not fprintf/fgets
+  because it requires less buffer and can sustain more connection
+
+2014-02-10
+- nio: g_pick_list (evil.h : pick_t) for random pick card
+- db-design.sql: TABLE design_pick
+- db_design.cpp: db_design_load_pick() to load value for g_pick_list
+- logic.lua : fix (136)good ascendent  job=HUMAN, 
+  merged with eff_resource_max_offset(1, sss)
+- nio: g_card_list contains short info for 400 cards,  
+  normally: g_card_list[id].id == id  (id>=1 and id<=400)
+  if g_card_list[id].id == 0 means not implement
+  id, job, cost are copied from logic.lua @see load_design_card()
+- nio: g_star_list[MAX_STAR] is an array of vector of card_t
+  which store all the cards separately into 5 star_list
+  
+
+2014-02-08
+- stress_play 300 is good (after remove some debug message in nio)
+- stress_play 350 
+  Run on Macbook pro (peterpro):  
+  ERROR -25 no_room_error stress_play.cpp:176: errno 35  2014-02-08 22:15
+  bugged: Resource temporarily unavailable (this is using perror())
+  note:  32, 35 errno may happen in Mac, as the kernel buffer 
+  maybe full ? in case of there are intensive log writing and socket operation
+- @ckbuffer 500/500 means good
+  this is a health check after running the stress test
+- add stress_play.cpp : make stress_play  
+  TODO login, quick, s 0, n ... fold ldeck, lcard 
+- logic.lua add A_NORMAL for animation: 1, 5, 6, 15, 19, 20, 45, 69, 93, 134, 143, 145
+
+2014-02-07
+- BUG logic AI will use (156)sever ties to target a enemy when protector
+  exists
+- BUG (157)bad santa : when there are 4 cards on hand (include this
+  bad santa), using this will only get up to 7 cards
+  note: card is used _after_ the ability is triggered
+  note2: simply make the ability
+- fix play_cmd() that allow ability before sacrifice phase
+- fix (32)Aldon, +1 attack for him
+
+2014-02-06
+- @reload : ready for reload the db design
+- add AI in design
+- fixed : out_game, dbin_solo
+- move all testing eid to 500+,  reserve 100 or below are for AI
+  @see MAX_AI_EID
+- need to refresh: db-init.sql, db-design.sql
+
+2014-02-01
+- TODO need to ALTER t1 mysql for evil_card/deck to avoid clear the database
+  vi macro:
+  ALTER TABLE evil_card CHANGE c11 c11 TINYINT(1) UNSIGNED NOT NULL DEFAULT 0;
+  macro record:
+  (cursor on ALTER):  q a y y p / c[0-9] ENTER Ctrl-A n Ctrl-A q
+  macro replay:
+  10 @ a
+- fix an issue in SQL_BUY_CARD, to check gold and crystal in WHERE clause
+- TODO add c%d > 0 check on SQL_SELL_CARD and c%d < 9 on SQL_BUY_CARD
+- BUGBUG: buy card will return affected row = 1 when c21 is NULL
+  c21 = c21 + 1 -> not affected  (MYSQL 5.1.54 on mac)
+- update db-init.sql : change evil_card and evil_deck columns
+  to NOT NULL DEFAULT 0 
+  avoid NULL case which got a bug in buy card
+
+2014-01-31
+- TODO list_replay (in:eid, out:list of gameid, eid2, winner), 
+  load_replay gameid
+- TODO: use dbstress
+
+2014-01-29
+- DONE save_replay, it comes with win_game()  dbin_win_param()
+- DONE refactor the whole dbio() dbin_* function NEED TEST!
+- TODO save_replay, list_replay for new dbio
+- fix signal handling for windows change (SIGWINCH = 28) which kills program
+- nio.cpp: main() when running in gdb environment, argv[0] will be
+  long path with /Users/xxx/.../nio,  normal run will be ./nio or nio
+  use it as a fact for running within gdb or not.
+  when running in gdb, do not catch SIGSEGV etc signal.
+  out of gdb, we catch all SIGSEGV etc signal and report die by handle_fatal
+- CHANGE: ver [logic_ver] [server_ver]
+  client can do:  check local logic_ver with server logic_ver, if
+  local_logic_ver != server_logic_ver, go to update UI
+
+2014-01-28
+- dbio:refactor phase 1 : console_main() gives an example of
+  main <-> dbio communication using a "short" num to pass db_buffer
+  from one to another.
+- logic.lua:  fix AI bug on retreat, < 0 weight play
+  supernova: weight calculate incorrectly, fixed
+  TODO tidal wave  (to test use: ailist)
+  add debug.traceback() in BUGBUG case (print function override)
+- stress_reg 299 
+  WARN -1 dbout:conn->state_0 cid=3 nio.cpp:5523: errno 35  2014-01-28 23:52
+  note: errno 35 is EAGAIN
+  ----
+  ERROR 1 client_reg:fgets_null stress_reg.cpp:134: errno 54  2014-01-29 00:00
+  note: errno 54 is ECONNRESETA connection reset by peer
+
+
+2014-01-27
+- logic.lua : fix wizend stuff and tome of knowledge, when #deck > 0 and
+  #deck < MAX_HAND_CARD (7)  return true : validate
+- update lang_zh.lua for cost and energy description.
+
+2014-01-26
+- TODO re-write dbio() to use read/write, do not use fd
+  as it is unreliable in bulk data transfer, need to separate \n 
+  and merge data from last buffer (every read count!)
+- New design between nio and dbio:  nio <-> dbio
+  DB_TRANS_MAX 50
+  DB_BUFFER_MAX  (as before ~= 3000)
+  char g_db_buffer[DB_TRANS_MAX][DB_BUFFER_MAX];  // extern in evil.h
+  int g_db_free = 0;
+  init:  g_db_buffer[*][0] = 0;  g_db_free = 0;
+
+  nio -> dbio : 
+  g_db_buffer[0=g_db_free] = "0 1 x x"  (null-term)
+  index = g_db_free;
+  g_db_free ++;  if g_db_free >= DB_TRANS_MAX then g_db_free = 0
+  char str[2];  str[0] = index & 0xff;  str[1] = (index >> 8) & 0xff;
+  write(fd, str, 2) to socket  (5 bytes, include '\0'  good for 9999 concurrent)
+
+  next write: (when dbio not yet finished the last one)
+  need: check g_db_buffer[g_db_free][0] = \0  if NOT == \0, overflow!!!
+  g_db_buffer[1=g_db_free] = "... db command"
+  g_db_free ++;  if g_db_free >= DB_TRANS_MAX then g_db_free = 0
+
+  dbio:
+  read(fd, str, 2);  always read 2 bytes
+  index = str[0] | (str[1] << 8); // beware 0000 treat as octect?
+  if (index < 0 || index >= DB_TRANS_MAX) BUG_PRINT
+  if (g_db_buffer[index][0] == 0) BUG_PRINT 
+  in_buffer = g_db_buffer[index]
+  out_buffer = g_db_buffer[index]  // shared!
+
+
+2014-01-25
+- nio.cpp:  major change on connect_t insertion for DBIO and LISTEN fd
+  so that theoretically there should be no (connect_t *) 0 in the fdwatch()
+  except error case (which is still there!) - look at fdwatch_del_fd()
+- nio.cpp: dbin_login : write a sample dbin_write() which can be used for
+  all dbin_*()  simplify dbio implementation
+- @dbrestart:  for restart the dbio thread(s)
+- fix error in dbio() when mysql stop and start again : my_reconn() major  
+  change, so that we can still work on db after stop / start 
+  if @dbrestart execute during mysql stopped , after mysql start,
+  @dbrestart should be called again to restart the whole thing.
+- testcase 1:  nio 1 -> mystop -> telnet 0 7710 -> log x x (error) ->  q ->
+  mystart -> telnet 0 7710 -> log x x (should be ok) -> q 
+- testcase 2:
+  nio 1 -> telnet 0 7710 -> @dbrestart -> log x x (ok) -> q
+  -> mystop -> telnet 0 7710 -> log x x (error) -> @dbrestart (BUGBUG) 
+  -> log x x  (err:dbio_down) -> q 
+  -> mystart -> telnet 0 7710 -> log x x (still error) -> @dbrestart
+  -> log x x (OK)
+- @cccard : replace cccard, using dbio
+
+- TODO: timeout mechanism for ST_GAME, similar to dbio, 
+nio (logic.lua:turn, nio:gameid) -> dbio -> sleep(GAME_TIMEOUT) 
+-> feedback to nio -> out_timeout() check: gameid, turn
+if still that turn, auto-send "n" (next), over 100 turns: draw_game
+
+2014-01-23
+- add db_design.cpp for load shop
+- add in_buy_card in dbio.cpp
+- add database design for card shop
+- add card_t in evil.h
+- nio use "shop card_id size" and "buy card_id money_type"
+- add in_sell_card
+- in:shop card_id size	
+  out:shop count loop(card_id, gold_buy, gold_sell, crystal_buy, crystal_sell)
+- in:buy card_id money_type	
+  out:buy err_code card_id money_type gold_offset crystal_offset
+- in:sell card_id money_type	
+  out:buy err_code card_id money_type gold_offset crystal_offset
+
+
+2014-01-23
+- fix warning in dbio.cpp : load_deck  >= 4 should be > 4
+- TODO tcp keepalive
+  http://www.tldp.org/HOWTO/html_single/TCP-Keepalive-HOWTO/
+- TODO openlog() @ref thttpd.c :
+   cp = strrchr( argv0, '/' );
+    if ( cp != (char*) 0 )
+    ++cp;
+    else
+    cp = argv0;
+  openlog( cp, LOG_NDELAY|LOG_PID, LOG_FACILITY );
+- TODO nio.cpp:main()   dbio_check
+- done todo save_deck, savebug,   status not updated
+- client: room:  savebug
+  goto main menu  (回放) ->  选一个 bug*.txt -> 保存 
+- dbin_win_param (changed win_game)
+- db_conn.cpp : add a BUG_PRINT(-888) in safe_mysql_real_query()
+  make sure we don't use db_conn.cpp 
+  note: save_deck is not implemented!!!
+- win_game (old statistics)
+x, y
+,   ( 47, 10, 1118, 508, 118, 0, 0,   100, 70, 20, 7, 3)
+,   ( 48, 10, 1319.22, 509, 119, 0, 0,   100, 70, 20, 7, 3)
+
+y fold:
+x: 47:  1142.352848		diff:  24.352848
+y: 48:  1294.867152		diff: -24.352848
+--------
+x fold:
+x: 47: 1110.352848		diff: -7.647152
+y: 48: 1326.867152		diff:  7.647152
+-------------
+- quick game and solo : when the game start, they all have a specific
+  room, in specific channel:  CHANNEL_QUICK and CHANNEL_SOLO
+  the out_game() only send back the room info, let the client
+  send 'ginfo' to retrieve game data
+  this is necessary because client does not have the room info
+- st=15 : means room->deck[x] must be filled up
+  ST_GAME : already inited room->deck
+- (st=0) log -> (st=5) room create(st=10)
+- log -> solo (st=10, st=15?) -> room 2 1 15 49 z 1 _off_ -> ginfo
+- log -> quick -> room 0 1 15 47 x 48 y -> ginfo
+-----------
+- log ST
+- reg ST 
+- solo ST
+- room ST
+- sta ST 
+---- ginfo game
+----------
+- reform: all cmd is not sent in the process_command phase
+  TODO :  all function in ST_ROOM, ST_LOGIN, ST_ADMIN require 
+  sending cmd
+- log / reg should return "st" at the beginning and the status number after username
+  alias, lv, rating, gold, crystal, win/lose etc.
+- db-init.sql :   TABLE evil_replay   field win -> winner
+  ALTER TABLE evil_replay CHANGE win winner INT(1) NOT NULL;
+- evil.h : move most of the #define from dbio.cpp to evil.h IN_xxx_SCAN / PRINT
+  OUT_xxx_SCAN / PRINT
+- nio.cpp : out_xxx() start to implement
+- sysctl -A
+  kern.ipc.maxsockbuf: 6291456
+- dbio.cpp:  in_game() for loading 2 deck from database for starting game
+- testing dbout()  out_register() ready, try:
+  dbout 1 1003 bbb ppp bbb 1 1000.000000 100 0 1 2 10 4 3 2 1
+- from nio to dbio:  cid dbtype [in_buffer]
+  from dbio to nio:  cid dbtype [out_buffer]
+  ??? shall we use text cmd for dbtype?  or integer?
+  dbtype:  0=test  1=register, 2=login  (DB_REGISTER, DB_LOGIN)
+  process_command() accept "dbout dbtype [out_buffer]" for testing
+  dbin dtype [in_buffer]
+  in_list = {in_list, in_register(), in_login ... }
+- fdwatch_add_fd( g_main_fd[i], NULL, FDW_READ )
+- game_init() : db_load_card()
+- save/load deck: 
+- save / load card
+- db_win() merge with db_draw()
+- dbproxy.cpp : dbproxy(void *) thread and dbproxy_* for actual
+  function
+- nio.cpp: processor_command(char *cmd)  dbproc() for short
+  space separated cmd
+  dbproc_register / dbproc_login / dbproc_load_card / dbproc_save_card
+  first parameter is the conn_id (get_conn_id(conn))
+  second parameter is the error code ( >=0 is OK)
+  after that, it is space separated data
+  typedef dbresult_struct struct {
+  	void * var_ptr;
+
+  } dbresult_t
+  e.g.
+  { var_ptr,  var_type(int, char*, long etc), var_len (for string, max) }
+
+现在服务器有几个严重问题：
+1. 改动为 dbproxy ， 不是全面把所有的 db 功能都放入 dbproxy 线程， 导致分开了主线和 dbproxy 两个可能同时处理数据库的问题， 原来的设计是单线的 db_conn.cpp 会变得不可靠， 必须恢复为单一线处理数据库
+2. 多线程下的 hash map 处理会可能出现错误，  包括 g_user_index, g_user_room map<int, room_t*) 等全局变量， 会在主线和dbproxy 线修改， 导致同时 insert / erase 等情况发生， 可能会让服务器崩溃或内存错乱
+
+这个问题可以把 dbproxy 独立作为一个 cpp, 之后防止任何对 nio.cpp 内的变量改动， 如果有需要改动， 必须是以 dbproxy unix socket 通知的方法， 可以完全避免使用 mutex lock 等比较慢的技术，  但是 nio 的逻辑会较为复杂
+
+logic BUG:
+- BUG retreat + haste(portal) : the retreated card (was not_ready), cannot
+  attack when portal is here
+
+2014-01-11
+- (32)Adon add trigger_turn_start() to add power buff, power buff use virtual attach card
+- fixed after 429 : BUG (32)Adon + (200)dagger of umaking
+  when Aldon is back to hand, the +1 attack is still there
+  Aldon : trigger_die - power_offset, should be trigger_other_remove
+- Holy Shield(97) on Earthen(39), when other friendly ally killed, can't be save
+- TODO test change_base_hp() 39, 39, 40, 54, 58, 60, 140, 165, 173 
+- fix ai for (132)retreat: retreat my ally will be negative
+- fix ai (21)jasmine:  always return -9999, define -9988, -9977 as magic err
+  function weight_one_play:   need to check ability before ai_weight_attack
+    if src.ctype==ALLY and src.table==T_ALLY and ability~=true then
+		weight = ai_weight_attack(src, atl, pside, sss, ability);
+		return weight;
+	end 
+  TODO : write custom ai for jasmine, now it is using general
+
+2014-01-10
+- TODO make sure database UPDATE for eid=2 !!!
+- TODO ai of nishaven should consider use ready ally to attack oppo hero
+  before using thunder bomb
+  and cast hand ally _after_ the bomb
+- TODO need test:
+  list_ability_target()
+  action_attach()
+  action_virtual_attach()
+  (39)Earthen, (181)Mournblade, (60)Ogloth
+- BUG ? (39)Earthen Protector trigger twice (2 times) on death, 
+  (181)Mournblade, (60)Ogloth will + 2 times
+  also, EFF effect on the saved ally is incorrect, 
+  EFF hp, offset=2, index=1302, |
+  should be hp offset = 2 + original HP
+
+- DONE logic.lua (2)amber the female warrior is done (need test!)
+  the virtual card (1002) is implemented too. note: virtual card
+  can be replaced, but attack+2 does not add up (always+2)
+  note2: (183)berserker edge will + attack after (2)amber skill,
+  it may be good to change 
+  (183)Berserker edge   (181)mournblade  will gain bonus from its skill
+  and (2)amber skill
+- interesting jira note: on (200)dagger of umaking, (126)mind control
+  mc target will not be killed and will return to owner's hand
+  http://dev.wulven.com:8080/browse/SE-474
+  http://www.shadowera.com/showthread.php?17489-Mind-Control-Dagger-of-unmaking
+- delete eff_draw(), use eff_win() side=9 for draw game
+- use action_power_offset()\action_power_change() for all power change eff
+- add eff in action_attach, to show hp or power change
+2014-01-09
+- fix (35)priest of light:  -energy (only effect), using action_energy()
+- action_power_offset() change card.power_offset,   
+    for war banner, kurt whitehelm
+  action_power_change() : change card.power (base attack)
+    for (60)ogloth (40)aeon(skill) (31)raven  (39)earthern  
+- TODO need to check:  change_hp() for (40)aeon, (39)earthern, (34)katrin
+  (173)Plate Armor  : because it may change "max_hp" for heal later
+  e.g. change_hp :
+  if self.hp > self.max_hp  : self.max_hp = self.hp
+- nio.cpp: non_thread_safe:  g_user_index (hash map with 2 threads access)
+- fixed:
+  BUGBUG dbproxy_login:room_not_null eid = [1022] nio.cpp:5676: ret -77 errno 0
+  log x x
+  room 2
+  log y y   <--- this will trigger this bug
+  @see do_clean and relogin logic for bug fix
+- re-factor fatal.h :  include timestamp on ERROR, BUGBUG, WARN, INFO
+- remove assert(size < 0) in nio.cpp : do_send()
+
+2014-01-08
+- change job = job + camp, e.g. HUMAN(256) + WARRIOR(1)
+  to get pure job:    pure_job = job % 256
+  to get camp:        camp = job - (job % 256)
+  SHADOW = 512, so : 512 % 256 = 0
+- add job_map chinese in lang_zh.lua
+
+2014-01-07
+- change logic.lua : 'ai' to use ai_cmd_global() and play_cmd_global() 
+  just like nio.cpp, try to simulate the crash
+- BUG: (150) sacrificial lamb : deathbone and brutal minotaur does not feedback
+  damage on kill ( TODO need to check in real game)
+- done: action_drawcard() is now limited to 7 cards
+- TODO logic.lua : get_hp use cc.attach_list
+  TODO luajit lj_record.c check_call_unroll() 
+  if (frame_iscont(frame)) depth--;
+- cli.cpp: test3() simulate crash on check_call_unroll() in luajit
+  update to use hostname:  cli 99 t1.17kapai.com
+
+2014-01-06
+- peter: logic.lua: add (162) snow sapphire, fix (177) twice enchanted robe
+  which draw card on damage (not attack/defend) : also need to check T_DECK
+  is empty or not
+----
+- logic.lua: add eff_draw(), win=3 is draw game;
+- db_conn.cpp: add db_draw()
+- nio.cpp: win=3 is draw game
+
+- TODO:logic.lua play_cmd_global(), if don't print g_current_side will bug!
+2014-01-05
+- SUSPECT: logic.lua : 11257 : get_ai_play()
+  return 'n'  (was : return nil, sss, phase)
+
+  
+- update to luajit 2.0.2 with assertion on for testing!
+  both mac version and linux version
+- NOTE: using a new libluajit.a  (with debug mode ON)
+  turn on luajit debug mode
+  LuaJIT-2.0.1/src/Makefile
+  LUAJIT_USE_GDBJIT,  LUA_USE_APICHECK, LUA_USE_ASSERT
+
+------- gdb SIGSEGV trace  (gdb after segv run: bt )
+#0  0x0000000000449fa1 in check_call_unroll ()
+#1  0x000000000044e157 in lj_record_ins ()
+#2  0x000000000042dcd3 in trace_state ()
+#3  0x000000000043663c in lj_vm_cpcall ()
+#4  0x000000000042e2ed in lj_trace_ins ()
+#5  0x0000000000423ca4 in lj_dispatch_call ()
+#6  0x0000000000437d3c in lj_vm_hotcall ()
+#7  0x0000000000425ff0 in lua_pcall ()
+#8  0x000000000040d3bb in ai_play_once (conn=0x694cd8) at nio.cpp:2947
+#9  0x000000000040df94 in ai_play (conn=0x694cd8) at nio.cpp:3026
+#10 0x000000000040e550 in play_cmd (conn=0x694cd8, 
+--------
+- server error: SIGSEGV (11)
+[2301:attack]Puwen Bloodhelm     ( 26)ally     cost:2 power:2  HP/max: 1/3
+Target(s):
+HERO:[1101]Hero:Zhanna Mist(PRIEST)            HP:24/26  power:0  energy: 3/3
+effect list: #eff_list=2
+    EFF card, id=26, index=2301, |
+    EFF damage, target_index=1101, power=2, dtype=1, src_index=2301, atype=0, |
+^[[36mDEBUG AI PLAY CMD OK: [t 2301 1101]  win=0 nio.cpp:2997: ret 0 AI PLAY CMD OK: [t 2301 1101]  win=0^[[0m
+CLUA : get_int : 2(g_current_side)
+^[[35m^[[4mBUGBUG signal_fatal nio.cpp:5400: ret 11 errno 0 ^[[0m
+fat__room(2,1): num_guest=2 title=x lua=yes gameid=1388920014195280 seed=5281 create_time=1388920014
+---- fat__total_game 1 -----
+fat__room(2,1): title=x eid1=43 eid2=6 gameid=1388920014195280 seed=5281 create_time=1388920014  cmd_list.size=21
+__fat__cmd[0] = s 0
+__fat__cmd[1] = n
+__fat__cmd[2] = s 2204
+__fat__cmd[3] = n
+__fat__cmd[4] = s 1206
+__fat__cmd[5] = n
+__fat__cmd[6] = s 2205
+__fat__cmd[7] = b 2203
+__fat__cmd[8] = n
+__fat__cmd[9] = s 1203
+__fat__cmd[10] = b 1201
+__fat__cmd[11] = n
+__fat__cmd[12] = s 2203
+__fat__cmd[13] = t 2301 1101
+__fat__cmd[14] = b 2204
+__fat__cmd[15] = n
+__fat__cmd[16] = s 1207
+__fat__cmd[17] = b 1204
+__fat__cmd[18] = n
+__fat__cmd[19] = s 2203
+__fat__cmd[20] = t 2301 1101
+^[[34mINFO handle_fatal shutdown with signal 11 nio.cpp:5440: ret=0 2014-01-05 19:15 ^[[0m
+- zeus (nishaven) solo warrior bug, server crash
+- SIGBUS , SIGSEGV ref:
+  http://www.gnu.org/software/libc/manual/html_node/Program-Error-Signals.html
+
+2014-01-03
+- logic: add Defender logic
+- nio.cpp add admin_cccard() for ST_ADMIN, a cheat coder
+  cli can call "cccard card_id card_num"
+2014-01-02
+- logic: add new card(31, 40, 50, 52, 53, 139, 175, 177, 184, 189)
+  add action_virtual_attach(), action_cast_target()
+  TODO add Defender logic
+- TODO do_batch_command() should classify ADMIN command, and do immediately
+  e.g. q, quitall, info etc.
+- nio : do_batch_command()  reset db_flag=0 for database jammed for 3 seconds
+  note: db_flag is now 0 or time(NULL) (seconds from 1970)
+  to test: db_conn.cpp:db_register_user()  sleep(10),  
+  telnet 0 7710 :  reg boy boy  \n  info \n info \n (just repeat this up to
+  3 seconds)
+- logic: better error message in play_ability() error
+
+2014-01-01
+- fix (5) nishaven ai issue : killing my ally will reduce the ai weight
+  add dtype = D_ELECTRICAL for nishaven
+- change WEIGHT_ENERGY to -100, so energy is not so important
+- logic.lua : add 'ailist' to show all weight and ai play
+- logic.lua set unique = true :
+  (39) Earthen protector and (32) Aldon (60) ogloth
+  done: implement unique @see check_ally_duplicate
+- logic.lua (94) ice storm, trigger_target_validate check #oppo_ally<=0
+  return false else return true
+- logic.lua play_ability() remove check on #eff_list == 0, treat as normal
+  ai may cast (96) resurrect when #grave = 0, the trigger_skill return empty.
+  also change (96) trigger_target_validate() to return false when #grave = 0
+  ref:
+[2201:ability]Resurrection        ( 96)ability  cost:3 power:0  HP/max: 0/0 
+Target(s):
+DEBUG resurrect(96) total ally in grave: 	0
+ERROR ability not execute err=	nil_err
+ERROR play_cmd_global err=	nil_err
+ERROR nio.cpp:2967: ret -18 errno 0 ai_play_lua_error nil_err
+- fix nio.cpp : on deck_majiya in standard deck
+
+2013-12-31
+- new_room:  will report time for the room creation
+- change all runtime FATAL_(NEG_)EXIT to BUG_(NEG_)PRINT
+  only initialization will exit on FATAL 
+- ERROR nio.cpp:1044: ret 1974 errno 0 lua_magic_error
+- play_cmd_global() may have some error, that trigger ai error
+- when lua_pcall has an error, we should pop 1 from stack, and return!
+  @see lua_error
+
+2013-12-28
+- BUG: frozen (1006), cast on same target in 2 turns (consecutively),
+  the turn timer is the old one (should be the new one)
+- consider to use action_virtual_attach(target, pside, ac_id, src, replace_flag)
+  where:  target is the target card (e.g. puwen)
+  pside = g_logic_table
+  ac_id = virtual attach card id (eg. 1006), it will clone a copy
+  src   = damage src (or who trigger this attach)
+  src MUST not be null
+  replace_flag = true : if duplicate replace the original virtual attach card
+  AND remove all _call_ to card_attach, card_attach should be called
+  by action_attach and action_virtual_attach only
+- win report BUG :  holy shield (97), Inner Strength (92) 
+  and healing touch(91) : ON HERO
+  healing touch may remove holy shield or inner strength
+  ??? holy shield only last for one round!!
+  TARGET ON HERO
+- CHANGE register process, use direct INSERT to do register, 
+  when alias is empty, use _$(username) 
+  @see db_conn.cpp   db_register_user,  db_alias
+  use INSERT ... WHERE eid = xxx AND alias LIKE '\_%'
+  to check it is visitor (no alias)
+- remove hp, power for support card (155), (156), (159), (160)
+- fix logic : remove hp and power in (155) bazaar
+- BUG quick : 500 difference (win, ruru)
+- fixed: admin_kill [my_eid] will trigger bug
+- CHANGE: nio.cpp server will not clean room until all users leave
+  or game finished.  solo game can have re-conn logic.
+- allow quick game to have watcher
+- fixed (144) shriek of vengence bug:  ctype ~= SUPPORT should
+  not be used, because this card can destroy all items, support
+  , artifact.  also add cost 4 or less validate
+- minor code cleanup
+
+2013-12-27
+- change to fgets (\n model) :
+  dbproxy:receive ,  sys_login:send, sys_register:send
+- add setsockopt TCP_NODELAY 1 @see handle_accept
+- add daemon(1, 1)  and some apple specific code
+- about fflush() in fatal.h : another way to disable i/o buffer
+  @see http://www.gnu.org/software/coreutils/manual/html_node/stdbuf-invocation.html
+- BUG (144) shriek of vengence: cannot destroy Bazaar
+--- 
+- nio.cpp : fix conn->read_buffer issue, now support: @see cli.cpp (33-35)
+  sock_send(log x x\nsta\nsta\n");
+  sleep(1);
+  sock_send(log y y\ninfo\ninfo\n");
+  sleep(1);
+  sock_send(log z z\n");
+- read_buffer can be appended in two fdwatch() session, and clean up if
+  db_flag = 0
+- main loop : no more busy waiting when db_flag = 1
+- main loop : EAGAIN for fdwatch_check_fd()
+- logic.lua : add 5th version cards (21, 24, 29, 49, 60, 140, 146, 150, 160, 176)
+  
+
+2013-12-26
+- refactor : nio.cpp, evil.h, fatal.h 
+- change dbserver logic, @see INIT DB SERVER
+- update the shutdown() to wait for db thread and close g_main_fd
+- @see cli.cpp : init_command : 33, 52 
+- TODO need fgets() for the dbserver() thread
+
+2013-12-25
+- TODO rename: 
+  handle_db : dbserver_main()  dbserver_login, dbserver_register
+  dbclient_send(int cid, int ptype, buffer);
+  e.g. dbclient_send(get_conn_id(conn), DB_LOGIN, buffer);
+  sprintf : "%d %d %s"  -> send to unix socket
+
+2013-12-24
+- DONE refactor : play_cmd_global -> play_cmd -> play_validate -> play()
+- fixed: (151) Rain Delay hero cannot attack bug,   
+- fixed: (152) Drain Power, cannot attach bug, because check_playable() with 
+  ability=true (from hand is consider as ability=true) will check the card.no_ability
+- fixed: ARTIFACT duplicate bug,  e.g. (155) Bazaar can have 2 copies in support
+  @see check_support_duplicate(),  check_playable()
+- play_cmd(cmd, pside, sss, phase) :  return eff_list, sss, phase, err
+- play_cmd_validate(cmd, pside, sss, phase)  return true|false, reason
+- play(index, atl, pside, s, ability) : return eff_list, err
+- play_validate(index, atl, pside ,s, ability) : return true|false,  reason
+- note: play_cmd_global(cmd) is same as play_cmd() except it use global variable instead
+  of passing parameter (g_logic_table, g_current_side, g_phase)
+- add pthread for handle_db ,now log & reg use it 
+- add read_buffer, db_flag to connect_t
+
+
+2013-12-23
+- update updatet1.sh : update t1.17kapai.com 211.149.186.201
+- BUG rain delay: hero should be able to attack
+- BUG 155(bazzar) : ai will put 2 x 155 in support
+
+2013-12-22
+- gchat_queue.cpp : need to change .c
+- TODO room_t store game_t
+- done: CMD: replay x y 
+
+2013-12-21
+- replay:  db_conn.cpp db_load_replay
+  db_conn:  test16, test21 for db_load_replay  (eid1=47 'x', eid2=48 'y')
+  TODO put a real replay data in db-init.sql for x, y
+- fix Makefile for CentOS linux (libmysqlcient.so.16)
+
+2013-12-20
+- sdebug, ldebug implement, see protocol (capital letter)
+  @see db_load_debug() db_save_debug()
+- logic.lua: get_standard_deck_array() which is similar to get_standard_deck()
+  but the result is a 400 character array
+- sys_ver:  first number return is total online user
+
+2013-12-17
+- do not let the user to drag a card.cost > resource
+  @see logic.lua : list_ability_index()
+- add $Rev$ in nio.cpp :  sys_ver()  to show the server version
+- after login: auto do "sta"
+	evil_user_t * user = &(conn->euser);
+	ret = db_load_status(user);
+- sys_register() add init_euser_sta()  before saving it to database
+
+2013-12-16
+- lang_zh.lua unable to update the client
+  /Users/peter/Library/Application Support/iPhone Simulator/7.0.3/Applications
+  there are simluator instance, we must remove:
+  logic.lua lang_zh.lua
+  from these instance, or remove the whole instance for debug!
+- 自动加上revsion number 和 Id 信息: http://victorwmh.iteye.com/blog/907012
+  logic.lua :  REV_STR = $Rev$
+  need to run this once:
+  svn propset svn:keywords "Rev" logic.lua
+  ONLY use this in evil_server, do not use it in evil_client
+  such that the logic.lua revision always follow one copy (the other
+  copy is always read-only)
+
+2013-12-14
+- fix linux version server :  Makefile  -ldl -lpthread put them at last
+  in g++ 
+- remove unless file: temp.sh, TODO-nio.txt, dbmake, nmake, out.txt, strnlen.c etc. 
+- refactor to use luajit 2.0.1 (5.1 compatible except random)
+  server / client use the same engine and can use real random now
+- Makefile: refactor for luajit:  -pagezero_size 10000
+- update: lua.h, lualib.h, luaconf.h, lauxlib.h from luajit
+- nio.cpp : fix issue on random number on custom room game
+- logic.lua:  use math.random() now  
+
+2013-12-13
+- luajit: INFO: LUAJIT_TARGET 2  LJ_64 1
+- luajit Makefile:  g++ -pagezero_size 10000 -o output input.cpp libluajit.a
+- nio.cpp: cmd_solo(),  ai_play(), ai_play_cmd()
+- logic.lua: ai_cmd_global
+- add ctype ARTIFACT, kind of support
+- change ctype to ARTIFACT:Tome of Knowledge(76), Good Ascendant(136), Evil Ascendant(145), Bazaar(155)
+
+
+2013-12-12
+- fix card_remove bug on attachment,   e.g. attach_list = {23031, 23032 }
+  when remove 23031, 23032 will become 23011 (pos is updated instead of attpos)
+- fix (56) cobra demon, (57)Molten, damage src issue, which was hero
+- fix holy shield no timer issue
+- refactor : get_xxx in card_class, use standard v, key:
+  e.g. get_haste(self, key)
+  ac.c[key] fix   - attach must use real card ac.c
+- print_card() : print status Am=ambush, Di=disable ...
+- fix campfire(135) : ab_power missing
+- solo : draft test
+	log x x
+	log 18 5 x
+	solo
+	solo 0
+	room 2 1 15 18 x 1 _off_
+	ginfo
+	ginfo 1 0 1315 10000000000000000000022003210300000000000000000000000000000020221120220000000000000000......
+
+
+2013-12-11
+- TODO solo [hero_id]
+- TODO random seed 
+- TODO New user deck : server database db-init.sql
+- add error message when buffer overflow
+- BUG on client highlight:
+[LUA] DBEUG check target  table ehl is nil 
+[LUA] DEBUG remove_hl remove table hl
+- retreat(132) a card with attach, freezed, retreat back to my hand
+  note: anim.lua:2373
+          local tsprite = front_card.card_sprite; -- was: tar_card.card_sprite
+- HTC 609D : in game, AAA: lock the screen, opponent BBB: play cmd, next, 
+  AAA unlock the screen, the screen will be frozen (对手操作阶段)
+- sac UI : drag up and down (back to hand section), and then drag to the
+  sac section, it will fail
+- in game, server restart, the client will freeze in the game UI
+  press 退出  (fold):  error message:
+  >>>>> after select ret=1
+  [LUA] DEBUG == net_receive 	fold -8 not_enough_st 5 < 15
+  since the game is finished, it is no longer in game (st 5 = login'ed)
+
+
+2013-12-10
+- logic.lua : list_attack_target() need to check source.power > 0 ?
+- 
+- all empty alias use VISITOR_ALIAS : "_visitor_"
+- note: even eid is offline (conn==NULL), we should
+  do: g_user_room.erase(eid); // re-conn logic, must before null check
+- fixed:  bug on server:  AAA, BBB on game, BBB disconnect
+  AAA fold - room should be cleaned, BBB re-conn, login
+  BBB will be in room (bug)
+debug nio.cpp:2510: ret 37 win_eid_offline
+debug nio.cpp:4366: ret 7 ACCEPT from 116.21.98.188:43437
+bug nio.cpp:3625: ret -7 errno 35 login_room_state_0
+- AAA:  
+  log x x
+  room 1
+  BBB:
+  log y y
+  room 1 1
+  AAA:
+  game
+  BBB:
+  ----- force quit ---- telnet close
+  AAA:
+  fold
+  debug nio.cpp:2510: ret 19 win_eid_offline
+  BBB:
+  ----- re-connect: telnet 0 7710
+  log y y
+  room 1
+  room -6 room_has_room_1
+  bug nio.cpp:3625: ret -7 errno 35 login_room_state_0
+- BUG server restart: cannot clear the login 
+- add admin command: 
+  online [username] [alias] --- list all online user matching [username], [alias]
+  kill [eid]  ---- kill user connection with [eid]
+- increase BUFFER_SIZE to 4000 (was 2000)  
+
+
+2013-12-09
+- add comment on nio.cpp : for gchat
+- fix db_conn.cpp : test 6 : error 1436, need thread_stack=256k
+- add sleep in db reconn retry
+-----
+- note:  after connect, we init the gchat_ts, so after login, we 
+  may have more chat message that is > connect and < login
+  best:  login/reg:  init gchat_ts again
+- alias:  if empty, gchat will use "_visitor_" name
+- TODO do not allow _xxx_ as alias
+- remove connect_t.id  : conn->id  == get_conn_id(conn) 
+- done todo : conn = new_conn() and free_conn(conn)
+- refactor: new_conn(), free_conn() and handle_newconn
+  handle_accept.   less debug message for lcard
+- fix db-init.sql to include card and deck for common user:
+  peter, masha, kelton, win,  all password are the same "1"
+
+ 
+2013-12-07
+- TODO check how to change mysql server timeout (client connection 
+  auto-disconnect after idle for some time
+- done todo db_conn.c : refactor all mysql_real_query and mysql_query
+  to safe_mysql_real_query, safe_mysql_query
+  when the g_conn is invalid
+  NOTE: need to check the error code for connection error
+  disconnected or whatever : retry 3 times! 
+  http://ycool.com/post/g22e5j5
+  如果连接闲置8小时 (8小时内没有进行数据库操作), mysql就会自动断开连接
+  wait_timeout=28800  (seconds, this is default, 8 hours)
+  ref:
+ DEBUG nio.cpp:4292: ret 6 ACCEPT from 127.0.0.1:53067
+ ERROR db_conn.cpp:808: ret -55 errno 35 db_login mysql_errno 2013
+ ERROR nio.cpp:3537: ret -55 errno 35 log_db_error
+ DEBUG nio.cpp:4260: ret 0 do_send:done
+ ERROR db_conn.cpp:808: ret -55 errno 35 db_login mysql_errno 2006
+ ERROR nio.cpp:3537: ret -55 errno 35 log_db_error
+ ref:  2013, 2006 need re-connect
+ http://blog.sina.com.cn/s/blog_5f66526e0100t8hj.html
+
+
+2013-12-06
+- done: gchat=global chat , rchat=room chat  (was chat)
+  @see gchat and rchat in protocol(capital letter) section 
+  @see gchat_add(const char * msg)
+  @see gchat_get(int ts)
+
+2013-12-05
+- BUG:  when mysql is stopped and started again, nio server will break!
+  need to do auto-re-connect
+- done fixed logic.lua fireball(71) no damage issue: power -> ab_power
+- TODO write INSTALL under evil_server
+- gchat_queue.c -> gchat_queue.cpp 
+- gchat_queue.cpp done, tested for QUEUE_MAX=6
+- update nio.cpp (not yet finished) to include gchat_ts in connect_t
+- TODO gchat_add() for cmd_gchat()
+- TODO do_send(): if conn->gchat_ts < gchat_head_ts() : conn->gchat_ts = gchat_head_ts()
+  if conn->gchat_ts < gchat_tail_ts() then
+      msg = gchatgchat_get(gchat_ts) 
+      write(... msg ...)
+      conn->gchat_ts ++;
+  fdwatch: after N times loop or timeout (100ms)
+  check all conn->gchat_ts < gchat_tail_ts() : FDW_WRITE
+  
+
+2013-12-04
+- nio.cpp : standard deck ready: 1, 5, 6, 8, 15, 19, 20
+- gchat_queue.c : round-robin, fix size queue, auto-truncate by half
+  when full,  with timestamp facility
+- TODO consider database thread for performance
+
+2013-12-03
+- TODO chat re-write : chat is for room channel, gchat = global chat
+  gchat hello
+  gchat hello
+  gchat_queue[ts -> msg]  : can be vector ?  easy to truncate 
+  (first half)
+  gchat_timestamp = xxx  (timestamp of first element in queue [0])
+- done: add EVIL_ prefix for USERNAME_MAX, PASSWORD_MAX, 
+  ALIAS_MAX, CARD_MAX etc (in evil.h).
+  now, all XXX_MAX become EVIL_XXX_MAX, which is in evil.h
+  all MAX_YYY are in nio.cpp
+- done: remove len parmaeter in chat
+
+2013-11-29
+- db_conn.cpp :  add test17, test18 for reading and writing chinese UTF-8
+  to/from database
+- nio.cpp : add init_euser_sta() for new register user initialize
+  lv, gold, crystal, etc.
+- nio.cpp : remove checking on alias sys_alias() -> check_name()
+  which does not accept chinese character
+- LANG add logic_zh.lua, lang_zh.lua :  (search LANG tag)
+  logic_zh.lua :  dofile('logic.lua');  dofile('lang_zh.lua') 
+  which support chinese name and skill_desc
+  @see cli.cpp : luaL_dofile(g_lua, "logic_zh.lua")
+- modify cli.cpp to support chinese name, skill_desc
+- ref: mysql charset:
+http://stackoverflow.com/questions/1049728/how-do-i-see-what-character-set-a-database-table-column-is-in-mysql
+peter:  (in mysql console)
+SELECT default_character_set_name FROM information_schema.SCHEMATA S WHERE schema_name = "evil";
+use evil;
+show variables like "character_set_database";
+show variables like "collation_database";
+-----
+http://stackoverflow.com/questions/8112153/process-utf-8-data-from-mysql-in-c-and-give-result-back
+peter:  after mysql_init() and before mysql_real_connect()
+mysql_options(g_conn, MYSQL_SET_CHARSET_NAME, "utf8"); 
+mysql_options(g_conn, MYSQL_INIT_COMMAND, "SET NAMES utf8"); 
+----- database creation (db-init.sql)
+CREATE DATABASE IF NOT EXISTS evil CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+- DONE final fix on database utf8 issue:
+  1. mysql client :  --default-character-set=utf8
+     /usr/local/mysql/bin/mysql --default-character-set=utf8 -uevil -p1 evil 
+  2. db-init.sql:    -- before "use evil;"
+     CREATE DATABASE IF NOT EXISTS evil CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+	 SET NAMES utf8;
+	 -- also for table 'evil_user', DEFAULT CHARSET = utf8 ;
+  3. db_conn.cpp : db_init(): after mysql_init(), before mysql_real_connect()
+     // add mysql_options:
+     mysql_options(g_conn, MYSQL_SET_CHARSET_NAME, "utf8");   // was "utf8"
+
+	 // double check
+	 MY_CHARSET_INFO charset_info;
+	 mysql_get_character_set_info(g_conn, &charset_info);
+    // pls check:  charset=utf8_general_ci  collate=utf8  num=33
+    DEBUG_PRINT(0, "mysql charset=%s collate=%s num=%d"
+    , charset_info.name, charset_info.csname, charset_info.number);
+---- NOTE: checked on mysqld 5.1.54(mac)  and 5.5.32(linux-ubuntu)
+  test:  
+  db 17  on read (length=12) [e9] [a9] [ac]  ... (total 12 char)
+  db 18
+  (check alias of masha, kelton and win)
+
+2013-11-27
+- db_conn.c -> db_conn.cpp,   nio.c -> nio.cpp
+- logic.lua : fix luacheck error 
+- add card version4 : 35, 46, 136 ..., 197, 200
+- action_attack : set_use_attack change
+- add action_durability_change()
+- TODO : adoln the brave need to re-test
+
+- done: CHANNEL_DEFAULT=1(was 0)   CHANNEL_QUICK=0(was MAX_CHANNEL-1) 
+  lroom: return "lroom 1"
+- TODO logic.lua: new card 35, 46, 136, 138, 141, 145, 149, 161,
+  170, 197, 200, note: 136(good asc), 145 (evil asc)
+- TODO done priest of the light(35) : check +1 health, is it heal?
+  tested +1 HP   (priest 26 -> 27)   is it + max hp?
+- TODO chimera (46)   +3 attack, -3 hp,  when hp<=3 will it die?
+  or stop it from trigger skill ?
+  after one turn: chimera +3 hp, -3 attack (virtual attach is good)
+  tested:  hp<=3 cannot use ability
+- TODO bad wolf(49) : if hit by poison arrow, every turn start
+  first +hp, then -hp(poison)
+  @see trigger_turn_start()
+- TODO adon(32) trigger_other_add : new_power, old_power not declare 
+- TODO shadow night(55) : card variable re-declare
+  minotaur (58) :  hero re-declare
+  melt(159) : eff_list2 not declare
+  voice of winter(190) : eff_list2
+- TODO loop_trigger_other_* put it earlier
+- TODO logic_init() hero re-declare
+- fix whitehelm issue: power_offset=nil case
+- change: add action_power_offset()
+- DONE card: 159(melt), 68(rampage)，78(nova)，98(plague)，137(radiant)；
+  156(sever ties)，182(dimension ripper), 183(berserker)，190(voice of winter)
+  note: 145 evil ascendant, not ready, need to wait for good ascendant
+- fix bug :  when it is not my turn, oppo not yet sac,  i call "s 1205", server
+  return error, but local will change to "play_phase", so the next oppo "sac" will fail
+- BUG iphone is side 1, side=1 "s 1205", cli is side 2 :
+RECV(  7): s 1205
+DEBUG cli.cpp:436: ret 0 play_cmd: s 1205
+CLUA : get_int : 1(g_current_side)
+C: -- play_cmd_global : (s 1205)
+ERROR play_cmd_global err=	non_sac_phase
+ERROR cli.cpp:186: ret -1 errno 0 lua_play_cmd_global_222
+ERROR cli.cpp:461: ret -1 errno 0 play_cmd buffer=[s 1205]
+
+- BUG: 27 birgitte: from hand to ally: gerr -1 lua_error play_hand :
+  attach : target nil
+- TODO when room master (guest[0]) leave a room or kick myself out of room,
+  the room is dismissed (kick the rest of member)
+  it can be done when room.state == ST_ROOM, not in game (ST_GAME).
+- DONE: kick and leave re-written
+- CHANGE: room  3 cases:
+  1.  room  : list the room info (@see str_room_info)
+  2.  room [channel] : create a room in [channel]
+  3.  room [channel] [rid]  : join a room with [channel] and [rid]
+
+- CHANGE: str_guest_list() -> str_room_info()
+- consider:  log -> sta info
+- CHANGE: quick_room() is now sending room_info_broadcast() but not
+  game_broadcast()
+- consider: naming convention update
+  room -> croom  : create room
+  game -> cgame  : create game  (only master guest[0] can trigger)
+  lguest -> room (show room info, guest list )
+  ginfo -> game  (show game info, seed, deck etc, cmd_size, cmd_list)
+
+  room_info_broadcast() : send "room" info to all guests, except an eid
+  game_info_braodcast() : send "game" info to all guests, except an eid
+- fixed avoid duplicate eid in quick_list @see quick_add()
+- done:  quick_del(),  testcase: 
+  quick
+  quick 9
+  note: any non-zero number is ok (9 is a sample)
+- WARN:  on kelton macbook pro:
+  g++ --version
+  Apple LLVM version 5.0 (clang-500.2.79) (based on LLVM 3.3svn)
+  clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+- fixed bug quick game error on re-conn logic
+  quick : gameid=0 
+  (@see g_user_room[eid] = proom)
+- check latest gameid in replay:
+  SELECT gameid, win, cmd FROM evil_replay ORDER BY gameid DESC LIMIT 1;
+- when svn dynamic IP not update:
+  svn relocate svn://113.96.69.81/evil/evil_server
+  or using local IP: (192.168.1.23)
+  svn relocate svn://192.168.1.23/evil/evil_server
+- done: implement "fold" command, to surrender, also updated "nio.c"
+  to accept command, and call win_game()
+- TODO : st management
+  win : need st = ST_LOGIN
+  fold : need st = ST_LOGIN
+  ..
+- BUG: quick command may have duplicated eid 
+- done: elo_rating()  @see test11   @see elo.xlsx
+  @see test17() for double pow, elo rating issue
+- done: "sta" command processing in cli.cpp
+- done: db_win() now save the new rating difference
+- how to update rating in evil_status:
+  update evil_status SET rating=rating+15.815801 WHERE eid =18;
+- common SQL for display rating:
+  SELECT evil_status.eid, username, rating from evil_status, evil_user 
+  WHERE evil_status.eid = evil_user.eid;
+- done and tested:  new quick_match() using masha idea on set zero
+  to replace erase.
+- quick_match: use a new way to avoid erase inside iterator,
+  using set eid zero to label a quick_t as erased.   do erase after the
+  2d for loop.
+- note: vector and deque implementation is very different,
+  when erase the head, the iterator will be somehow broken!!!
+- quick_list erase issue:
+  everytime we do an erase, we start a new iterator for both it1, it2
+  do not re-use old iterator
+- BUG :  db_save_replay
+  ERROR db_conn.c:932: ret -55 errno 35 db_save_replay mysql_errno 1062
+- testcase quick game: 
+  quick_game() : entry point for command "quick", no param
+  quick_add() :  add a eid to the g_quick_list
+  quick_match() : match up 2 or more eids in g_quick_list, put it in pair_list
+  quick_room() : from pair_list to create room and start game (do broadcast)
+  auto_quick_match() : do auto match, using quick_match(), quick_room()
+  ----------
+  db-init.sql :
+  eid	name/pass		rating		deck
+  16 	www/www			1016		simple (AHERO/19)
+  17	lll/lll			1017		simple (THERO/20)
+  18	x/x				1118		warrior boris
+  19	y/y				1319		priest zhanna
+  ----------
+  diff rating:
+  16/17		1		www/lll
+  16/18		102		www/x
+  16/19		303		www/y
+  17/18		101		lll/x
+  17/19		302		lll/y
+  18/19		201		x/y
+  ----------
+  note on rating diff/time: 100/0	300/30		500/60
+  cli 3 : www
+  cli 4 : lll
+  cli 5 : x
+  cli 6 : y
+
+testcase 0 second match
+TERM4:
+  cli 3
+  quick
+TERM5:
+  cli 4
+  quick
+TERM4: (cli 3)
+  s 1206
+  b 1201
+  t 1301 2101
+---- check mysql : game_count, game_win, game_lose
+SELECT eid, game_count, game_win, game_lose FROM evil_status  
+  WHERE eid=16 or eid=17;
+
+diff:  16/18		102		www/x
+testcase 30 second match
+TERM4: (x)
+	cli 5
+	quick
+TERM5: (www)
+	cli 3
+	quick
+NOTE: wait around 30 seconds
+TERM4:  
+s 1206
+n
+TERM5:
+n
+TERM4:
+s 1205
+b 1201
+n
+TERM5:
+n
+TERM4
+t 1301 2101
+NOTE: game_win : win 1 (x)
+
+
+
+- done:
+  quick_match(pair_list, now) -> quick_room(pair_list)
+  TODO fdwatch() timeout should call quick_match() and quick_room()
+- done:
+  quick_add()
+  quick_match()
+  test8, test9, test10 for quick_add, match, list
+  TODO: for match up pair, need to open a room and start a game
+- fix bug related to strtok() use strtok_r() instead, with char *context
+  nio.c: do_read() -> process_command()
+- BUG logic.lua : in sac phase, attack will turn to play, but the 
+  logic.lua in other VM will not turn to play phase
+- BUG logic.lua : valiant defender(61) can protect hero from being attacked
+  (should be only ally)
+- TODO play_cmd : separate test_cmd and play_cmd,  one for validate, two for exe
+- quick game queue
+- rename: at, ab, sac, next => t, b, s, n  
+- done: full re-conn logic for player and watcher,  in nio.c and cli.cpp
+  testcase:  
+  TERM3: n
+  TERM4: cli 8 
+  TERM5: cli 9
+  TERM4: sac 1205
+  TERM4: ab 1201
+  TERM6: cli 99\n log x x\n join 0 1\n   (watch join later)
+  TERM5: q\n  cli 9\n p   (re-conn test)
+  TERM4: q\n  cli 8\n p   (re-conn test)
+  note: if all client disconnect, the room will be erased
+
+- TODO rename clevel -> state  LEVEL_ROOM -> ST_ROOM
+  each cmd should have an associate state, 
+  e.g. "join" cmd has a state ST_LOGIN, that means the user must be at least
+  "LOGIN'ed" to use this cmd.
+  "game" cmd has a state ST_ROOM, that means the user must have a room to 
+  start a game (and it may have other criteria, e.g. must be master)
+- several cmd that can change "state":
+  log, reg, room, join, game etc.
+  their return value must have an integer somewhere to tell client
+  about the new state.
+- re-conn:  lguest() -> game_info()
+- TODO read last 10 game play by eid=16
+  SELECT gameid, eid1, eid2 FROM evil_replay WHERE eid1=16 or eid2=16 
+  ORDER BY gameid DESC LIMIT 10;
+- done: db_win,   win / lose logic in nio.c  / cli.cpp
+- TODO game seed need to random generated (later, not good for testing)
+  @see  seed = 900
+- fix : reg job select hero_id need - 1
+- done: room_game() :  now return:
+  game [side] [seed] [deck_400_0] [deck_400_1]
+- done: cli.cpp : receive game_start(), init lu_logic_init() 
+  based on seed, deck0, deck1
+- change:  db_conn.c : db_load_deck()  db_load_card(), db_save_deck()
+  all card array data structure is now using zero-base array,
+  e.g. card_array[0] = card1,  card_array[21] = card22
+  also changed nio.c: load_deck_card()   save_deck()
+  also changed:  card_list_array  (list_mode to array_mode)
+- done: free_room : bzero the room_t
+- client logic: contains deck0 and deck1 as static variable, when receiving
+  command "pdeck 0 ..." or "pdeck 1 ...", the client save the deck data
+  to deck0 or deck1 respectively.
+- core logic for room:  room_game() -> broadcast : pdeck 0, pdeck 1,
+  store deck0, deck1 into room_t (conn->room) -> broadcast "game 0", "game 1"
+  "game 99"
+  for new guest (observer),  get the deck0, deck1, play_list
+- done: load_pdeck : load deck from the database (and cached in room_t)
+- done: cli.cpp "cli t" to run test2() for lua integration test
+- done : logic.lua : card_array_list(array)
+- TODO logic.lua : logic_init_array() @see logic_init()
+- done fatal.h  color print
+- TODO action_sacrifice :  add err
+  output: eff_list, g_phase, err
+- TODO logic.lua : hero_main()  using play_cmd_global
+    -- peter: use play_cmd_global as if in nio.c / cli.cpp
+    if input_list[1]=='at' or input_list[1]=='ab'  
+    or input_list[1]=='sac' or input_list[1]=='next' then
+        print('--- use play_cmd_global ---');
+        play_cmd_global(input);
+        break;
+    end
+- THEORY init_deck1 + init_deck2 + seed + play_list = game_snapshot
+- BUG sac without param should be blocked
+- TODO rename connect_t.level to something else (lv in euser ambiguis)
+- BUG logic.lua : play_validate()  return false, 'err'
+- base64 deck representation
+- done : cli auto-start game logic
+- TODO server lua integration, at, ab, next, sac need to check logic.lua
+- TODO surrender - command to quickly finish the game
+- TODO LEVEL_GAME back to LEVEL_LOGIN or LEVEL_ROOM, after finish one game
+- TODO server send card deck to client ( game start with deck data )
+  guest[0] and guest[1]
+  C -> Lua : logic_init()    need to convert deck1 array to lua data
+- done todo easy debug :  cli detect i am master and num_guest >= 2, auto "game"
+- BUG drain power:  on non-hero, will be bug (card.energy nil)
+- note: all bugs related to play_cmd_global()
+- BUG logic.lua : can use oppo card to attack
+- BUG logic.lua : can use oppo card for ability
+- BUG logic.lua : can attack the source card (source==target)
+- BUG logic.lua : can sacrifice non-hand card (including grave)
+- BUG logic.lua : sac oppo war banner: 
+  ERROR card_index s,t,p may be nil : 	1	4	nil	nil
+- TODO need to flush ERROR log
+- done : kick [eid],   leave :  will broadcast to guests
+- fix bug : sys_login()  proom alias issue line 1959
+- updated db-init.sql :  add x2, x3, ... x8 users
+- done: join protocol change, return same as lguest:
+  join [channel] [room] guest[0].eid guest[0].alias guest[1].eid guest[1].alias
+  ... @see str_guest_list()
+  also broadcast to all guests 
+- done todo start  -> change to "game"  
+  game : only room master ( guest[0] ) can call this command
+  all the rest of the guest will receive this command
+- TODO after game start, integrate lua in server side to check result
+- TODO quick wait for 3 mins and match similar rating
+- rating: ELO rating system
+  http://en.wikipedia.org/wiki/Elo_rating_system
+  USCF
+  K-factor
+  The K-factor used by the USCF[edit]
+  The K-factor, in the USCF rating system, can be estimated by dividing 800 
+  by the effective number of games a player's rating is based on (Ne) 
+  plus the number of games the player completed in a tournament (m).[11]
+  K = 800 / (N_e + m)
+  ---- more accurate K factor:
+ K = 30 (was 25) for a player new to the rating list until s/he has completed events with a total of at least 30 games.[17]
+ K = 15 as long as a player's rating remains under 2400.
+ K = 10 once a player's published rating has reached 2400, and s/he has also completed events with a total of at least 30 games. Thereafter it remains permanently at 10.
+- quick match: rating difference VS time waiting 
+  0 - 1 mins :  < 200 diff
+  1 - 2 mins :  < 500 diff
+  2 - 3 mins :  < 1000 diff
+  > 3 mins   :  instance match (if there are users)
+  (max < 3.5 mins must match up)
+
+- what next?  nio / cli  integrate with logic.lua
+- TODO lroom : include num_guest / max_guest, multi-line protocol ?
+- update: lguest [channel] [rid]  , if channel / rid are missing,
+  default to list guest of "my" room
+  e.g. lguest 0 1
+- fixed: bug ERROR nio.c:2759: ret 7 errno 35 fdwatch_check_fd
+  note: fdwatch_check_fd() resume to old style READ and WRITE separate, not
+  together, also update the second level running loop in main() 
+  after STATE_SENDING : do_send() ,  state may change back to STATE_READING
+  when all the send buffer are finished (all sent).   in this case,
+  we stop running the second level running loop and go back to fdwatch.
+- TODO re-conn :  need to update the LEVEL_ROOM or LEVEL_GAME etc, 
+  so we may need to save level
+- TODO start game,  integrate logic.lua  server checking
+  only room master can "start",   broadcast play command to all guests
+  store "play" in the room_t (need to store a variable size list of command)
+  vector of play?  last play index for each guest
+
+- @see sys_login() for [reconnect logic]
+- done:  [lroom]=room_list(), [leave]=room_leave(),  [lchan]=channel_list(), 
+  lguest=guest_list()
+- fix bug master create a room (x, x),   (y, y) join a room,   (x) leave,  (x) leave BUG assert error
+  normal case:  master will leave the room and guest(y) will stay in room
+- sample data:
+  x:18    	warrior boris
+  y:19		priest zhanna
+  t:20		mage nishaven
+- done todo map<eid, euser_t>    map<eid, room_t>
+- fixed bug :  reg z z z   reg z z z 
+  reg -36 duplicate alias
+  we should check duplicate username first
+  note: fixed to show -6 duplicate username
+- svnserve:  fwq  
+  ## note: /opt/local/etc/subversion
+  # sudo su -
+  mkdir /svn
+  svnadmin create /svn/repository
+  cd /svn/repository/conf
+  vi svnserve.conf
+  ## need to uncomment password-db  and  authz-db
+
+  ## svn: E220001: Item is not readable
+  ## add this to [general]
+  anon-access = none
+
+
+  ## need to uncomment:  password-db   authz-db
+  vi passwd
+  ## add: user = password
+  svnadmin create /svn/repository/evil
+  ## this is a subdirectory of an existing repository rooted at /svn/repository
+  ## normal message
+  vi authz
+  ## add [groups] :  tech = peter,kelton,masha
+  ## add [repository:/evil] @tech = rw
+
+  svnserve -d -r /svn/repository/
+  note: 
+  svn import --no-ignore -m first [path] svn://[svn_server]/evil/[path]
+
+
+  
+- 公园阿伯排队系统（擂台系统)
+  默认开房， 没密码，有人观战就是默认擂台 (可以要求必须有8人观战)
+  擂台盟主胜出后自动会进入下一个战斗， 对手为观战排队第一人（guest[2])
+  擂台盟主如果输了， 对手会自动成为新的盟主， 旧盟主则自动进入
+  观战最后排
+  一场战斗完结后， 会有10秒时间让盟主选择是否退出， 退出后房间
+  会自动解散（？？？）
+  擂台盟主胜利的次数会显示在房间列表中， 而且每次进入下一次自动战斗
+  后， 房间的创建时间会刷新， 让房间从列表中提升位置
+@see TODO-nio.txt TODO-logic.txt
+- sys_register, sys_login: need to call 
+  sys_status : db_load_status()
+- done db_conn.c : db_load_status()  db_save_status() access:
+  table: evil_status
+- done db-init.sql add boris and zhanna deck for eid=10 and 11
+- testcase sdeck:
+===== input =====
+reg n p
+job 1 1
+sdeck 3 0 1 401 401
+sdeck 3 0 1 22 22 23
+sdeck 3 0 1 22 
+sdeck 3 1 222
+sdeck 3 0 1 22 23
+sdeck 400 1 1000000000000000000002200321030000000000000000000000000000002022112022000000000000000000000000000000000000000000000000000000000000111110000000000000002002200000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+
+
+===== output =====
+reg 1000 
+job 1 1
+sdeck -35 parse list error -12
+sdeck -35 parse list error -22
+sdeck -35 parse list error -2
+sdeck -35 parse list error -2    NOTE: this may be wrong???
+sdeck 0 OK				
+// my:   select eid, c1, c22, c23 from evil_deck where eid=1000
+sdeck 0 OK
+
+
+- setup lower priority for mysqld:
+  ps awx|grep mysql
+  7263   ??  S      0:00.07 /usr/local/mysql/bin/mysqld --basedir=/usr/local/my
+  sudo renice -p 7263 -n 19
+  ## note: there are 2 processes, one with /bin/sh one without 
+  (setting both are the best, generally without /bin/sh is the one to setup)
+- TODO fix evil_deck  signed issue : c2
+- TODO rename:  safe_write*  net_write*
+- long testcase 1:  general 
+my < db-init.sql
+telnet 0 7710 > out.txt
+log n p
+log nnn p2
+lcard
+ldeck
+reg n p
+lcard
+ldeck
+job 8 1
+lcard
+job 1 1
+job 1 3
+
+
+
+## out.txt 
+log -6 username not found
+log -16 password mismatch
+lcard -8 not_enough_level
+ldeck -8 not_enough_level
+reg 1000
+lcard -6 deck is empty
+ldeck -6 deck is empty
+job 8 1
+lcard 400 1 0000000100000000000002200321030000000000000000000000000000000000000000000000000000000000002202212021000000000000000000000000000000111110000000000000002002200000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+job -6 job already chosen -22
+job -22 hero_level out of range 1 and 5 only
+
+
+testcase 2:  mysql error (stopped)
+log nnn ppp
+TERMINAL_B:  mystop
+lcard
+
+
+
+- reserve eid < 1000 as test case and test users
+- testcase for sys_job()
+init: my < db-init.sql
+
+run the server (n)
+
+telnet 0 7710
+
+log nnn ppp
+job 1 1
+
+## result:
+SELECT COUNT(1) FROM evil_card WHERE eid=21;
+1
+SELECT COUNT(1) FROM evil_deck WHERE eid=21;
+1
+SELECT c22, c151 FROM evil_deck WHERE eid=21;
+2, 2    // dirk x 2,   rain x 2
+
+- TODO db_conn.c : card_count replace by CARD_MAX 
+- TODO db_conn.c : const char *card -> const char *card_array
+- DONE: 
+  int count_card_array(char *array) : count number of cards in card_array
+  int card_array_list(int *card_list, int card_total, char* array)
+  -> convert array to card_list
+  int card_list_array(char* array, int* card_list, int card_total)
+  -> convert card_list to array
+
+- two format of deck (card_list) :
+  1. card_list: int card_list[];  int card_total;
+     e.g. card_list = {22, 154, 154};   card_total=3;
+	 means we have 3 cards,
+     id=22, id=154, id=154
+  2. card_array (char [401]) : int CARD_MAX=400; char card_array[CARD_MAX+1];
+     each char array from card id=1 to card id=400, represent
+	 number of card with id [x].
+	 e.g. this is same as 
+	 bzero(card_array, CARD_MAX+1); // set card_array[*] are zero
+	 card_array[22] = 1
+	 card_array[154] = 2
+  note1: database is in general using card_array style
+         C code may have some card_list style, especially in 
+		 network communication
+  note2: consider use card_list or card_array for network
+  if either of them has a smaller byte size!
+  receiver must do conversion
+     
+
+- file list
+  Makefile : compile project, or individual testcase (e.g. db)
+  nio.c : main socket and select engine, core logic
+  fdwatch.c : library from thttpd project, select engine
+  db_conn.c :  SQL interface
+
+
+- TODO nio sys_login, sys_register
+===== PROTOCOL START =======
+/* --[[
+ * last update: 2014-02-24 15:36:00 by peter
+ * @see TODO-server.txt for latest protocol, keep the star * !
+ *
+ * general error:
+ * -8 :  not enough system level (server high-level protection)
+ * -9 :  access error, usually not login
+ * -5, -15, ..., -45 :  input error
+ * -55, -65, ..., -95 : output error (-55 is database)
+ * -22 : duplicate (out of range and double 2, duplicate)
+ * -82 : buffer overflow - the server write buffer is full @see BUFFER_SIZE
+ *
+ * newbie:   reg -> job -> (alias) -> lcard -> ldeck -> [game]
+ * olduser:  log -> lcard (if error -6 goto job) -> ldeck -> [game]
+ *
+ * ----- register user
+ * CMD: reg [username] [password] [platform] [channel] // platform/channel is optional
+ * RET: log [eid] [st] [alias] [icon] [gid] [gpos] [gname]
+ *          [lv] [exp] [exp_next] [exp_this]
+ *          [logic_version]
+ *          [game_version] [client_version]
+ *          [has_get_reward] [has_card]
+ * // if alias==NULL, alias="_$username"
+ * ERR: reg -3 null result
+ * ERR: reg -6 duplicate_username
+ * ERR: reg -16 invalid_password
+ * ERR: reg -26 duplicate_username_alias -- obsolete! not working!
+ * TODO errors combination:  dup username, dup alias,  (server)
+ *      invalid username, invalid password, invalid alis (client+server)
+ * ERR: reg -36 duplicate alias
+ * ERR: reg -46 invalid alias (invalid character)
+ * ERR: reg -1 unknown error
+ * ERR: reg -55 db_error
+ * level 0 -> 5
+ *
+ * ----- alias setup 
+ * note:  must be either login'ed or reg'ed
+ * CMD: alias [alias]
+ * RET: alias [eid] [alias]     // client should update euser data
+ * ERR: alias -2 too_long
+ * ERR: alias -6 alias_invalid  (duplicate)
+ * ERR: alias -15 invalid_character _ 
+ * ERR: alias -9 not_login
+ *
+ * ----- job_select 
+ * TODO job [hero_id] [level], level=1 means newbie, 5=high (more cards)
+ * CMD: job [hero_id]   	// default hero_level=1
+ * RET: job [hero_id] [level]  // note: user must never choose job before
+ *      server will save_card() with hero_id and the free standard deck
+ * ERR: job -6 job already chosen [errno]
+ * ERR: job -16 cannot db_save_deck [errno]
+ * ERR: job -2 hero_id range overflow
+ *      hero_id >= 1 and hero_id <= 20
+ * ERR: job -12 hero_id not valid (was -8 job not yet open)
+ * ERR: job -22 level out of range (only 1 or 5)
+ * ERR: job -8 job not yet open (obsolete!!! pls update!)
+ * ERR: job -9 not login   // not login 
+ *
+ * ----- login
+ * TODO force_login_flag (after password)=1, force kick the old connection
+ * CMD: log [username] [password] [platform] [channel] // platform/channel is optional
+ * RET: log [eid] [st] [alias] [icon] [gid] [gpos] [gname]
+ *          [lv] [exp] [exp_next] [exp_this]
+ *          [logic_version]
+ *          [game_version] [client_version]
+ *          [has_get_reward] [has_card]
+ * note: st=5, 10, 15   (ST_LOGIN, ST_ROOM, ST_GAME)
+ * ERR: log -3 null_result
+ * ERR: log -33 null_multiple
+ * ERR: log -13 null_fetch_row
+ * ERR: log -23 null_evil_user_t
+ * ERR: log -6 username not found
+ * ERR: log -16 password error
+ * ERR: log -22 duplicate login
+ * note: similar to reg (-6 for user issue, -16 password issue)
+ *
+ * ----- status
+ * CMD: sta
+ * RET: sta [eid] [lv] [rating] [gold] [crystal] 
+ * 		[game_count] [win] [lose] [draw] [run]
+ *      [icon] [alias(str)] [gid] [gpos] [gname]
+ *		[exp] [exp_next] [exp_this] [sex] [signature]
+ *		[unread_message_count] [power] [power_set_time]
+ *      [monthly_end_date] [chapter_pos] [course] [card_collection]
+ * ERR: sta -9 not login
+ * ERR: sta -55 database error
+ * ERR: sta -3 result null
+ * ERR: sta -6 empty row
+ * ERR: sta -7 field_count unmatch
+ * ERR: sta -17 eid unmatch
+ * ERR: sta -1 unknown error
+ * note: last update 2013-09-28
+ * note2: change from sta -> stat avoid duplicate with "start"
+ *
+ * ----- load_card
+ * CMD: lcard [in_total] [from_id]   // in_total==400 array mode, from_id=1
+ * CMD: lcard    // load all cards : 1 to 400 ?
+ * RET: lcard [total] [from_id] 3056...98	// array mode
+ * where 3 is num of cards for from_id,  0 is num cards for from_id+1
+ * 9 is num cards for from_id+total-2, 8 is num cards for from_id+total-1
+ * one card at most 9 copies, so one digit per card, strlen=total
+ * RET: lcard [total] [from_id=0] 8 22 22 23 23 26 ... // list mode  
+ * ERR: lcard -2 range overflow  // normally it is impossible
+ *      note: if from_id + total >= CARD_MAX, total is auto adjusted
+ *      from_id < 0 : from_id=1
+ * ERR: lcard -5 database or IO error
+ * ERR: lcard -6 card is empty should do protocol job_select
+ * note: @see ldeck for details on list mode and array mode
+ *
+ * ----- load_deck
+ * CMD: ldeck    // empty parameter means all, total<80 list mode, >=80 array
+ * RET: ldeck [slot] [deck400]   // note: array mode
+ *      same as lcard protocol,  0=num card of from_id, 
+ *      2=num card of from_id+1...
+ * ERR: ldeck -2 range overflow
+ * ERR: ldeck -5 input parameter error
+ * ERR: ldeck -55 database or IO error
+ * ERR: ldeck -6 deck is empty should do sdeck
+ * TODO we may compress deck card into 2 bits, as max = 4
+ * note: usually total<80 use list mode, >=80 use array mode
+ * when in_total==400, enforce to use array mode
+ * 
+ * ----- save_deck
+ * CMD: sdeck [slot] 40...12
+ * RET: sdeck [slot] [deck400]   // total card saved
+ * ERR: sdeck -2 range overflow or underflow // e.g. card num>4, strlen<total
+ * ERR: sdeck -3 input error    // non-number, not enough parameter
+ * ERR: sdeck -6 logic error    // some cards in deck not owned or not enough
+ * ERR: sdeck -55 database or IO error
+ * 
+ * ----- lchan channel list
+ * CMD: lchan
+ * RET: lchan [channel[0].info] [channel[1].info] [channel[2].info]...
+ * channel[x].info = channel_id channel_title
+ * channel id >= 0
+ *
+ * ----- lroom list room
+ * CMD: lroom [channel] [room_type]
+ * channel == 9: for all channel
+ * room_type == 0: all room
+ * room_type == 1: free room
+ * room_type == 2: play room
+ * RET: lroom [channel] [room[0].info] [room[1].info]...
+ * where room[x].info = [chan_id] [room_id(%d)] [num_guest(%d)] [pwd_flag] [room_title]
+ * room_id >= 1,  num_guest >= 1 (?)
+ * pwd_flag: 0==no password, 1==has password
+ *
+ * ----- lguest 
+ * CMD: lguest [channel] [room_id]
+ * RET: lguest [channel] [room_id] [guest[0]_info]  [guest[1]_info] ...
+ * where guest[x].info = guest.id guest.alias
+ * note: [channel] and [room_id] is optional,
+ * default is the room that the user is joined(or created)
+ *
+ * CMD: room [channel] [rid] [pwd]
+ * case1: room -> get the room info
+ * RET: room [channel] [rid] [pwd] [num_guest] [player_info1] [player_info2] ... [game_type]
+ * if game_type == GAME_CHPATER(15), chapter target will after game_type:
+ * [target_num] [target1] [p1] [p2] [target2] [p1] [p2] ...
+ * case2: room 1 -> create room in channel 1
+ * case3: room 1 1 -> join room in channel 1, room 1
+ * case4: room 1 0 ppp -> create room in channel 1, password is ppp
+ * 			, 0 has no meaning
+ * case5: room 1 1 ppp -> join room in channel 1, room 1, password is ppp
+ * RET: room [channel] [rid] [state] [password] [guest_info1] [guest_info2]...
+ * guest_info == [eid] [alias] [icon]
+ * if room has no password, password == '_', so password cannot set _ at first
+ * 
+ *
+ * ----- join  @see lguest
+ * CMD: join [channel] [room_id]
+ * RET: join [channel] [room_id] [st] [guest[0]_info]  [guest[1]_info] ...
+ * BCT: broadcast RET to all guests in room (normal case)
+ * where guest[x].info = guest.id guest.alias
+ * st=10 or 15 (ST_ROOM, ST_GAME)
+ * ERR: join -7(impossible) -6 has_room, -5(invalid_channel_room_id) ...
+ *      -17(g_user_room_not_zero)  -2(get_room_by_id), -13(proom.state=0)
+ * 		-12(outbound_max_guest)  
+ * note: for normal RET, the message is broadcast to all guests in room
+ *
+ * ----- leave @see join
+ * CMD: leave
+ * RET: leave [eid] [st]
+ *    for the leaver, st=ST_LOGIN
+ * BCT: leave [eid] [st]
+ *    for the other, st is the room.state, client should double check it
+ * ERR: ...
+ * 
+ * ----- game start  (only room master)
+ * CMD: game
+ * RET: game [side] [cmd_size] [seed] [timeout] [game_type]
+ * 			 [card_len1] [deck_400_1] [card_len2] [deck_400_2]
+ * if card_len == 0, means deck is deck400
+ * if card_len > 0, means deck is list deck [1 22 23 35 ...]
+ *
+ * where side = 1, 2 or 99,  1,2 are players, 99 is watcher
+ * note: ginfo are similar to game, except it is for re-conn 
+ * note2: cmd_size is the number of "n", "s", "t", "b" play_cmd
+ * to be sent as the previously executed command.
+ * client should play "cmd_size" number of command without animation.
+ * after that, client resume play command using animation mode.
+ *
+ *
+ * ----- replay 
+ * CMD: replay [alias1] [alias2]
+ * error case:
+ * RET: replay -5 replay_input_invalid
+ * RET: replay -6 replay_not_found [alias1] [alias2]
+ *
+ * success case (one fixed line, then lots of command lines)
+ * RET: replay [cmd_size] [game_id] [win] [seed] [ver] [eid1] [eid2] [deck1] [deck2]
+ * RET: cmd1 \n cmd2 \n cmd3 ... cmdN
+ * where N = cmd_size
+ * TODO replay [gameid]  -- one param as gameid
+ * TODO lreplay [alias1] [alias2] will list the last 10 gameid
+ * 
+ * ----- sdebug   save debug info for a game 
+ * CMD: sdebug [eid] [filename] [content]
+ * RET: sdebug 0    -- TODO [bugid]
+ * e.g. content="nil pointer anim.lua 2201;s 1201;n;s 2201;n;s 1202;b 1201;t 1301 2301"
+ * bugid is stored in database as auto-increment id (>1000)
+ * note: content should not have \r \n, can have space " " , ; or other symbol
+ * 
+ * ----- ldebug   load debug info 
+ * CMD: ldebug [filename]  
+ * RET: ldebug [eid] [filename] [content]    
+ * note: content may be very large (3000)
+ *
+ * ----- quick
+ * CMD: quick 
+ * RET: quick 0 [max_wait_time]
+ * ERR: quick -26 opponent_offline
+ * ERR: quick -36 already_in_room
+ * note: after getting quick 0, client start clock waiting
+ *      the respond may be "game" or "quick -errcode ..."
+ * 
+ * CMD: quick 9
+ * quit the quick_list (client should have join the quick list before)
+ * RET: quick 9
+ *
+ * RET: quickmsg [message]
+ * server every 30s broadcast this message when have player in g_quick_list
+ * client send "quick" or do nothing 
+ * 
+ * ERR: -96 quick_del error  (for "quick 9" command)
+ * ERR: -9 not_login
+ * ERR: -16 has_room
+ * ERR: -26 opponent_offline
+ * ERR: -18 subfun_err %d  (usually error in game_init())
+ * ----- rchat : room chat ------ 
+ * CMD: rchat [msg]
+ * RET: rchat -2	message too long (100 max)
+ * RET: rchat -8    not enough st (usually not login/not in room)
+ * BCT: rchat [eid] [alias] [vip_flag] [show_type] [msg]
+ * broadcast to all users in the same room
+ * note: unlike gchat, rchat will not feedback [rchat 0], but client 
+ * is good to implement the same mechanism as gchat
+ * note2: max message len = 100  (chinese use 3 bytes)
+ * ----- wchat msg   world chat -----
+ * CMD: wchat [msg] 
+ * RET: wchat 0         - success
+ * RET: wchat -2        - msg too long @see gchat_queue.cpp GCHAT_MSG_MAX
+ * RET: wchat -3        - msg = null
+ * RET: wchat -8    not enough st (usually not login)
+ * BCT: wchat [eid] [alias] [vip_flag] [show_type] [msg]   -- broadcast message to all online users
+ * note: max message len = 100  (chinese use 3 bytes)
+ *
+ * ----- gchat msg   guild chat -----
+ * CMD: gchat [msg] 
+ * RET: gchat -2        - msg too long @see gchat_queue.cpp GCHAT_MSG_MAX
+ * RET: gchat -6        - no_guild (or apply cannot chat)
+ * RET: gchat -7        - guild id not match (impossible)
+ * RET: gchat -8    not enough st (usually not login)
+ * GCT: gchat [eid] [alias] [vip_flag] [show_type] [msg]   -- broadcast message to users in guild
+ * note: max message len = 100  (chinese use 3 bytes)
+ * ----- info
+ * mainly for debug
+ *
+ * ----- flush : admin command -----
+ * CMD: flush
+ * RET: flush 0
+ * flush the stdout
+ * -----
+ *
+ * ----- online : admin command -----
+ * CMD: online [username] [alias]
+ * [username] and [alias] are optional, list the online user that matches
+ * username and alias.   if we only need to match alias, set username="_"
+ * e.g. online _ x
+ * list all online users with alias partial match with "x", e.g.
+ * alias = "x",  alias = "x123" ...
+ * RET:   list of online users with following format
+ * [eid] [username] [alias]
+ * -----
+ *
+ * ----- kill [eid] : admin command -----
+ * CMD: kill [eid]
+ * RET: kill 0 killed_eid [eid]
+ * RET: kill -5 eid_invalid
+ * disconnect the connect_t associate with [eid]
+ *
+ *
+ * ----- shop [card_id] [size]
+ * CMD: shop [card_id] [size]
+ * RET: shop [count] [card_info1] [card_info2]...
+ * card_info: 
+ * [card_id]
+ * [card_buy_gold] [card_sell_gold] [card_buy_crystal] [card_sell_crystal] 
+ * [piece_buy_gold] [piece_sell_gold] [piece_buy_crystal] [piece_sell_crystal] 
+ *
+ * RET: shop [err_code] [err_msg]
+ *
+ * ----- buy [card_id] [card_type] [money_type] [buy_count]
+ * CMD: buy [card_id] [card_type] [money_type] [buy_count]
+ * card_type: 0==card, 1==piece
+ * money_type: 0==gold, 1==crystal
+ * RET: buy [eid] [card_id] [card_type] [money_type] [buy_count] [gold_offset] [crystal_offset]
+ * ERR: buy [err_code] [err_msg]
+ * ERR: buy -6 no_such_card
+ * ERR: buy -16 card/piece cannot buy
+ * ERR: buy -52 card/piece count out bound
+ *
+ * ----- sell [card_id] [card_type] [money_type] [sell_count]
+ * CMD: sell [card_id] [card_type] [money_type] [sell_count]
+ * card_type: 0==card, 1==piece
+ * RET: sell [eid] [card_id] [card_type] [money_type] [sell_count] [gold_offset] [crystal_offset]
+ * ERR: sell [err_code] [err_msg]
+ * ERR: sell -6 no_such_card
+ * ERR: sell -16 card/piece cannot sell
+ * ERR: sell -52 card/piece count out bound
+ *
+ * CMD: batch [ptype] [refresh]
+ * RET: batch [ptype] [refresh] [gold] [crystal] [card0] [card1] [card2] [card3] [card4] [card5] 
+ * refresh=1 : use gold/crystal to exchange
+ * refresh=0 : return the batch from database, usually gold=crystal=0
+ *
+ * CMD: pick [ptype]
+ * RET: pick [code] [eid] [ptype] [loc] [card_id] [gold] [crystal]
+ * code=0 OK,   code=99 card num overflow (>=9)
+ * loc=0 to 5 : refer to card[loc] that is picked
+ * gold / crystal : change in gold or crystal (negative or zero)
+ *
+ * ------
+ * CMD: xcadd cardid count gold crystal
+ * RET: xcadd 0 OK
+ * ERR: xcadd -9 not_login
+ * ERR: xcadd -5 invalid_input  (less than 3 number)
+ * ERR: xcadd -15 invalid_cardid
+ * ERR: xcadd -25 invalid_count
+ * ERR: xcadd -35 invalid_gold_crystal
+ * ERR: xcadd -6 not_enough_card
+ *
+ * ------
+ * CMD: xcbuy [xcid] [count]
+ * RET: xcbuy 0 buyer_eid seller_eid cardid gold crystal   (positive)
+ * note:  buyer and seller will receive the RET when they are online,
+ * client should update depends on whether I am buyer or seller,
+ * if my_eid == buyer_eid :  my.gold-=gold, my.crystal-=crystal
+ *      also cardid count++
+ * if my_eid == seller_eid:  my.gold+=gold, my.crystal+=crystal
+ *      cardid count do not need to change (already update when xcadd)
+ * ERR: xcbuy -9 not_login
+ * ERR: xcbuy -5 invalid_input
+ * ERR: xcbuy -15 invalid_xicd (negative or 0)
+ * ERR: xcbuy -25 invalid_count
+ * ERR: xcbuy -6 xcid_not_exists 
+ * ERR: xcbuy -26 not_enough_money
+ * ERR: xcbuy -2 too_many_card cardid=xx count=9 (9 is max)
+ *
+ * ------
+ * CMD: xclist [start_id] [page_size] [search_key30]
+ * e.g. xclist 0 10 人类
+ * RET: xclist [start_id] [page_size] [row1] [row2] ... [rowN]
+ * row = [xcid] [seller_eid] [cardid] [count] [gold] [crystal]
+ * e.g. (output):   4 rows, each row has 5 fields
+ * xclist 0 4 14022515385900 548 23 0 3 14022515384000 548 26 0 5 14022515382700 547 22 10 0 14022515382300 547 30 15 0
+ * 
+ * ERR: xclist -5 invalid_input (must have start_id and page_size)
+ * ERR: xclist -15 invalid_start_id  (>=0)
+ * ERR: xclist -25 invalid_page_size  (>0 and <=50)
+ *
+ * ----- 
+ * CMD: @xcreset [second_timeout]
+ * e.g. @xcrest 86400  means one day, record older than one day will reset
+ * RET: @xcreset [N] OK
+ * where N is number of records reset (remove from evil_exchange)
+ * ERR: @xcreset -5 invalid_input
+ * ERR: @xcreset -15 invalid_second  (maybe reported by dbio)
+ *
+ *
+ * ----- list guild 
+ * CMD: lguild [start_id] [page_size] [key_optional]
+ * e.g: lguild 0 10 
+ * RET: lguild [start_id] [size] [g_info1] [g_info2] ...
+ * note: size <= page_size
+ * g_info = gid total_member glevel gold crystal gname leader_name
+ * ERR: lguild -5 invalid_input (must have start_id and page_size)
+ * ERR: lguild -15 invalid_start_id  (>=0)
+ * ERR: lguild -25 invalid_page_size  (>0 and <=50)
+ *
+ * ----- info guild
+ * CMD: guild [gid_optional] [gnotice_optional]
+ * note: empty gid means my guild (evil_status.gid)
+ * 		 only master can edit gnotice
+ * RET: guild [gid] [total_member] [glevel] [gold]
+ * 		[crystal] [consume] [master_alias]
+ * 		[master_icon] [gname] [gnotice]
+ *
+ * ----- create guild 
+ * two way use cguild
+ * 1.only get create money
+ * CMD: cguild
+ * RET: cguild 0 [create_guild_gold] [create_guild_crystal]
+ * 2.create a guild
+ * CMD: cguild [gname]
+ * e.g: cguild yoyoyo
+ * RET: cguild [gid] [create_guild_gold(-)] [create_guild_crystal(-)] [gname]
+ * ERR: cguild -2 not_enough_money
+ * ERR: cguild -6 already_has_guild
+ * ERR: cguild -3 eid_not_found
+ * ERR: cguild -22 duplicate_gname
+ *
+ *
+ * ----- delete guild 
+ * CMD: dguild  (only master can do)
+ * RET: dguild [gid]
+ * ERR: dguild -6 not_master
+ * ERR: dguild -3 no_guild
+ * change: evil_status, evil_guild, evil_guild_member
+ *
+ *
+ * TODO reserve for icon, member_info = eid, gpos, alias [icon] [rating] [share]
+ * ----- list guild member
+ * CMD: glist [flag] [start_id] [page_size] [optional_gid] 
+ * flag:0=all member include apply
+ * 		1=all member without apply
+ * 		9=all apply
+ * e.g. glist 0 0 10     	// list all member in my guild
+ *      glist 1 0 20 545   	// list member (without apply) in 545 guild (gwww)
+ * if gid_optional is not given, list my guild
+ * RET: glist [flag] [start_id] [total] [member_info1] [member_info2] ...
+ * member_info = eid gpos alias [icon] [rating] last_login gshare lv
+ * note: gpos:  1=master,  2=senior, 3=member, 9=apply
+ * @see evil.h  GUILD_POS_MASTER
+ *
+ *
+ * ----- guild apply
+ * CMD: gapply [gid]
+ * RET: gapply [eid] [gid] [gpos] [gname]
+ * ERR: gapply -6 already_has_guild
+ * ERR: gapply -3 guild_not_exist
+ * ERR: gapply -9 not_login ...
+ *
+ *
+ * ----- guild member pos change
+ * CMD: gpos [eid] [pos]
+ * e.g. approve apply pos = 3  (from 9 to 
+ * upgrade normal member to senior pos = 2
+ * pos=1 is invalid
+ * RET: gpos [eid] [pos] [gid]
+ * ERR: gpos -19 not_master
+ * ERR: gpos -3 eid_not_in_guild
+ * ERR: gpos -6 invalid_pos
+ * ERR: gpos -2 total_member_overflow
+ *
+ *
+ * CMD: gquit [eid_optional:for_kick]
+ * for normal quit:  just gquit
+ * for master kick member: gquit [member_eid]
+ * RET: gquit [eid]
+ * ERR: gquit -3 no_guild
+ * ERR: gquit -19 master_cannot_quit
+ * ERR: gquit -29 only_master_can_kick  // gquit [eid] = kick
+ * 
+ * TODO [gold] [crystal]
+ * CMD: gdeposit [gold] 
+ * RET: gdeposit eid gid gold
+ * ERR: gdeposit -2 not_enough_money
+ * ERR: gdeposit -3 no_guild
+ *
+ * TODO
+ * CMD: gbonus [get_flag]    // default=0
+ * get_flag==0  means only check, but not really get the bonus
+ * get_flag==1  means get bonus
+ * RET: gbonus eid check_flag guild_gold rate gshare bonus_gold last_bonus_time(sec)
+ * e.g. guild_gold = 10000   rate=0.05(5%)  gshare=0.1(10%)   so bonus_gold=50(int)
+ * get_flag==0 means only check, 1=get the bonus
+ * ERR: gbonus -6 already_get_bonus
+ *
+ *
+ * CMD: ldeposit start_id page_size 
+ * RET: ldeposit start_id page_size [deposit_info1] [deposit_info2]
+ * deposit_info = deposit_date(unix_ts)  eid alias [icon] gold crystal [gpos]
+ *
+ *
+ * CMD: deposit
+ * RET: deposit [eid] [gid] [my_deposit_gold] [my_deposit_crystal] [gshare]
+ *				[guild_deposit_gold] [guild_deposit_crystal]
+ *
+ *
+ * CMD: guild [gid] [gnotice_optional]
+ * RET: guild [gid] [total_member] [glevel] [gold]
+ *		[crystal] [consume] [gname] [gnotice]
+ * 
+ * CMD: glv
+ * RET: glv gid current_level current_gold current_member_max current_consume_gold next_level levelup_gold next_member_max next_consume_gold
+ * ERR: -3 no_guild
+ * note: this is for checking, everyone can read if he is one the guild
+ *       member
+ * note2: consume_gold maybe zero or remove from game later, still keep here
+ * note3:if next_level == current_level, means it is the max level
+ * 
+
+ * CMD: glevelup
+ * RET: glevelup gid new_level gold_reduce(-negative) new_member_max new_consume 
+ * ERR: -3 no_guild
+ * ERR: -9 not_master
+ * ERR: -16 invalid_glevel (usually not calling glv before glevelup)
+ * ERR: -2 glevel_max
+ * ERR: -12 not_enough_gold
+ * ERR: -55 database_error (gold not enough or glevel not match or other error)
+ * note: only guild master can do level up
+ * note2: glv must be called once before calling glevelup
+ *
+ *
+ * CMD: gsearch [flag] [start_id] [page_size] [search_data] [gid_optional] (guild member list)
+ * if gid_optional is not given, list my guild
+ * RET: gsearch [flag] [total] [member_info1] [member_info2] ...
+ * member_info = eid gpos alias [icon] [rating] last_login gshare lv
+ * 
+ *
+ *
+ * CMD: @ladder
+ * RET: @ladder total [info1] [info2] ...
+ * info = eid, rank, rating, alias, icon
+ *
+ * CMD: ladder [ladder_type]
+ * ladder: 0==LADDER_RATING, 1==LADDER_LEVEL, 2==LADDER_GUILD
+ *			, 3==LADDER_COLLECT, 4==LADDER_GOLD
+ *			, 5==LADDER_CHAPTER
+ * RET: ladder ladder_type total [info1] [info2] ...
+ * rating info: [eid], [rank], [rating], [alias], [icon]
+ * level info: [eid], [rank], [level], [alias], [icon]
+ * guild info: [gid], [rank], [level], [gname], [icon]
+ * collect info: [eid], [rank], [count], [alias], [icon]
+ * gold info: [eid], [rank], [gold], [alias], [icon]
+ * chapter info: [eid], [rank], [chapter_id], [stage_id], [star_count], [name], [icon]
+ *  last info is self info
+ *
+ *
+ * CMD: lai
+ * RET: lai total [ai_info1] [ai_info2] ...
+ * ai_info: eid, alias, icon, rating, exp, gold, present_card, lv
+ *
+ *
+ * CMD: lreplay
+ * RET: lreplay eid total [replay_info1] [repaly_info2] ...
+ * replay_info: gameid, winner, ver, eid1, eid2, lv1, lv2, icon1, icon2, 
+ *				alias1, alias2
+ *
+ *
+ * CMD: replay gameid
+ * RET: replay [code] [gameid] [game_type] [winner] [star]
+ *				[seed] [start_side] [ver] [eid1] [eid2]
+ *				[lv1] [lv2] [icon1] [icon2] [alias1]
+ *				[alias2] [deck1] [deck2] [param] [cmd]
+ * ERR: replay -6 no_such_replay
+ *
+ *
+ * CMD: sprofile [icon] [sex] [signature]
+ * sex: 0==male, 1==female
+ * RET: sprofile [eid] [icon] [sex] [signature]
+ * ERR: sprofile -15 invalide_icon
+ * ERR: sprofile -25 invalide_sex
+ *
+ *
+ * after a,t,s,n,fold command
+ * RET: win [side] [fold_flag] [rating] [gold] 
+ * 				[exp_offset] [lv] [next_exp] [player.exp] [card_id]
+ *				[crystal]
+ *				[guest_pos] [game_type]
+ * guest_pos = 0 or 1 or 9, 9 for not player guest 
+ * if game_type == GAME_QUICK
+ *				[MAX_QUICK_REWARD] [reward_info1] [reward_info2] ...
+ *				[reward_pos]
+ * reward_info = [reward] [count]
+ * reward_pos = which reward you get, base 0, if reward_pos=-1, no reward
+ * if game_type == GAME_CHAPTER
+ *				[chapter_id] [stage_id]
+ *				[MAX_CHAPTER_TARGET] [target_info1] [target_info2] ...
+ *				[MAX_CHAPTER_REWARD] [reward_info1] [reward_info2] ...
+ *				[reward_pos]
+ * target_info = [target] [p1] [p2] [value] [done]
+ * reward_info = [reward] [count]
+ * reward_pos = which reward you get, base 0, if winnner != 1, reward_pos=-1
+ *
+ *
+ * CMD: greconn [index]
+ * RET: [index+1] [cmd]
+ * 	   [index+2] [cmd] 
+ *	   ...
+ * if index == cmd_list.size()
+ * RET: greconn 0
+ * ERR: greconn -5 invalid_input
+ * ERR: greconn -15 index_out_bound
+ *
+ *
+ * CMD: ljob
+ * RET: ljob total hero_id1, hero_id2...
+ *
+ *
+ * CMD: notice type
+ * if type == 0
+ * RET: notice [type] [count] [title1] [title2] [title3]...
+ * if type > 0
+ * RET: notice [type] [title]
+ *
+ *
+ *
+ * CMD: lmerge 
+ * RET: lmerge AABBCC...(400*2 char)
+ * AA = number of piece require to merge card 1
+ * CC = number of piece require to merge card 3
+ *
+ * CMD: lpiece 
+ * RET: lpiece [eid] AABBCC...(400*2 char)
+ * AA = number of piece i own for card 1 
+ * CC = number of piece i own for card 3 
+ *
+ * pick piece:
+ * CMD: ppiece ptype
+ * RET: ppiece [eid] [ptype] [loc] [card_id] [get_count] [gold] [crystal]
+ * loc=0 to 5 : refer to card[loc] that is picked
+ * gold / crystal : change in gold or crystal (negative or zero)
+ *
+ * merge piece:
+ * CMD:mpiece card_id
+ * RET:mpiece eid card_id count gold(-) crystal(-)
+ *
+ * CMD: cpiece
+ * RET: cpiece [eid] [merge_piece_list] // format is the same as lpiece
+ *
+ * CMD: piece_chapter [card_id]
+ * RET: piece_chapter [card_id] [count] [chapter_info1] [chapter_info2]...
+ * chapter_info: [chapter_name] [chapter_id] [stage_id]
+ *
+ *
+ *
+ * CMD: flist [start_num] [page_size] [optional_alias]
+ * RET: flist [eid] [total] [start_num] [num_row] [friend_info1] [friend_info2] ...
+ * friend_info = eid online_flag alias icon
+ * online_flag: 0==offline, 1==online
+ *
+ * CMD: fsta eid
+ * RET: fsta eid, lv, rating(%lf), gold, crystal
+ * 	   , gid, gpos, count, win, lose
+ *	   , draw, run, icon, exp, sex, friend_flag, signature
+ *
+ * CMD: fchat eid msg
+ * RET: fchat eid alias vip_flag show_type msg
+ * ERR: fchat -9 not_login
+ * ERR: fchat -19 recipient_not_login
+ *
+ * CMD: fadd friend_eid
+ * RET: fadd my_eid friend_eid
+ * 
+ * CMD: fsearch [alais]
+ * RET: fsearch [total] [info1] [info2]....
+ * info = [eid] [online] [alias] [icon] [lv]
+ * if online == 1, user online
+ * if online == 0, user offline
+ *
+ * CMD: lpay pay_type
+ * RET: lpay pay_type count pay_info
+ * pay_info = [pay_code] [pay_price] [money_type] [money] [title] [description]
+ * pay_code: int
+ * pay_price: double, real rmb
+ * money_type: 0=gold, 1=crystal
+ * money: gold or crystal count
+ * title: char[MAX_NOTICE_SIZE+2]
+ * description: char[MAX_NOTICE_SIZE+2]
+ *
+ * RET: @pay [pay_no] [eid] [money_type] [money] [channel] [price]
+ *           [extra_gold] [extra_crystal] [monthly_end_date] [extra_card_list]
+ * extra_card_list: [extra_card_kind] [card_data1] [card_data2] ...
+ * card_data: [card_id] [card_count]
+ * 
+ * 
+ * - get course
+ * CMD: course
+ * RET: course eid course
+ * 
+ * - save course
+ * CMD: scourse course
+ * RET: scourse eid course
+ * 
+ * CMD:challenge type eid
+ * RET:challenge type flag eid alias
+ * type == 0: challenge someone
+ * type == 1: challenge cancel
+ * type == 2: challenge accept
+ * type == 3: challenge refuse
+ * flag == 0:sender
+ * flag == 1:receiver
+ * challenge time out
+ * challenger(555) will receiver "challenge 1 0 666 alias"
+ * receiver(666)   will receiver "challenge 1 1 555 alias"
+ * 
+ * 
+ * CMD: getsite device_id
+ * RET: getsite device_id website
+ * if device_id == 0, return download.html
+ * 
+ * load slot
+ * CMD: lslot id
+ * if id == 0, get slot list
+ * RET: lslot [eid] [id] [count] [slot_info1] [slot_info2] ...
+ * slot_info: [id] [name]
+ * else get slot by id
+ * RET: lslot [eid] [id] [name] card[400]
+ *
+ * save slot
+ * CMD: sslot id name card[400]
+ * RET: sslot [eid] [id] [name]
+ *
+ * rename slot
+ * CMD: rslot id name 
+ * RET: rslot [eid] [id] [name]
+ *
+ * buy slot 
+ * CMD: bslot flag id
+ * flag==0 get slot price;  flag==1 buy slot by gold
+ * flag==2 buy slot by crystal
+ * if flag==0:
+ * RET: bslot [eid] [flag] [id] [gold] [crystal]
+ * if flag==1 or 2:
+ * RET: bslot [eid] [flag] [id] [gold] [crystal]
+ *
+ * load mission
+ * CMD: mlist [mlist_type] [chapter_id] [start_id]
+ * RET: mlist [mlist_type] [chapter_id] [start_id] [total] [mission1] [mission2] ... [mission_total]
+ * [mission_n] = [mid] [status] [mtype] [n1] [p1] [p2] [p3] 
+ *				 [exp] [gold] [crystal] [power]
+ *               [card_count] [card_list] [piece_count] [piece_list]
+ *               [daily] [reset_time] [mtext]
+ * mlist_type: all(0),chapter(1),all_without_chapter(2)
+ * start_id: ==0 first page
+ * total: == 10, may has next page
+ * reset_time: "hh:ii", "19:17"
+ * mtext: "_" -> " "; "^" -> "\r" or "\n"
+ * 
+ * mission reward
+ * CMD: mreward [mid]
+ * RET: mreward [mid] [reward_exp] [gold] [crystal] [power] [lv_offset]
+ *              [card_count] [card_list] [piece_count] [piece_list]
+ * card_list: card_id1 card_id2 ...
+ * piece_list: piece_id1 count1 piece_id2 count2 ...
+
+ * ERR: mreward -6  mission_not_ok
+ * ERR: mreward -3  mission_not_found (BUG)
+ * ERR: mreward -5  empty_mid_input
+ * ERR: mreward -15  invalid_mid  (<=0)
+ *
+ * mchange, only server send to client
+ * RET: mchange [flag]
+ * flag = 1, has new mission
+ * flag = 2, has target ok mission
+ * flag = 3, has new mission and target ok mission
+ *
+ *
+ * create a match
+ * CMD: @match_add [max_player] [start_date] [t1] [t2] [t3] [t4] [title]
+ * RET: @match_add [match_id]
+ * start_date=yyyyMMdd
+ * t1, t2, t3, t4=HHii
+ *
+ * delete a match
+ * CMD: @match_delete [match_id]
+ * RET: @match_delete [match_id] ok
+ *
+ * init a match
+ * CMD: @match_init [match_id]
+ * RET: @match_init [match_id] ok
+ *
+ * list match
+ * CMD: lmatch
+ * RET: lmatch [applied_match_id] [match_count] [match_info]
+ * match_info = [match_id] [match_status] [round] [title] [max_player] [current_player] [start_time] [MATCH_ROUND_TIME] [daily_info]
+ * daily_info = [max_daily_round] [t1] [t2] ... [tn] (n=max_daily_round)
+ * t1, t2 ... tn = time_t, base 1970-01-01, 0 <= ti < 24 * 60 * 60
+ * 
+ * match_apply
+ * CMD: match_apply [match_id]
+ * RET: match_apply [match_id] [max_player] [current_player]
+ *
+ * match_cancel
+ * CMD: match_cancel [match_id]
+ * RET: match_cancel [match_id] [max_player] [current_player]
+ *
+ * player_data
+ * CMD: player_data [eid_option]
+ * no need send match_id, because we set one player only can join one match at the same time
+ * RET: player_data [match_data] [round_date] [my_info] [oppo_info] 
+ * match_data = [match_id] [status] [round] [title] [max_player] [start_time] [MATCH_ROUND_TIME] [MAX_DAILY_ROUND] [t1] [t2] [t3] [t4] [tn]
+ * player_info = [eid] [round] [team_id] [win] [lose] [draw] [tid] [point] [icon] [alias] 
+ * TODO add icon in match_player_t
+ * [oppo_info] may null if match.status == MATCH_STATUS_READY
+ *
+ *
+ * match_round_start/end
+ * CMD: @round [match_id]
+ *
+ * CMD: match_data [match_id] [flag] [flag_id]
+ * flag = 0 means team data, flag_id = team_id
+ * flag = 1 means elimination data, flag_id = tid
+ * if flag == 0
+ *	RET: match_data [match_id] [match_status] [flag] [team_id] [max_game] [game_info]
+ * game_info: [round] [player_info_1] [player_info_2]
+ * player_info: [eid] [win] [lose] [draw] [tid] [point] [alias]
+ * if flag == 1
+ *	RET: match_data [match_id] [match_status] [flag] [total] [player_info_1] [player_info_2] ...
+ * player_info: [eid] [win] [lose] [draw] [tid] [point] [alias]
+ *
+ *
+ *
+ * delete_friend
+ * CMD: fdel [friend_eid]
+ * RET: fdel [eid] [friend_eid]
+ *
+ * get random alias
+ * CMD: ralias [type]
+ * type: 0 for male, 1 for female
+ * RET: ralias [type] [alias]
+ *
+ * 
+ * init ranking data, only need to be called once
+ * CMD: @ranking
+ * RET: @ranking [row_num]
+ *
+ * get top 50 ranking list
+ * CMD: rlist
+ * RET: rlist [gold] [crystal] [remain_time] [rank] [challenge_time] [row_num] [info1] [info2] ...
+ * info = eid, level, rank, icon, rating, alias
+ *
+ * get rank target list could be challenged
+ * CMD: rtarlist
+ * RET: rtarlist [gold] [crystal] [remain_time] [rank] [challenge_time] [row_num] [info1] [info2] ...
+ * info = eid, level, rank, icon, rating, alias
+ *
+ * challenge target player to start a game
+ * CMD: rgame [target_eid] [target_rank]
+ * RET:
+ * if target player online, challenge will receive
+ * rgame [eid] [target_eid] [target_icon] [target_alias] [TIMEOUT]
+ * and target player will receive RET
+ * rchallenge [eid] [challenge_eid] [challenge_icon] [challenge_alias] [TIMEOUT]
+ *		* else
+ * 			room ...	-- normally start a battle
+ * 	 @Notice if [target_eid] is not in target list, it will send back
+ * 		rgame -1 rank_has_changed
+ * 	  please resend CMD: rtarlist to refresh target list
+ *
+ * player be challenged response the ranking challenge
+ * CMD: rresp [eid] [resp]	-- this cmd sent by player be challenged
+ * RET: if accept challenge (resp = 1)
+ * 		room ...	-- normally start a battle
+ * 	 else
+ * 	 	rgame_resp 0 (resp = 0)
+ * 	 @Notice it will leave 10 second to accept to accept challenge, if overtime, challenger will auto enter a battle with ai, player be challenged need not send this cmd
+ * 
+ * the ranking challenger cancel the challenge
+ * CMD: rcancel [target_eid]	-- this cmd sent by the challenger
+ * RET: challenger will receive RET
+ *			rcancel 0
+ *		player be challenged will receive RET
+ *			rcancel [challenger_eid]
+ *
+ * check out the ranking battle history
+ * CMD: ranklog
+ * RET: ranklog [row_num] [info1] [info2] ...
+ * info = [eid1] [eid2] [rank1] [rank2] [icon1] [icon2] [alias1] [alias2] [success] [time]
+ *
+ *
+ *
+ * CMD: @login [username] [password] [channel]
+ * RET: @login 0
+ *
+ * CMD: list_message [start_num] [page_size]
+ * RET: list_message [eid] [start_num] [page_size] [total_message_num] [real_page_num] [message_info1] [message_info2] ...
+ * message_info: [message_id] [send_eid] [send_alias] [time] [unread] [title]
+ * unread: 1 == unread, 0 == readed
+ * time is a long time
+ *
+ * CMD: read_message [message_id]
+ * RET: read_message [eid] [message_id] [recv_eid] [send_eid] [send_alias] [time] [unread] [title] [message]
+ *
+ * CMD: @rank_reward
+ * RET: @rank_reward ok
+ * RET: @rank_reward 0 [start] [end]
+ *
+ *
+ * CMD: @send_message [recv_eid] [title] [message]
+ * RET: @send_message 0
+ *
+ * CMD: lottery [type] [times]
+ * if type == 0, get lottery price, times can empty
+ * RET: lottery [eid] [0] [lottery_one_gold] [lottery_one_crystal] [lottery_ten_gold] [lottery_ten_crystal]
+ * if type == 1, gold lottery; type == 2, crystal lottery
+ * times == 1 or 10, define lottery price and cid count
+ * RET: lottery [eid] [type] [gold] [crystal] [1] [cid1]
+ * RET: lottery [eid] [type] [gold] [crystal] [10] [cid1] [cid2] ... [cid10]
+ *
+ *
+ * CMD: gift [key_code]
+ * RET: gift [gold] [crystal] [card_count] [card_id] [card_id] ...
+ *
+ * CMD: lgate [start_id] [page_size]
+ * RET: lgate [my_gate_pos] [all_gate_size] [start_id] [page_size] [gate_info1] [gate_info2] ... [gate_infon]
+ * gate_info = [id] [title] [gold] [crystal] [exp] [focus_card] [power]
+ *
+ * CMD: gate [gate_id]
+ * RET: room ...
+
+ *
+ * CMD: fdata
+ * RET: fdata [fight_ai_time] [fight_ai_win_gold] [fight_ai_cost_gold] [fight_gold_time] [fight_win_gold] [fight_cost_gold] [fight_crystal_time] [fight_win_crystal] [fight_cost_crystal] [fight_vs_free_win_gold] [fight_vs_free_lose_gold] [fight_ai_free_win_gold] [fight_ai_free_lose_gold] [fight_ai_status] [fight_gold_status] [fight_crystal_status] [fight_ai_free_status] [fight_free_status] [fight_gold_start_time] [fight_gold_end_time] [fight_crystal_start_time] [fight_crystal_end_time]
+ * fight_xxx_status means that kind of fight is opened right now. 1=open, 0=close.
+ *
+ *
+ * CMD: @reset_fighttimes
+ * RET: @reset_fighttimes 0
+ *
+ * CMD: fight [game_type]
+ * RET: if fight with ai[game_type = GAME_SOLO_GOLD/GAME_SOLO_FREE]
+ * 			room ...
+ *	  else fight with player[game_type = GAME_VS_GOLD/GAME_VS_CRYSTAL/GAME_VS_FREE]
+ *			fight 0
+ *		if match other players, will also get resp
+ * 			room ...
+ *
+ * CMD: fcancel
+ * RET: fcancel 0
+ *
+ *
+ * CMD: tower_info 
+ * RET: tower_info [eid] [tower_pos] [tower_times] [pos] [hp] [hp_offset] [res] [energy] [buff_flag]
+ *
+ * CMD: tower [tower_index]
+ * RET: room ...
+ * CMD: ginfo
+ * RET: tower [side] [cmd_size] [seed] [timeout] [deck1] [deck2] [hp] [res] [energy]
+ *
+ * CMD: tower_buff [buff_index]
+ * buff_index: 1=hp, 2=res, 3=energy
+ * RET: tower_buff [eid] [pos] [hp] [hp_offset] [res] [energy] [buff_flag]
+ *
+ *
+ *
+ * CMD: list_solo [solo_id]
+ * RET: list_solo [solo_id] [num] [info1] [info2] ...
+ * info: [id] [hero_id] [alias]
+ *
+ * CMD: solo_plus [solo_id]
+ * RET: room ...
+ * CMD: ginfo
+ * RET: solo_plus [side] [cmd_size] [seed] [timeout] 
+ * [game_flag] [ai_max_ally] [hp2] [hp1] [energy1]
+ * [type_list]
+ * [card_len1] [deck1] 
+ * [card_len2] [deck2]
+ * if card_len == 0, means deck is deck400
+ * if card_len > 0, means deck is list deck [1 22 23 35 ...]
+ * NOTE: game_flag =  flag_shuffle_deck1 		* 1000 
+ *					+ flag_shuffle_deck2 		* 100 
+ *					+ flag_teach 				* 10 
+ *					+ flag_solo_type			* 1
+ * flag_teach = 1: player must follow teach to play in client, 0 is free to play
+ * flag_solo_type = 1: usr solo_type_list to control ai, 0 is use standard ai
+ * 
+ *
+ *
+ * auto fight, opponent is robot
+ * CMD: ginfo
+ * RET: robot_game [side] [cmd_size] [seed] [timeout] [game_type] 
+ * [deck1(400)] [deck2(list)]
+ * client lua call "robot_init_array" to init game
+ *
+ *
+ * normal game info
+ * CMD: ginfo
+ * RET: ginfo [side] [cmd_size] [seed] [timeout] [game_type] [game_auto_flag]
+ *			  [hp1] [hp2] [energy1] [energy2]
+ * 			  [card_len1] [deck1] [card_len2] [deck2]
+ * game_auto_flag == 0, free to play; == 1, only can play auto
+ * if card_len == 0, means deck is deck400
+ * if card_len > 0, means deck is list deck [1 22 23 35 ...]
+ *
+ *
+ * CMD: lchapter
+ * RET: lchapter [chaper_pos] [size] [chapter_info1] [chapter_info2] ...
+ * chapter_info: chapter_id, chapter_name
+ *
+ * CMD: chapter_data [chapter_id]
+ * if chapter_id == 0, use player.chapter_pos
+ * RET: chapter_data [chapter_id] [total_chapter_size] [chapter_name] 
+ *					 [stage_size] [stage_id1] [stage_id2] ... [stage_data]
+ * stage_data: 89999 or 08999 or 21899
+ *             0,1,2,3==finish and star=0,1,2,3; 8==new stage can play; 9==lock
+ *
+ * CMD: chapter_stage [chapter_id] [stage_id]
+ * RET: chapter_stage [chapter_id] [stage_id] [stage_name] [stage_msg] 
+ *				[MAX_CHAPTER_TARGET] [target_info1] [target_info2] [target_info3]
+ *				[exp] [power]
+ *				[tips_size] [tips_card1] [tips_card2]
+ *				[MAX_CHAPTER_REWARD] [reward_info1] [reward_info2] ...
+ *				[dialog_count] [dialog_data1] [dialog_data2] ...
+ * target_info: target_type, p1, p2
+ * reward_info: reward_type, count
+ * dialog_data: name:icon:side:dialog // side_up[1] side_down[0]
+ * CHAPTER_REWARD_GOLD					1
+ * CHAPTER_REWARD_CRYSTAL				2
+ * CHAPTER_REWARD_PIECE					3
+ * CHAPTER_REWARD_CARD					4
+ * CHAPTER_REWARD_EXP					5
+ * CHAPTER_REWARD_POWER					6
+ *
+ * SOLO TARGET
+ * #define CHAPTER_TARGET_MY_HERO_HP					1
+ * #define CHAPTER_TARGET_ROUND							2
+ * #define CHAPTER_TARGET_WIN							3
+ * #define CHAPTER_TARGET_MY_HAND_ALLY					4 // hand to ally counter
+ * #define CHAPTER_TARGET_MY_HAND_SUPPORT				5 // hand to support counter
+ * #define CHAPTER_TARGET_MY_HAND_ABILITY				6 // hand play ability counter
+ * #define CHAPTER_TARGET_MY_CARD						7
+ * #define CHAPTER_TARGET_OPPO_ALLY						8 // end game ally counter
+ * #define CHAPTER_TARGET_OPPO_SUPPORT					9 // end game support counter
+ * #define CHAPTER_TARGET_OPPO_ABILITY					10 // hand play ability counter
+ * #define CHAPTER_TARGET_OPPO_CARD						11
+ * #define CHAPTER_TARGET_MY_GRAVE						12 // end game my grave counter
+ * #define CHAPTER_TARGET_OPPO_GRAVE					13 // end game oppo grave counter
+ *
+ *
+ * CMD: chapter [chapter_id] [stage_id]
+ * RET: room ...
+ * "ginfo" return "solo_plus"
+ *
+ * RET: chapter_reward [0] 
+ *      can get reward
+ * CMD: chapter_reward
+ * RET: chapter_reward [1] [chapter_id] [stage_id] [reward] [count]
+ * CHAPTER_REWARD_GOLD			1
+ * CHAPTER_REWARD_CRYSTAL		2
+ * CHAPTER_REWARD_PIECE			3
+ * CHAPTER_REWARD_CARD			4
+ * CHAPTER_REWARD_EXP			5
+ * CHAPTER_REWARD_POWER			6
+ *
+ *
+ * CMD: lhero
+ * RET: lhero [count] [hero_id]...[hero_id]
+ *            [ncount] [hero_id]...[hero_id]
+ *
+ * CMD: hero_mlist [hero_id]
+ * RET: hero_mlist [hero_id] [hero_hp] [hero_energy]
+ *                 [count] [mission_info]
+ * mission_info: [mission_id] [mission_status] [mtype]
+ *               [mission_n1] [p1] [p2] [p3] [reward_type]
+ *               [reward_count] [msg]
+ *
+ * CMD: shero_mis [hero_id] [mission_id]
+ * RET: shero_mis [hero_id] [mission_id] [hp] [energy]
+ *
+ *
+ * CMD: load_hero_deck
+ * RET: load_hero_deck [hero_id] [slot_id] [hp] [energy] [deck]
+ *
+ * CMD: list_hero_slot [hero_id]
+ * RET: list_hero_slot [hero_id] [slot_percent] [num_row] [slot_info]...
+ * slot_info = [slot_id] [card_count]
+ *
+ * CMD: get_hero_slot [hero_id] [slot_id]
+ * RET: get_hero_slot [hero_id] [slot_id] [percent] [slot]
+ * if slot_id == HERO_SLOT_RECOMMAND (99), return slot is recommand slot
+ * if slot_id != HERO_SLOT_RECOMMAND (99), percent = 101
+ *
+ * CMD: insert_hero_slot [hero_id]
+ * RET: insert_hero_slot [hero_id] [slot_id]
+ *
+ * CMD: update_hero_slot [hero_id] [slot_id] [slot]
+ * RET: update_hero_slot [hero_id] [slot_id]
+ *
+ * CMD: choose_hero_slot [hero_id] [slot_id]
+ * RET: choose_hero_slot [hero_id] [slot_id]
+ *
+ *
+ * CMD: daily_log
+ * RET: daily_log [continus_log_day] [has_get_reward] [day1_reward_info] ... [day7_reward_info]
+ * day(x)_reward_info: [day] [gold] [crystal] [card_list] [piece_list]
+ * card_list: [card_count] [card_id1] [card_id2] ...
+ * piece_list: [list_count] [piece_info1] [piece_info2] ...
+ * piece_info: [piece_id] [piece_count]
+ *
+ * CMD: daily_reward [day]
+ * RET: daily_reward [day] [gold] [crystal] [card_list] [piece_list]
+ * card_list: [card_count] [card_id1] [card_id2] ...
+ * piece_list: [list_count] [piece_info1] [piece_info2] ...
+ * piece_info: [piece_id] [piece_count]
+ *
+ *
+ * CMD: pshop
+ * RET: pshop [remain_time] [cost_gold] [refresh_gold] [piece_info1] ... [piece_info6]
+ * piece_info: [piece_id] [piece_count] [gold] [crystal]
+ * piece_count: if < 0, means this piece has already buy.
+ * gold/crystal: if < 0, means this piece should only buy by vip.
+ *
+ * CMD: rpshop
+ * RET: rpshop [remain_time] [cost_gold] [refresh_gold] [piece_info1] ... [piece_info6]
+ * piece_info: [piece_id] [piece_count] [gold] [crystal]
+ * piece_count: if < 0, means this piece has already buy.
+ * gold/crystal: if < 0, means this piece should only buy by vip.
+ *
+ * CMD: lpshop
+ * RET: lpshop 0 card_deck400
+ *
+ * CMD: pbuy [pos]
+ * RET: pbuy [pos] [card_id] [count] [gold] [crystal]
+ *
+ *
+ * CMD: arenatop
+ * RET: arenatop [my_rank] [size] [arena_info1] [arena_info2] ...
+ * arena_info = [rank] [eid] [icon] [lv] [win_rate(double)] [alias]
+ *
+ * CMD: arenatarget
+ * RET: arenatarget [my_rank] [reward_gold] [reward_crystal] 
+ *					[buy_times_count] [buy_times_crystal]
+ *					[has_reward] [reward_time_offset] [arena_times] 
+ *					[size] [arena_info1] [arena_info2] ...
+ * arena_info = [rank] [eid] [icon] [lv] [win_rate(double)] [alias]
+ *
+ * CMD: arenatimes
+ * RET: arenatimes [0] [times_offset] [gold] [crystal]
+ *
+ * CMD: arenagame [eid_target]
+ * RET: room ...	// normally start a battle
+ *
+ * arena rank exchange
+ * RET: arenaexc [eid_challenger] [eid_receiver] [rank_receiver] [rank_challenger]
+ *
+ * CMD: arenareward
+ * RET: arenareward [rank] [gold] [crystal]
+ *
+ * CMD: moneyexchange [crystal]
+ * RET: moneyexchange [gold_offset] [crystal_offset]
+ *
+ *
+ * CMD: @chat [show_type] [msg]
+ * RET: @chat 0
+ *
+ * --]]
+ */
+===== PROTOCOL END =======
+
+
+- nio.c : basic nio server, with login, room command etc
+- db_conn.c : test case driven (argc > 1)
+- TODO signal handler @see thttpd
+- TODO fatal.h  :  fatal, error, warn, debug...etc
+
+
+===== oray webget.vicp.net svn START ======
+svn webget.vicp.net 失效的时候补救方法
+测试：
+ssh mac@webget.vicp.net
+password: N**2***
+不通则代表不行， 可以用 nslookup webget.vicp.net 确定一下IP地址
+
+出现这个问题， 可以直接登入花生壳， 取得服务器 IP:
+
+http://console.oray.com
+帐号 webget
+密码 N**22***
+(注意： 中间有两个 2）
+
+产品管理 － 域名管理
+选择［壳域名] (在顶级域名右边)
+选择: webget.vicp.net
+
+参考
+A记录：
+113.96.69.254 通用    (这个IP会随着电信IP改变而改变)
+
+这个IP 就是 svn 服务器的IP地址
+当域名不行的时候， 可以直接用IP
+例如在 evil_server 目录内：
+svn relocate svn://113.96.69.254/evil/evil_server
+
+如果是 client 只要改后面的 evil_server -> evil_client 则可
+===== oray webget.vicp.net svn END ======
+
+
+
+from TODO-nio.txt:
+===== INSTALL START ======
+***** Mac: 
+command line tools
+- old: mac-software/xcode452cltools10_76938212a.dmg
+- new: mac-software/
+  command_line_tools_os_x_mountain_lion_for_xcode__october_2013.dmg
+
+MySQL 5.5.xx
+- ???
+
+MySQL 5.1.xx
+- mac-software/mysql-5.1.54-osx10.6-x86_64.tar.gz
+  (or in evil_lib)
+- tar zxvf $file
+- sudo su 
+- mv mysql-5.1.54-osx10.6-x86_64 /usr/local
+- cd /usr/local
+- ln -s mysql-5.1.54-osx10.6-x86_64 mysql
+- chown -R peter mysql-5.1.54-osx10.6-x86_64
+- cd mysql
+- scripts/mysql_install_db --user=peter   
+  (note: peter is the functioning username)
+- cp support-files/my-small.cn /etc/my.cnf
+
+START mysql: (using peter)
+/usr/local/mysql/
+grant:
+- ??? TODO
+
+mysql connector (library)
+mysql-connector-c-6.1.1-osx10.7-x86_64.tar.gz
+note: move this under your workspace
+tar zxvf $file
+
+---- for Linux:
+check CentOS version:
+rpm -qa \*-release\* |grep -Ei "oracle|redhat|centos" 
+
+===== INSTALL END ======
+
+
+===== DB START [ =====
+- fixed bug: mysql error 2014 : CR_COMMANDS_OUT_OF_SYNC
+  @see http://blog.sina.com.cn/s/blog_4e45516601000b9x.html
+  应在sql语句执行后
+  用mysql_store_result(&ninghao79);取出结果集，
+  然后用mysql_next_result(&ninghao79);检查是否有剩余结果集，
+  如果有就再用mysql_store_result(&ninghao79);把剩余结果集取出来。
+  note: this only applicable to multi-statement (CALL register_user)
+
+c1 TINYINT(1) UNSIGNED  - % 10=0 NULL
+COUNT(1)
+999001
+NULL_case
+-rw-rw---- 1 mysql mysql 464M Sep 16 06:56 evil_card.ibd
+100W users => 464M (practise)
+
+c1 TINYINT(1) UNSIGNED  - all-zero
+COUNT(1)
+999002
+-rw-rw---- 1 mysql mysql 508M Sep 16 06:46 evil_card.ibd
+100W users => 508M (practise)
+
+c1 TINYINT NOT NULL DEFAULT 0
+COUNT(1)
+990001
+/var/lib/mysql/evil
+-rw-rw---- 1 mysql mysql 88080384 Sep 15 10:52 evil_card.ibd
+100W user =>  84M (practise)
+
+c1 TINYINT (without NOT NULL DEFAULT 0)
+COUNT(1)
+1000001
+/var/lib/mysql/evil
+-rw-rw---- 1 mysql mysql 46137344 Sep 15 11:11 evil_card.ibd
+100W users => 44M (practise)   note: only insert 3 cards!
+
+c1 TINYINT fill up all 49 cards
+count(1)
+990000
+-rw-rw---- 1 mysql mysql  88M Sep 15 11:27 evil_card.ibd
+100W user => 88M
+
+c1 TINYINT UNSIGNED with 49 cards
+count(1)
+990000
+-rw-rw---- 1 mysql mysql  88M Sep 15 11:36 evil_card.ibd
+100W users => 88M
+
+400 cards = 8 x 50
+100W users => 88M x 50 => 4.4G
+
+
+c1 TINYINT(1) UNSIGNED
+400 cards 
+100W users => 136M  (only fill up 49 cards, rest are null)
+
+
+c1 TINYINT(1) UNSIGNED   MYISAM 
+100W users => 430M !!!
+-rw-rw---- 1 mysql mysql 430M Sep 15 13:36 evil_card.MYD
+
+-------
+COUNT(1)
+198603
+-rw-rw---- 1 mysql mysql  26M Sep 15 09:56 ibdata1
+
+20W user =>  26M  (practice)
+100W user = 130M  (theory)
+
+200W users => 82M  (practise)
+COUNT(1)
+1998603
+-rw-rw---- 1 mysql mysql  82M Sep 15 09:58 ibdata1
+
+
+innodb  分开table存放数据
+http://www.itpub.net/forum.php?mod=viewthread&tid=1606275
+peter note:  --all-database (typo in the post)
+1. backup
+   mysqldump -q -uroot -p1  --all-databases > all.sql
+2. stop
+   service mysql stop
+3. change config
+   /etc/mysql/my.cnf
+   ## find this line:
+   [mysqld]
+   innodb_file_per_table
+4. remove
+   cd /var/lib/mysql
+   rm ibdata1       (peter: may have 2 ?)
+   rm ib_logfile*
+5. start
+   service mysql start
+6. recover
+   mysql -uroot -p1 < all.sql
+
+
+note: regain space!
+this will remove the table data and structure, and regain space
+TRUNCATE TABLE [table_name]
+
+
+show charset;
+show create table evil_user;
+
+my.cnf:
+http://www.bigdbahead.com/?p=115
+
+===== DB END ] =====
+
+
+====== REFERENCE =====
+
+mysql configure, my.cnf:
+http://www.bigdbahead.com/?p=115
+location of my.cnf: 
+----- load order (last one override earlier one)
+/etc/my.cnf
+/etc/mysql/my.cnf
+$MYSQL_HOME/my.cnf
+[datadir]/my.cnf
+~/.my.cnf
+----- use this to show default settings on my.cnf
+mysqld --help --verbose|less
+
+
+mysql_errno 1436
+ref: http://blog.sina.com.cn/s/blog_70e53a6d0100o1f7.html
+my.cnf : [mysqld]  thread_stack = 256k     ## peter: was 128k
+
+
+About BSD 4.2 4.3 on O_NDELAY
+http://www.linuxmisc.com/10-unix-questions/34c02f2b875a6323.htm
+
+
+C callback declaration,  function pointer
+http://www.newty.de/fpt/callback.html#chapter3
+int(*cmpFunc)(const void*, const void*)
+
+
+ref: http://www.acme.com/software/thttpd/
+- thttpd select-based model  (mac:kevent)
+- ulimit -n 1024 setup maximum fd (per shell process)
+
+
+http://manage.qcloud.com/shoppingcart/shop.php
+tencent qq cloud service:  MySQL 5.1 5.5 available
+Linux:  CentOS 6.2 64bits, Ubuntu 12.04 64bits
+
+mysql error 2014 : CR_COMMANDS_OUT_OF_SYNC
+http://blog.sina.com.cn/s/blog_4e45516601000b9x.html
+
+-- shadow mage all card :  weapon/armor: 162, 163, 172, 177, 189, 190, 200
+UPDATE evil_card SET 
+	c15=1, 
+ c41=4, c42=4, c43=4, c44=4, c45=4, c46=4, c47=4, c48=4, c49=4, c50=4, c51=4, c52=4, c53=4, c54=4, c55=4, c56=4, c57=4, c58=4, c59=4, c60=4, 
+ c71=4, c72=4, c73=4, c74=4, c75=4, c76=4, c77=4, c78=4, c79=4, c80=4, 
+ c141=4, c142=4, c143=4, c144=4, c145=4, c146=4, c147=4, c148=4, c149=4, c150=4, 
+ c151=4, c152=4, c153=4, c154=4, c155=4, c156=4, c157=4, c158=4, c159=4, c160=4, 
+ c162=4, c163=4, c172=4, c177=4, c189=4, c190=4, c200=4 
+ WHERE eid=44;
+
+
+-- human mage (ice and thunder) 
+UPDATE evil_card SET 
+	c5=1, c6=1, 
+ c21=4, c22=4, c23=4, c24=4, c25=4, c26=4, c27=4, c28=4, c29=4, c30=4, c31=4, c32=4, c33=4, c34=4, c35=4, c36=4, c37=4, c38=4, c39=4, c40=4, 
+ c71=4, c72=4, c73=4, c74=4, c75=4, c76=4, c77=4, c78=4, c79=4, c80=4, 
+ c131=4, c132=4, c133=4, c134=4, c135=4, c136=4, c137=4, c138=4, c139=4, c140=4, 
+ c151=4, c152=4, c153=4, c154=4, c155=4, c156=4, c157=4, c158=4, c159=4, c160=4, 
+ c162=4, c163=4, c172=4, c177=4, c189=4, c190=4, c191=4, c200=4 
+ WHERE eid=41 or eid=42;
+
+
+-- priest all card
+-- priest zhanna
+-- human ally:21-40,   priest card:91-100,  human_ab:131-140,  neutral:151-160
+-- priest weapon/armor: 165, 170, 173, 176, 177, 181, 189, 190, 191, 193, 195
+UPDATE evil_card SET 
+	c8=1,  
+ c21=4, c22=4, c23=4, c24=4, c25=4, c26=4, c27=4, c28=4, c29=4, c30=4, c31=4, c32=4, c33=4, c34=4, c35=4, c36=4, c37=4, c38=4, c39=4, c40=4, 
+ c91=4, c92=4, c93=4, c94=4, c95=4, c96=4, c97=4, c98=4, c99=4, c100=4,  
+ c131=4, c132=4, c133=4, c134=4, c135=4, c136=4, c137=4, c138=4, c139=4, c140=4, 
+ c151=4, c152=4, c153=4, c154=4, c155=4, c156=4, c157=4, c158=4, c159=4, c160=4, 
+ c165=4, c170=4, c173=4, c176=4, c177=4, c181=4, c189=4, c190=4, c191=4, c193=4, c195=4
+ WHERE eid = 1001;
+
+
+-- human warrior 
+-- warrior armor: 161,162, 163, 164, 165, 173, 175, 176,
+-- warrior weapon: 181, 182, 183, 184, 188, 197
+UPDATE evil_card SET 
+	c1=1, c2=1,  
+ c21=4, c22=4, c23=4, c24=4, c25=4, c26=4, c27=4, c28=4, c29=4, c30=4, c31=4, c32=4, c33=4, c34=4, c35=4, c36=4, c37=4, c38=4, c39=4, c40=4, 
+ c61=4, c62=4, c63=4, c64=4, c65=4, c66=4, c67=4, c68=4, c69=4, c70=4,  
+ c131=4, c132=4, c133=4, c134=4, c135=4, c136=4, c137=4, c138=4, c139=4, c140=4, 
+ c151=4, c152=4, c153=4, c154=4, c155=4, c156=4, c157=4, c158=4, c159=4, c160=4, 
+	c161=4, c162=4, c163=4, c164=4, c165=4, c173=4, c175=4, c176=4,
+    c181=4, c182=4, c183=4, c184=4, c188=4, c197=4
+ WHERE eid = 1045;
+
+
+
+
