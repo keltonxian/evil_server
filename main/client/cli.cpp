@@ -209,10 +209,10 @@ lua_State * mylua_open(int lang)
 	lua = luaL_newstate();	// global access
 	luaL_openlibs(lua);  // peter: copy somewhere else
 	mylua_set_int(lua, "g_ui", 1);
-	ret = luaL_dofile(lua, "logic.lua");  // LANG was logic.lua
+	ret = luaL_dofile(lua, "res/lua/logic.lua");  // LANG was logic.lua
 	FATAL_EXIT(ret, "mylua_open:dofile:logic.lua");
 	if (lang == 1) {
-		ret = luaL_dofile(lua, "lang_zh.lua");  // LANG was logic.lua
+		ret = luaL_dofile(lua, "res/lua/lang_zh.lua");  // LANG was logic.lua
 	}
 	MYLUA_PUSH_MAGIC(lua);
 //	lua_pushinteger(lua, 1974);  // push magic
@@ -2740,7 +2740,7 @@ int test3()
 	lua = mylua_open(g_lang);
 
 	mylua_set_int(lua, "g_ui", 1);
-	ret = luaL_dofile(lua, "logic.lua");
+	ret = luaL_dofile(lua, "res/lua/logic.lua");
 	ERROR_PRINT(ret, "test3:logic.lua");
 
 	int win = 0;

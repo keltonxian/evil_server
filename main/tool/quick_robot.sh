@@ -3,7 +3,7 @@
 # pkill robot
 # sleep 2
 
-cd ~/Documents/workspace/evil/evil_server
+cd ~/Workspace/evil/evil_server/main/tool/
 
-./robot 1 >> ~/logs/robot.log &
+./robot 1 >> ~/Desktop/evil_robot.log &
 

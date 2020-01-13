@@ -6283,7 +6283,7 @@ int game_init(room_t *proom, int seed, int first_player)
 	lua_pushnumber(proom->lua, 1974);  // magic number @see room_clean
 
 	lu_set_int(proom->lua, "g_ui", 1);  // non gui
-	ret = luaL_dofile(proom->lua, "logic.lua");
+	ret = luaL_dofile(proom->lua, "res/lua/logic.lua");
 
 	BUG_PRINT(proom->gameid==0, "game_init:gameid=0");
 
@@ -6358,7 +6358,7 @@ int gate_init(room_t *proom, int seed, int first_player)
 	lua_pushnumber(proom->lua, 1974);  // magic number @see room_clean
 
 	lu_set_int(proom->lua, "g_ui", 1);  // non gui
-	ret = luaL_dofile(proom->lua, "logic.lua");
+	ret = luaL_dofile(proom->lua, "res/lua/logic.lua");
 
 	BUG_PRINT(proom->gameid==0, "gate_init:gameid=0");
 
