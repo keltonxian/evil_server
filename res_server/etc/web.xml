@@ -16,6 +16,14 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Get Server List Version</servlet-name>
+		<servlet-class>com.evil.web.ServerListVersionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Get Server List Version</servlet-name>
+		<url-pattern>/version.slist</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Get Server List</servlet-name>
 		<servlet-class>com.evil.web.ServerListServlet</servlet-class>
 	</servlet>
@@ -24,6 +32,14 @@
 		<url-pattern>/patch.slist</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>Get Patch Core Version</servlet-name>
+		<servlet-class>com.evil.web.PatchCoreVersionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Get Patch Core Version</servlet-name>
+		<url-pattern>/version.core</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>Get Patch Core</servlet-name>
 		<servlet-class>com.evil.web.PatchCoreServlet</servlet-class>

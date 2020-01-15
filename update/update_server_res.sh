@@ -30,6 +30,8 @@ cp tmp/l.zip $TOMCAT_ROOT/webapps/evil/res/lua
 cp tmp/slist.zip $TOMCAT_ROOT/webapps/evil/res
 rm -rf ../encrypt/tmp
 rm -rf tmp
+cp slist_version $TOMCAT_ROOT/webapps/evil/res
+cp core_version $TOMCAT_ROOT/webapps/evil/res
 
 curl http://$HOST:$PORT/evil/patch.refresh
 
